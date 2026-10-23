@@ -9,7 +9,7 @@ from pxr import Gf, PhysxSchema, Usd, UsdGeom, UsdPhysics
 import isaaclab.sim as sim_utils
 from isaaclab.assets import RigidObjectCfg
 from isaaclab.scene import InteractiveSceneCfg
-from isaaclab.sensors import CameraCfg, ContactSensor, ContactSensorCfg
+from isaaclab.sensors import CameraCfg, ContactSensorCfg
 from env.environment.base_env import BaseEnv
 from env.robot_manager.robot_config.x5 import get_robot_config
 from env.camera_manager.capture.render_sync import wait_for_latest_cameras
@@ -106,12 +106,25 @@ class ConveyorCubeTask(BaseEnv):
                                            horizontal_aperture=20.955, clipping_range=(.05,10)),
             offset=CameraCfg.OffsetCfg(pos=tuple(cam['head_position']),
                 rot=camera_quaternion(cam['head_position'], cam['head_target']), convention='opengl'))
-        # Contact sensor paths are resolved from the actual articulation after launch.
+        scene.finger_left = ContactSensorCfg(prim_path='{ENV_REGEX_NS}/robot0/link7',
+            update_period=0, history_length=1,
+            filter_prim_paths_expr=['/World/envs/env_0/Cube'])
+        scene.finger_right = ContactSensorCfg(prim_path='{ENV_REGEX_NS}/robot0/link8',
+            update_period=0, history_length=1,
+            filter_prim_paths_expr=['/World/envs/env_0/Cube'])
+        wrist_pos = [.04,0,.07]
+        scene.wrist = CameraCfg(prim_path='{ENV_REGEX_NS}/robot0/link6/DynamicBenchWrist',
+            update_period=0, height=cam['height'], width=cam['width'], data_types=['rgb'],
+            spawn=sim_utils.PinholeCameraCfg(focal_length=12, focus_distance=.15,
+                horizontal_aperture=20.955, clipping_range=(.01,5)),
+            offset=CameraCfg.OffsetCfg(pos=tuple(wrist_pos),
+                rot=camera_quaternion(wrist_pos,rc['tcp_offset_link6']), convention='opengl'))
         super().__init__(cfg, app, interactiveSceneCfg=scene)
         self.launch_sim(cfg)
         self.robot = self.sim.scene['robot0']
         self.cube = self.sim.scene['cube']
         self.head = self.sim.scene['head']
+        self.wrist = self.sim.scene['wrist']
         self.arm_ids, self.arm_names = self.robot.find_joints([f'joint{i}' for i in range(1,7)], preserve_order=True)
         self.grip_ids, _ = self.robot.find_joints(['joint7','joint8'], preserve_order=True)
         self.eef_id = self.robot.body_names.index('link6')
@@ -119,16 +132,7 @@ class ConveyorCubeTask(BaseEnv):
         self.ik = URDFArmIK(ROOT/'Assets/Robots/x5/X5A.urdf', rc['base_position'],
                            quat_wxyz_matrix(rc['base_quaternion_wxyz']), self.arm_names)
         self.target = self.robot.data.default_joint_pos[0].numpy().copy()
-        # USD link hierarchy is not assumed; use paths exposed by PhysX.
-        self.contact_sensors = []
-        for name in ('link7', 'link8'):
-            matches = [p.GetPath().pathString for p in self.stage.Traverse()
-                       if p.GetName() == name and p.HasAPI(UsdPhysics.RigidBodyAPI)]
-            if len(matches) != 1:
-                raise RuntimeError(f'finger_contact_path_unresolved:{name}:{matches}')
-            sensor = ContactSensor(ContactSensorCfg(prim_path=matches[0], update_period=0,
-                history_length=1, filter_prim_paths_expr=['/World/envs/env_0/Cube']))
-            self.contact_sensors.append(sensor)
+        self.contact_sensors = [self.sim.scene['finger_left'], self.sim.scene['finger_right']]
         self.reset(seed)
 
     @property
@@ -188,8 +192,6 @@ class ConveyorCubeTask(BaseEnv):
 
     def sim_step(self, render=False):
         super().sim_step(render=render)
-        for sensor in getattr(self,'contact_sensors',[]):
-            sensor.update(1/300, force_recompute=True)
 
     def actual_joint_target(self):
         return self.robot.data.joint_pos[0].numpy().copy()
@@ -224,6 +226,8 @@ class ConveyorCubeTask(BaseEnv):
         wait_for_latest_cameras(self)
         self.head.update(0, force_recompute=True)
         image = self.head.data.output['rgb'][0,:,:,:3].cpu().numpy().copy()
+        self.wrist.update(0, force_recompute=True)
+        wrist_image = self.wrist.data.output['rgb'][0,:,:,:3].cpu().numpy().copy()
         if image.dtype != np.uint8 or image.size == 0 or image.shape[-1] != 3:
             raise RuntimeError('render_resource_unavailable')
         if self.physics_step != step:
@@ -235,7 +239,7 @@ class ConveyorCubeTask(BaseEnv):
         forces = [float(s.data.force_matrix_w.norm().item()) for s in self.contact_sensors]
         cube = self.cube.data.root_state_w[0].numpy().copy()
         return dict(eef10=encode_eef10(pose[:3],quat_wxyz_matrix(pose[3:]),grip),
-            qpos=qpos, qvel=self.robot.data.joint_vel[0].numpy().copy(), head=image,
+            qpos=qpos, qvel=self.robot.data.joint_vel[0].numpy().copy(), head=image, wrist=wrist_image,
             oracle_debug=dict(cube_pose=cube[:7], cube_velocity=cube[7:10],
                               finger_contact_forces=np.asarray(forces)))
 

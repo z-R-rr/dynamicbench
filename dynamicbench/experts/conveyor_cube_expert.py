@@ -10,7 +10,7 @@ class ConveyorCubeExpert:
         self.belt_top = belt_top
         self.phase = 'observe_motion'
         self.phase_tick = 0
-        self.rotation = np.column_stack([[0,0,-1], [1,0,0], [0,-1,0]])
+        self.rotation = np.column_stack([[0,0,-1], [-1,0,0], [0,1,0]])
         self.offset = np.asarray(settings['robot']['tcp_offset_link6'])
         self.grasp_xy = None
         self.failure = None
