@@ -1,0 +1,16 @@
+name: DynamicBench contracts
+on:
+  push:
+    paths: ['dynamicbench/**', 'scripts/dynamicbench/**', '.github/workflows/dynamicbench-tests.yml']
+  pull_request:
+    paths: ['dynamicbench/**', 'scripts/dynamicbench/**', '.github/workflows/dynamicbench-tests.yml']
+jobs:
+  cpu-contracts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -r scripts/dynamicbench/requirements.txt
+      - run: python -m pytest dynamicbench/tests -q

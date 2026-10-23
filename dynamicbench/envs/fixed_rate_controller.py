@@ -28,10 +28,14 @@ class FixedRateController:
 
     def observe(self):
         self._check()
-        value = self.backend.observe() if self._observation is None else self._observation
-        for key in ("eef10", "qpos", "qvel"):
-            if not np.isfinite(value[key]).all():
-                raise RuntimeError("numerical_instability")
+        try:
+            value = self.backend.observe() if self._observation is None else self._observation
+            for key in ("eef10", "qpos", "qvel"):
+                if not np.isfinite(value[key]).all():
+                    raise RuntimeError("numerical_instability")
+        except Exception:
+            self.poisoned = True
+            raise
         self._observation = {**value, **self.clock.stamp()}
         return self._observation
 

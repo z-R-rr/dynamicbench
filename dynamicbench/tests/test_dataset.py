@@ -74,3 +74,15 @@ def test_success_requires_physical_evidence(tmp_path):
     )
     with pytest.raises(ValueError, match="lift evidence"):
         validate(a, m)
+
+
+def test_rgb_video_frame_count_matches_npz_tail(tmp_path):
+    import imageio.v2 as imageio
+
+    from dynamicbench.data.dataset_reader import export_video
+
+    arrays, _, summary = read_episode(fixture(tmp_path))
+    video = tmp_path / "preview.mp4"
+    export_video(arrays, video)
+    with imageio.get_reader(video) as reader:
+        assert sum(1 for _ in reader) == summary["observations"]

@@ -33,8 +33,7 @@ class RTCScheduler:
         if horizon <= 0 or replan_stride <= 0 or replan_stride > horizon:
             raise ValueError("invalid horizon/stride")
         self.mode, self.latency = mode, latency
-        # Tiny tolerance only removes machine epsilon at exact integer delays.
-        self.delay = 0 if mode == "no_latency" else math.ceil(latency * 30 - 1e-12)
+        self.delay = 0 if mode == "no_latency" else math.ceil(latency * 30)
         self.horizon, self.stride = horizon, replan_stride
         self.commit_ticks = self.delay if commit_ticks is None else int(commit_ticks)
         if self.commit_ticks < 0:

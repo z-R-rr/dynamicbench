@@ -80,3 +80,30 @@ def test_partial_step_exception_poisons_controller():
         c.step(b.observe()["eef10"])
     with pytest.raises(RuntimeError, match="invalid_after"):
         c.observe()
+
+
+def test_renderer_failure_blocks_control_instead_of_advancing():
+    b = Backend()
+    c = FixedRateController(b)
+
+    def no_rgb():
+        raise RuntimeError("render_resource_unavailable")
+
+    b.observe = no_rgb
+    # An already captured observation is valid until physics changes.
+    with pytest.raises(RuntimeError, match="render_resource"):
+        c.step(c.previous_action)
+    count = b.physics_step
+    with pytest.raises(RuntimeError):
+        c.observe()
+    assert b.physics_step == count
+
+
+def test_invalid_policy_pose_does_not_reach_drives():
+    b = Backend()
+    c = FixedRateController(b)
+    action = c.previous_action.copy()
+    action[0] = np.nan
+    with pytest.raises(ValueError):
+        c.step(action)
+    assert not b.commands and b.physics_step == 0
