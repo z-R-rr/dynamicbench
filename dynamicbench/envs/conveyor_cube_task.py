@@ -137,7 +137,10 @@ class ConveyorCubeTask(BaseEnv):
 
     def _setup_scene(self, sim):
         super()._setup_scene(sim)
-        sim_utils.GroundPlaneCfg().func('/World/Ground', sim_utils.GroundPlaneCfg())
+        ground = sim_utils.CuboidCfg(size=(4,4,.05),
+            collision_props=sim_utils.CollisionPropertiesCfg(),
+            visual_material=sim_utils.PreviewSurfaceCfg(diffuse_color=(.25,.25,.28)))
+        ground.func('/World/Ground', ground, translation=(0,0,-.025))
         sim_utils.DomeLightCfg(intensity=1800).func('/World/Light', sim_utils.DomeLightCfg(intensity=1800))
         prim = self.stage.GetPrimAtPath('/World/envs/env_0/Belt')
         self.surface = PhysxSchema.PhysxSurfaceVelocityAPI.Apply(prim)
