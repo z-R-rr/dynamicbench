@@ -1,0 +1,4 @@
+physics_dt: 0.0033333333333333335
+control_hz: 30
+physics_steps_per_tick: 10
+interpolation: none

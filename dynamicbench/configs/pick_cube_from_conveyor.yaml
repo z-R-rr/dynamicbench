@@ -1,0 +1,40 @@
+task: pick_cube_from_conveyor
+physics_hz: 300
+control_hz: 30
+# Original X5 asset; world frame, +x on link6 points towards finger tips.
+robot:
+  base_position: [-0.3, -0.45, 0.765]
+  base_quaternion_wxyz: [0.7071067811865476, 0, 0, 0.7071067811865476]
+  initial_q: [0, -1.0, 1.0, 0.6, 0, 0]
+  max_joint_velocity: 2.0
+  tcp_offset_link6: [0.145, 0, 0]
+  gripper_range: [0.0, 0.044]
+  gripper_effort: 15.0
+belt:
+  center: [-0.12, -0.02, 0.725]
+  size: [0.7, 0.28, 0.08]
+  direction: [1, 0, 0]
+  speed: 0.03
+  friction: 1.0
+cube:
+  size: 0.035
+  mass: 0.05
+  friction: 1.5
+  initial_xy: [-0.25, -0.02]
+  initial_jitter: 0.005
+expert:
+  approach_height: 0.12
+  lift_height: 0.13
+  max_tcp_speed: 0.25
+  descend_speed: 0.08
+  intercept_seconds: 0.10
+  observe_ticks: 10
+  close_ticks: 18
+  timeout_ticks: 600
+  success_height: 0.05
+  success_hold_ticks: 15
+camera:
+  head_position: [0.8, -1.0, 1.5]
+  head_target: [-0.15, 0, 0.82]
+  width: 320
+  height: 240

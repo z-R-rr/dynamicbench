@@ -22,3 +22,11 @@ ignore/
 .cursor/
 .claude/
 Untitled
+
+# DynamicBench generated trajectories/media (keep package dynamicbench/data)
+/datasets/
+/outputs/
+/videos/
+/work/
+!dynamicbench/data/
+!dynamicbench/data/**
