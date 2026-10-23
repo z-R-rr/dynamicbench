@@ -1,4 +1,5 @@
 """Right-handed world EEF10: xyz, rotation columns 0 and 1, gripper [-1,+1]."""
+
 import numpy as np
 from scipy.spatial.transform import Rotation
 
@@ -6,14 +7,16 @@ from scipy.spatial.transform import Rotation
 def validate_eef10(value):
     value = np.asarray(value, dtype=np.float64)
     if value.shape != (10,) or not np.isfinite(value).all():
-        raise ValueError('EEF10 must be finite shape (10,)')
+        raise ValueError("EEF10 must be finite shape (10,)")
     if not -1 <= value[9] <= 1:
-        raise ValueError('gripper outside [-1,1]')
+        raise ValueError("gripper outside [-1,1]")
     a, b = value[3:6], value[6:9]
-    if not (np.isclose(np.linalg.norm(a), 1, atol=1e-4)
-            and np.isclose(np.linalg.norm(b), 1, atol=1e-4)
-            and abs(np.dot(a, b)) < 1e-4):
-        raise ValueError('rotation columns must be orthonormal')
+    if not (
+        np.isclose(np.linalg.norm(a), 1, atol=1e-4)
+        and np.isclose(np.linalg.norm(b), 1, atol=1e-4)
+        and abs(np.dot(a, b)) < 1e-4
+    ):
+        raise ValueError("rotation columns must be orthonormal")
     return value.copy()
 
 
