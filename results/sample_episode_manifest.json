@@ -1,0 +1,8 @@
+{
+  "status": "NOT_GENERATED",
+  "reason": "No physically verified successful expert episode exists in this delivery; server access was lost before acceptance testing completed.",
+  "episodes": [],
+  "successes": 0,
+  "attempts": 0,
+  "success_rate": null
+}
