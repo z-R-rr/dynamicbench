@@ -12,6 +12,9 @@ def parser(collect=False):
     p.add_argument("--task", default="pick_cube_from_conveyor", choices=["pick_cube_from_conveyor"])
     p.add_argument("--belt-speed", type=float, default=0.03)
     p.add_argument("--belt-source", choices=["primitive", "robodojo"], default=None)
+    p.add_argument(
+        "--render-gpu", type=int, default=None, help="physical Vulkan GPU index when CUDA indices are remapped"
+    )
     p.add_argument("--seed", type=int, default=42)
     p.add_argument("--ticks", type=int, default=600)
     p.add_argument("--output", type=Path, default=ROOT / ("datasets/conveyor_cube_v0" if collect else "outputs/mvp"))
@@ -74,13 +77,25 @@ def launch(p):
     commit = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
     # SimulationApp's multi_gpu launch config otherwise defaults to True and
     # can override the renderer setting while enumerating unrelated busy GPUs.
-    return args, AppLauncher(args, multi_gpu=False), commit
+    class SingleGpuLauncher(AppLauncher):
+        def _create_app(self):
+            # Isaac Lab derives this from the CUDA ordinal. Under an explicit
+            # CUDA mask the Vulkan ordinal must instead name the physical GPU.
+            if args.render_gpu is not None:
+                self._sim_app_config["active_gpu"] = args.render_gpu
+            super()._create_app()
+
+    return args, SingleGpuLauncher(args, multi_gpu=False), commit
 
 
 def load_settings(args):
     import yaml
 
     settings = yaml.safe_load(args.config.read_text())
+    if "layout" in settings:
+        from dynamicbench.layout import resolve_robodojo_layout
+
+        settings = resolve_robodojo_layout(settings, ROOT)
     if args.belt_source is not None:
         settings["belt"]["source"] = args.belt_source
     return settings

@@ -139,6 +139,7 @@ class ConveyorCubeTask(BaseEnv):
             init_state=RigidObjectCfg.InitialStateCfg(pos=tuple(self.cube_start)),
         )
         cam = settings["camera"]
+        lens = cam["head_lens"]
         scene.head = CameraCfg(
             prim_path="{ENV_REGEX_NS}/Head",
             update_period=0,
@@ -146,11 +147,14 @@ class ConveyorCubeTask(BaseEnv):
             width=cam["width"],
             data_types=["rgb"],
             spawn=sim_utils.PinholeCameraCfg(
-                focal_length=18, focus_distance=1, horizontal_aperture=20.955, clipping_range=(0.05, 10)
+                focal_length=lens["focal_length"],
+                horizontal_aperture=lens["horizontal_aperture"],
+                vertical_aperture=lens["vertical_aperture"],
+                clipping_range=tuple(lens["clipping_range"]),
             ),
             offset=CameraCfg.OffsetCfg(
                 pos=tuple(cam["head_position"]),
-                rot=camera_quaternion(cam["head_position"], cam["head_target"]),
+                rot=tuple(cam["head_quaternion_wxyz"]),
                 convention="opengl",
             ),
         )

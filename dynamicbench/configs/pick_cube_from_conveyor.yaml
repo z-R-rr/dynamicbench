@@ -1,10 +1,13 @@
 task: pick_cube_from_conveyor
 physics_hz: 300
 control_hz: 30
+layout:
+  robot_config: env_cfg/robot/dual_x5.yml
+  robot_index: 0
+  camera_config: env_cfg/camera/camera_config.yml
+  head_camera: cam_head
 # Original X5 asset; world frame, +x on link6 points towards finger tips.
 robot:
-  base_position: [-0.3, -0.45, 0.765]
-  base_quaternion_wxyz: [0.7071067811865476, 0, 0, 0.7071067811865476]
   # URDF IK seed places the pinch TCP near [-.25,-.12,.95], facing down.
   initial_q: [-0.1488804, 1.8515, 1.9196, -1.6389, 0, -0.1488715]
   max_joint_velocity: 2.0
@@ -37,7 +40,3 @@ expert:
 camera:
   wrist_position_link6: [0.10, 0, 0.08]
   wrist_target_link6: [0.17, 0, 0]
-  head_position: [0.8, -1.0, 1.5]
-  head_target: [-0.15, 0, 0.82]
-  width: 320
-  height: 240
