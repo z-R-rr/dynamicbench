@@ -19,6 +19,7 @@ from env.robot_manager.robot_config.x5 import get_robot_config
 from .kinematics import URDFArmIK
 from .physics_clock import integral_ratio
 from .poses import decode_eef10, encode_eef10, quat_wxyz_matrix
+from .scene_paths import CUBE_PRIM_PATH
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -137,7 +138,10 @@ class ConveyorCubeTask(BaseEnv):
             scene.belt = primitive_belt
         scene.cube = RigidObjectCfg(
             class_type=TracedRigidObject,
-            prim_path="{ENV_REGEX_NS}/Cube",
+            # This task has one environment. An env_.* regex also matches the
+            # original USD's nested demo Cube during prim-deletion callbacks,
+            # which would unsubscribe OUR cube before the first PLAY event.
+            prim_path=CUBE_PRIM_PATH,
             spawn=sim_utils.CuboidCfg(
                 size=(cc["size"],) * 3,
                 rigid_props=sim_utils.RigidBodyPropertiesCfg(
@@ -181,13 +185,13 @@ class ConveyorCubeTask(BaseEnv):
             prim_path="{ENV_REGEX_NS}/robot0/link7",
             update_period=0,
             history_length=1,
-            filter_prim_paths_expr=["/World/envs/env_0/Cube"],
+            filter_prim_paths_expr=[CUBE_PRIM_PATH],
         )
         scene.finger_right = ContactSensorCfg(
             prim_path="{ENV_REGEX_NS}/robot0/link8",
             update_period=0,
             history_length=1,
-            filter_prim_paths_expr=["/World/envs/env_0/Cube"],
+            filter_prim_paths_expr=[CUBE_PRIM_PATH],
         )
         # The original X5 includes a camera housing behind x=.084. A lens at
         # x=.04 sees that housing, even though it is outside the palm collider.
