@@ -117,6 +117,10 @@ class ConveyorCubeTask(BaseEnv):
                 size=(cc["size"],) * 3,
                 rigid_props=sim_utils.RigidBodyPropertiesCfg(
                     disable_gravity=False,
+                    # Surface-speed changes do not wake a box resting on an
+                    # otherwise stationary kinematic actor. Keep this task's
+                    # one dynamic box awake; do not drive its pose or velocity.
+                    sleep_threshold=0.0,
                     solver_position_iteration_count=16,
                     solver_velocity_iteration_count=4,
                     max_depenetration_velocity=1,
