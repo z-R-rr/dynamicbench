@@ -143,3 +143,23 @@ A native Kit shutdown can stall after an extension failure. Bound new runs with
 `timeout -k 10s 1200s` and preserve run.log/exit_status.json. Stop only the exact
 owned test process after verifying its command. Exit status alone is not
 acceptance: check acceptance.json/collection_metrics.json and strict readback.
+
+
+## Native fixtures and live lift tracking (2026-10-25)
+
+Current default: scene.source=robodojo, lift_xy_mode=track_cube,
+lift_tcp_frame=actual_pinch. Room/Background settings are read from the original
+conveyor scene; the native Room, Background and Light components create the
+render fixtures. Room collisions are disabled for this visual-only change;
+the existing physical ground is hidden from RGB and retains its collision.
+Required assets now also include Assets/Room/Simple_Room/*.usd and
+Assets/Background/brown_photostudio_02_4k.hdr (part of the existing asset tree).
+
+Use --scene-source minimal --lift-xy-mode fixed for the earlier visual/controller
+baseline. To reproduce the uncalibrated raw proposal, use --lift-xy-mode track_cube
+--lift-tcp-frame nominal; this diagnostic failed seeds 42 and 45. The default
+uses the actual finger midpoint to update the EEF/TCP transform.
+
+Add --compare-lift to validate_mvp for paired fixed/current tests: core 10 cases
+plus three fixed references = 13 cases. Full command, measured results and the
+unit/direction correction are in docs/lift_tracking_scene.md.

@@ -13,18 +13,18 @@
   "tests": {
     "local_contracts": {
       "status": "PASS",
-      "passed": 30,
-      "source_commit": "1a0163ae0f60848849fa2eb153d0c83d6abb9951"
+      "passed": 33,
+      "source_commit": "5706912201ed933092a53db16931321a2be2faa8"
     },
     "server_contracts": {
       "status": "PASS",
-      "passed": 30,
-      "source_commit": "1a0163ae0f60848849fa2eb153d0c83d6abb9951"
+      "passed": 33,
+      "source_commit": "5706912201ed933092a53db16931321a2be2faa8"
     },
     "github_ci": {
       "status": "PASS",
-      "url": "https://github.com/z-R-rr/dynamicbench/actions/runs/40115342234",
-      "source_commit": "1a0163ae0f60848849fa2eb153d0c83d6abb9951"
+      "url": "https://github.com/z-R-rr/dynamicbench/actions/runs/40119373281",
+      "source_commit": "5706912201ed933092a53db16931321a2be2faa8"
     },
     "lint_compile_shell_diff": {
       "status": "PASS"
@@ -48,6 +48,11 @@
     },
     "legacy_42_task_runtime": {
       "status": "NOT RUN"
+    },
+    "lift_tracking_and_scene": {
+      "status": "PASS",
+      "cases": 13,
+      "source_commit": "5706912201ed933092a53db16931321a2be2faa8"
     }
   },
   "grasp_statistics": {
@@ -107,7 +112,10 @@
     "validated_belt_sources": [
       "primitive",
       "robodojo"
-    ]
+    ],
+    "default_visual_source": "robodojo",
+    "default_lift_xy_mode": "track_cube",
+    "default_lift_tcp_frame": "actual_pinch"
   },
   "server": {
     "root": "/home/ubuntu/Workspace/dynamicbench",
@@ -143,7 +151,7 @@
     "origin": "export of successful moving episodes from final live acceptance; labels and source SHA preserved"
   },
   "primitive_acceptance_date": "2026-10-24",
-  "latest_code_commit": "1a0163ae0f60848849fa2eb153d0c83d6abb9951",
+  "latest_code_commit": "5706912201ed933092a53db16931321a2be2faa8",
   "original_usd_fix": {
     "date": "2026-10-25",
     "status": "PASS",
@@ -175,5 +183,48 @@
     "physics": "CPU PhysX",
     "default_belt_source": "primitive",
     "default_unchanged": true
+  },
+  "lift_tracking_scene": {
+    "date": "2026-10-25",
+    "source_commit": "5706912201ed933092a53db16931321a2be2faa8",
+    "status": "PASS",
+    "physics": "CPU PhysX 300 Hz",
+    "control": "30 Hz ZOH",
+    "render_gpu": 1,
+    "tests_passed": 33,
+    "ci_url": "https://github.com/z-R-rr/dynamicbench/actions/runs/40119373281",
+    "acceptance_cases": 13,
+    "moving_attempts": 3,
+    "moving_successes": 3,
+    "default_lift_xy_mode": "track_cube",
+    "default_lift_tcp_frame": "actual_pinch",
+    "default_scene_source": "robodojo",
+    "legacy_seed44_net_x_m": 0.006309516727924347,
+    "legacy_seed44_x_path_m": 0.0396642,
+    "legacy_seed44_pinch_peak_reconstructed_m": 6.693636567789892e-06,
+    "nominal_source_commit": "28331bc59c55ea33f92016c95c9b7c5c8f97431f",
+    "nominal_attempts": 5,
+    "nominal_successes": 3,
+    "nominal_failed_seeds": [
+      42,
+      45
+    ],
+    "pinch_position_peak_m": {
+      "42": 1.265754488674227e-05,
+      "43": 9.177444990396326e-06,
+      "44": 7.580255301973737e-06
+    },
+    "scene_components": [
+      "Room",
+      "Background",
+      "Light"
+    ],
+    "server_output": "/home/ubuntu/Workspace/dynamicbench/outputs/lift_pinch_room_20261025",
+    "limits": [
+      "three paired seeds only",
+      "no demonstrated reduction in frictional slip; fixed baseline already has micron-scale pinch-relative position changes",
+      "not physical-robot metrology",
+      "no real GPU model inference"
+    ]
   }
 }

@@ -1,3 +1,5 @@
+> 2026-10-25 最新补充：已加入实际夹持中心换算的当前方块 XY 跟踪，并复用原生 Room/Background/Light 渲染。13 项验收、三个动态 seed 和 33 项 CPU 测试通过；原始方案 A 的失败及位移单位复核见 docs/lift_tracking_scene.md。以下早期统计按各自 source_commit 保留。
+
 # DynamicBench MVP 实测报告（2026-10-24，2026-10-25 补充修复）
 
 已完成原生 PhysX 传送、静态抓取、0.03 m/s 动态抓取、三种模拟延迟模式及专家数据采集。

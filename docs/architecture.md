@@ -106,3 +106,20 @@ and bilateral contact evidence. See results/mvp_report.md for measured values,
 source revisions and the remaining runtime regression limits.
 On 2026-10-25, the original USD also passed all ten cases and strict readback;
 30 CPU tests passed locally, on server and in CI.
+
+
+## Live lift TCP and native fixtures
+
+The default expert tracks current cube XY during lift and calibrates the held
+cube offset relative to the actual finger midpoint at grasp establishment.
+Each tick recomputes the EEF/TCP transform from measured finger positions;
+finite-speed EEF10 commands and physics ownership are unchanged. This prevents
+nominal-TCP feedback from chasing internal jaw motion. Raw nominal tracking and
+fixed XY remain explicit ablations, with failed raw tracking episodes retained.
+
+Native Room/Background/Light components load the original conveyor scene's
+assets and authored lamp properties. Fixture collisions are disabled and the
+old ground collider is retained but hidden, so the fixed baseline reproduces
+its original physical trajectory under the new rendering. Policy inputs still
+exclude all oracle_debug fields, including new pinch-frame diagnostics.
+See lift_tracking_scene.md and results/lift_comparison.json for evidence.

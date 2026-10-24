@@ -17,8 +17,9 @@ N entries with only the final entry true. No reset settle frames enter training.
   rotation first TWO COLUMNS concatenated (R00,R10,R20,R01,R11,R21), measured
   gripper [-1,+1] from mean joint7/8 travel. World is right-handed, Z up.
 - `action.eef10`: [N,10], absolute commanded world link6 pose, same convention.
-  This is the wrist/link6 frame; finger pinch TCP is local [0.145,0,0] from the
-  X5 gripper_bias, configurable and verified against physical grasp.
+  This is the wrist/link6 frame. Approach uses nominal local TCP [0.145,0,0];
+  lift can use the measured finger midpoint plus the captured grasp offset.
+  Internal TCP calibration never changes the action frame or EEF10 schema.
 - `observation.state.qpos/qvel`: [N+1,8], actual joint1..joint8, radians/rad/s
   for six arm joints and meters/m/s for two prismatic fingers.
 - `action.joint_target`: [N,8], actually submitted (possibly rate limited) drive
@@ -41,3 +42,15 @@ The Piper client's exact rotation convention has NOT been imported/verified;
 convert rotation through a 3x3 matrix to the downstream client's convention
 instead of assuming direct binary compatibility. Preserve action-vs-state,
 frame, gripper sign, camera RGB order and timestamps during conversion.
+
+
+Optional privileged diagnostics (all N+1 by 3, meters except velocity):
+- oracle_debug.cube_in_eef: cube relative to actual link6 axes/origin.
+- oracle_debug.finger_midpoint_in_eef: actual finger-body midpoint in link6 axes.
+- oracle_debug.cube_in_pinch_frame: cube relative to that midpoint, with link6 axes.
+- oracle_debug.belt_surface_velocity: runtime API value in world m/s.
+
+EEF-relative displacement includes internal jaw-center motion. Use pinch-relative
+changes to assess translation within the held grasp; do not equate world motion
+or total path length with slip. Metadata records lift_xy_mode, lift_tcp_frame,
+and scene.source. Old datasets remain readable without these additive fields.
