@@ -1,180 +1,112 @@
-# DynamicBench MVP execution report — 2026-10-23 (Asia/Shanghai)
+# DynamicBench MVP 实测报告（2026-10-24，Asia/Shanghai）
 
-**Partial delivery. No physical grasp success or training demonstration is claimed.**
-Actual code, tests, GitHub Fork, branch and Draft PR exist. The specified server
-became inaccessible during the third PhysX startup attempt. The attempted belt
-test has no verified completion/result; expert collection has not started.
+已完成原生 PhysX 传送、静态抓取、0.03 m/s 动态抓取、三种模拟延迟模式及专家数据采集。
+这些结果来自实际 Isaac Sim 执行和保存的原始状态/RGB，不是单元测试中的假后端。
+默认使用具有真实碰撞和 PhysX 接触表面速度的简化传送带；原装传送带 USD 的适配仍未通过启动验证。
 
-## Repository and provenance
+## 仓库与代码边界
 
-- Fork: https://github.com/z-R-rr/dynamicbench — GitHub API confirmed `fork=true`
-  and parent `RoboDojo-Benchmark/RoboDojo`; not a copied standalone repository.
-- Branch: `feat/conveyor-rtc-expert-mvp`.
-- Upstream starting SHA: `f57e1633ffed59761bc8e568cfe7530c4b33381c`.
-- Implemented/tested code SHA: `9cfd801446cf9ae7537b194d71c449f7503414c5`.
-- Draft PR to this Fork's **main**, not upstream:
-  https://github.com/z-R-rr/dynamicbench/pull/1
-- Local root: `/Users/riri/code/dynamicbench`.
-- Server root: `/home/ubuntu/Workspace/dynamicbench` (no nested repository).
-- Last server checkout: `c320fea637ae44c53db16ad217b72f8ae1774180`.
-  Later local commits are pushed but not yet synchronized to the disconnected server.
-- LIBERO-Dynamic reference: `b66cb6b6c3a4b52932cb96ca6ee66ab5fe5c51f4`.
-  Read its runtime/control and sync_hold/rtc_queue source; no MuJoCo code copied.
-- Original LICENSE and attribution retained. No force push, deletion of user
-  data, modification of OpenWAM or modification of the existing RoboDojo checkout.
+- 实际 Fork：https://github.com/z-R-rr/dynamicbench ，父仓库为 RoboDojo-Benchmark/RoboDojo。
+- 分支：`feat/conveyor-rtc-expert-mvp`；Draft PR：https://github.com/z-R-rr/dynamicbench/pull/1 ，目标为本人 Fork 的 main。
+- 上游起点：`f57e1633ffed59761bc8e568cfe7530c4b33381c`。
+- 初次完整物理验收：`4f60d8c670d569dc3a964d8e43a280ef1cea7f38`。
+- 独立 collect_expert 实采：`82734179907a686c31f603f87223e103b5e118b2`。
+- 原版布局完整复验：`c1e4faf2afc400ca91b03af3c1abe220fc0fbb7e`，10/10 项通过；见 physical_acceptance.json。
+- 本报告是随后文档提交；交付 HEAD 请执行 `git rev-parse HEAD`，各次数据保留其真实运行 SHA。
+- 本地 `/Users/riri/code/dynamicbench`；服务器 `/home/ubuntu/Workspace/dynamicbench`。
 
-The final report itself is a subsequent documentation commit. Use `git rev-parse
-HEAD` for that delivery revision; source/data metadata keeps the code revision
-actually used for each run, not an invented self-referential report hash.
+新增 dynamicbench/（控制、IK、专家、调度、数据、测试）、scripts/dynamicbench/、独立任务入口、docs/、results/ 和 CPU CI。
+原有文件仅修改 .gitignore；没有删除文件。原 env、env_cfg、src/eval_client、42 个任务实现/配置、注册器、README、LICENSE 和子模块指针均保持原样。
+默认 .004 s / 25 Hz 与原 80/20 插值路径有回归检查；未运行全部 42 个旧任务的 GPU 回归，不能把源码保留等同于运行验证。
+未修改现有 OpenWAM / RoboDojo 项目、下载资产源文件或其他用户任务；无强推。
 
-## Implementation
+## 物理执行与时间语义
 
-`dynamicbench/envs/` adds integer clock, absolute EEF10 rotation validation,
-current-state seeded bounded URDF IK, a BaseEnv-derived ARX X5 scene and a
-FixedRateController. Each tick observes first, updates a finite joint drive once
-and calls the unchanged native `sim_step()` ten times, with the same joint target.
-It does not invoke `take_action_batch`, `process_control_info`, TOPP, cube attach,
-per-frame cube pose writes, or joint state teleportation outside reset.
-Cube bottom height and actual cube-filtered bilateral finger contacts must hold
-for 15 control ticks to satisfy success. That criterion is implemented but has
-NOT been demonstrated in physical execution.
+每 tick 先取 observation[k]，下发绝对 EEF10 目标，用当前关节状态作为 URDF IK seed，更新有限速度的原生关节驱动，
+保持同一目标并调用原 BaseEnv.sim_step 恰好十次。300 Hz 物理、30 Hz ZOH；没有到位等待、TOPP、80/20 插值、夹持焊接或运行期方块 pose/velocity 写入。
+父类会强制 GPU dynamics，因此本任务子类明确恢复并检查 CPU PhysX；渲染仍用 GPU。
+方块禁用休眠，让静止运动学皮带上的接触速度变化持续作用；位置和关节状态写入仅用于 reset。
 
-`dynamicbench/experts/` contains a closed-loop privileged motion/track/descend/
-close/lift expert. `dynamicbench/runtime/` contains fixed-delay queue modes and a
-present-observation mock (H=32, stride=16). Chunk compute is immediate Python
-computation with simulated availability gating: this is not real GPU asynchronous
-inference. A 250 ms delay becomes 8 ticks = 266.667 ms (+16.667 ms). sync_hold
-holds finite drives and uses the full stale chunk after its wait; this differs
-from LIBERO-Dynamic's continuous sub-control-tick sync latency.
+成功要求同一动态方块的**底面**高于带面 5 cm，并连续 15 个控制 tick（0.5 s）同时存在左右夹指对该方块的接触。
+严格 reader 再次从保存的数据检查高度、双侧接触、10:1 步数、时间戳和 N 动作/N+1 观测。
+渲染在冻结物理状态下等待两次相机交付，并断言物理计数未改变；渲染/编码耗时不计入仿真时间。
 
-`dynamicbench/data/` and shared `episode.py` provide atomic NPZ/RGB/JSON/MP4
-recording, N actions/N+1 observations, applied vs actual state, strict validation,
-source/settings metadata and privileged debug separation. `scripts/dynamicbench/`
-contains run/collect/inspect and scoped dependency setup. The task module is an
-independent CLI task entry; legacy EvalEnv invocation is deliberately unsupported.
-`docs/` defines architecture/schema/commands, and a new GitHub workflow runs CPU
-contracts. No original task/config/evaluation file changed; .gitignore only adds
-output exclusions and an exception for the new data package.
+| 初次完整验收 | 实测结果 |
+| --- | --- |
+| 速度 0，100 tick | x 漂移 0.00002235 m |
+| 速度 .03，100 tick | x 位移 0.09999026 m，期望 .10000000 m |
+| 速度 .06，100 tick | x 位移 0.19997287 m，期望 .20000000 m |
+| 静态专家 seed42 | 成功，90 tick / 3.0 s |
+| 动态专家 .03，seed42/43/44 | 3 次尝试、3 次成功，96/95/95 tick |
+| 独立 collect_expert | 3 次尝试、3 次成功；共 286 tick，成功平均时长 3.17778 s |
+| no_latency/sync_hold/rtc_async | 各 100 tick，均通过 |
 
-The original conveyor USDs are accessible and statically scanned for motion
-attributes. This delivery selects a collidable primitive belt with PhysX surface
-velocity. **The original USD's actual motion and the replacement's actual cube
-transport are both unvalidated**, so the requested original-belt check/fallback
-justification remains incomplete. Config accepts 0/.03/.06 m/s, but currently no
-speed is listed as physically validated. No successful rate is assumed.
+3/3 是这三个固定 seed 的 MVP 结果，不能解释为广泛分布上的可靠成功率。
+同一批 seed 的重复复验单独记录，不把重复 seed 合并为更多独立样本。
+0.06 m/s 仅验证输送，未验证该速度抓取；负向速度不支持。
 
-EEF10 is world link6 xyz + concatenated first two rotation columns + normalized
-measured/commanded gripper (-1 closed, +1 open). It is explicitly versioned; exact
-Piper/OpenWAM rotation compatibility was not assumed. Head and independent wrist
-RGB sensors are implemented; real image/video alignment still requires the
-native integration run. Synthetic CPU fixtures are only unit tests.
+250 ms 模拟延迟按 ceil(.25×30)=8 tick 量化为 266.667 ms（+16.667 ms）。
+两个延迟模式的初始等待期间，方块仍前进 0.00798871 m。
+RTC 在 tick16..23 继续执行旧 chunk，真实末端在该段移动 0.00233205 m；与无延迟轨迹的最大位置差为 0.00681290 m，sync_hold 为 0.01313957 m。
+调度对照中机械臂悬在皮带上方，不与方块交互，因此三种模式方块轨迹相同；差异体现在真实机器人轨迹。
+固定延迟 mock 在提交时立即算好 chunk、按仿真 tick 延后释放；**未实现/实测真正后台 GPU 模型推理或 OpenWAM**。
+sync_hold 使用有限驱动保持，并在等待后消费完整旧观测 chunk；与 LIBERO-Dynamic 的连续子 tick 等待并非完全相同。
 
-## Environment and executed operations
+## 相机、布局与训练数据
 
-Authenticated as `z-R-rr`; checked target absence, forked using
-`gh repo fork RoboDojo-Benchmark/RoboDojo --fork-name dynamicbench --clone=false`,
-then cloned and configured origin/upstream and the feature branch. Commits were
-pushed before server fetch/fast-forward. Server fetch required the already
-available proxy: `git -c http.proxy=http://127.0.0.1:7897 fetch origin`.
+按用户要求直接读取 RoboDojo：
 
-Server: `vm-zhangR`, Ubuntu 22.04.5, NVIDIA driver 580.95.05, four RTX 4090s.
-Existing environment `/home/ubuntu/miniconda3/envs/RoboDojo`:
-Python 3.11.16, Isaac Sim package 5.1.0.0, Isaac Lab package 0.54.3,
-experience isaaclab.python-2.3.2, Isaac Lab checkout afca7b09, Torch
-2.7.0+cu128, NumPy 1.26.0. The existing CuRobo checkout is
-895c6517243f8cb091c73c018c8167192d39599a; the new executor does not require its
-version-specific planner API. Renderer GPU 2 was chosen after inspecting usage.
-CPU PhysX is used for the surface-velocity scene. Other GPU jobs were not stopped.
+- `env_cfg/robot/dual_x5.yml` 的机器人 0：基座 [-.3,-.45,.765]，四元数来自原配置并归一化；保留单臂。
+- `env_cfg/camera/camera_config.yml` 的 cam_head：位置 [0,-.41,1.308]，Euler [30,0,0] 度。
+- `env_cfg/camera/template.py` 的 GEMINI_345LG：640×480，焦距 10，水平/垂直 aperture 22.212/14.266。
 
-Assets symlink in the new repository:
-`Assets -> /home/ubuntu/Workspace/RoboDojo/Assets` (existing 39 GB tree).
-Required robot files ARX.usd and X5A.urdf were present. Original conveyor assets:
-`Assets/Object/RoboDojo/Dynamic/conveyor/{00000,00001}/object.usdz`.
-Fresh asset download: `bash scripts/init_assets.sh` (HF dataset
-RoboDojo-Benchmark/RoboDojo, Assets subtree).
+这些位置和镜头参数没有在新 YAML 中重复硬编码；数据 metadata 保存解析结果及原配置 SHA-256。
+初次验收的旧头部相机为斜侧视角；旧腕部视角被遮挡。移动镜头到 link6 的 [.10,0,.08] 后，
+独立采集的真实腕部 RGB 已能看到夹指和方块。旧数据保留作历史证据，不混入最终视角的数据集。
 
-- Attempt 1, source 46b83c1: missing `libGLU.so.1` broke MDL/RTX shader startup.
-- Extracted Ubuntu `libglu1-mesa` and `libopengl0` with `apt-get download` and
-  `dpkg-deb -x` into `outputs/deps/root`; no system package/restart changes.
-  Existing imageio/imageio-ffmpeg dependencies were checked with pip.
-- Attempt 2, source 0be0534: Simulation App and physical ARX scene initialized;
-  late-created contact sensors lacked `_timestamp`. Corrected by creating them
-  as InteractiveScene sensors before startup; also added independent wrist RGB.
-- Attempts 1/2 left Kit cleanup processes stuck. Only our exact test PIDs 19213
-  and 20545 were terminated after checking their commands. No unrelated job killed.
-- Attempt 3, source c320fea: actual 300 Hz config and physical scene creation
-  logged; last observed log included startup/asset/fabric initialization.
-  No final metrics/episode result was retrieved before network failure.
-- ZeroTier TCP22 then timed out/no route. Fallback 192.168.3.35:31026 has the
-  same previously trusted ED25519 fingerprint, but accepted TCP then closed SSH
-  without a usable handshake. No network service restart/reset was attempted.
+每个 episode 包含 trajectory.npz（原始头部/腕部 RGB、实际状态、命令和 privileged debug）、metadata.json、trace.jsonl、head.mp4。
+N 个动作对应 N+1 个观测，包含最终尾帧。GT 仅在 oracle_debug，默认策略 snapshot 不包含方块真值。
+EEF10 是 world link6 xyz + 旋转矩阵前两列拼接 + [-1 闭合,+1 张开] 夹爪值，schema 明确版本化；没有假定其与 Piper/OpenWAM 旋转编码天然一致。
+数据/资产/视频没有提交 Git；Git 只保存小型实测 JSON、manifest 和文档。
 
-Verified remote log files:
+服务器证据：
 
 ```text
-/home/ubuntu/Workspace/dynamicbench/outputs/belt03/run.log
-/home/ubuntu/Workspace/dynamicbench/outputs/belt03_v2/run.log
-/home/ubuntu/Workspace/dynamicbench/outputs/belt03_v3/run.log
+/home/ubuntu/Workspace/dynamicbench/outputs/acceptance_awake/
+/home/ubuntu/Workspace/dynamicbench/datasets/conveyor_cube_v0_mask12/
+/home/ubuntu/Workspace/dynamicbench/outputs/acceptance_robodojo_view/
+/home/ubuntu/Workspace/dynamicbench/datasets/conveyor_cube_v0_robodojo_view/
 ```
 
-The last belt-test PID was 21694; **its current state is unknown after connection
-loss**. Check that exact command/PID after reconnecting before starting another
-Kit process. The repository is intentionally kept in place.
+本地交付目录中的 acceptance_robodojo_view/ 保存最终原版视角数据及头部/腕部视频；manifest 列出实际 episode。
+最终物理复验与回读详情分别见 physical_acceptance.json、readback_validation.json。
+只含三个成功动态 episode 的训练导出位于本地 dataset_conveyor_cube_v0/，并提供同名 ZIP；
+这些是从最终验收原样导出的真实数据，source_commit 和成功标签均未改写。
 
-## Test evidence
+## 环境、资产与尚未覆盖项
 
-| Acceptance check | Status | Observed evidence |
-| --- | --- | --- |
-| Clock/ZOH/queues/schema/failure contracts | PASS | 26 local Python 3.11 tests |
-| Same CPU contracts on server | PASS | Earlier 22-test revision c320fea |
-| GitHub CPU CI | PASS | [run 39976510653](https://github.com/z-R-rr/dynamicbench/actions/runs/39976510653) at 9cfd801 |
-| Ruff, compilation, git diff whitespace | PASS | Local checks executed |
-| Original environment/config/eval/LICENSE/README unchanged | PASS | Exact git source diff against upstream SHA |
-| Belt displacement after 100 physical control ticks | NOT RUN | Launched; completed result unverified due network loss |
-| Static real grasp + video/raw dataset | NOT RUN | Expert run not started |
-| .03 m/s real moving grasp | NOT RUN | Expert run not started |
-| Three successful expert demonstrations | NOT RUN | Collection not started |
-| Three latency modes in live PhysX | NOT RUN | Mock queue CPU tests only |
-| Old-task GPU/runtime regression | NOT RUN | Source preservation checked, runtime not executed |
-| Original conveyor live motion | NOT RUN | USD presence/static scan only |
+Ubuntu 22.04.5，驱动 580.95.05；Python 3.11.16，Isaac Sim 5.1.0.0，Isaac Lab 包 0.54.3 / experience 2.3.2 / checkout afca7b09，
+Torch 2.7.0+cu128，NumPy 1.26.0。环境为 /home/ubuntu/miniconda3/envs/RoboDojo。
+资产软链接至现有 39 GB 目录 /home/ubuntu/Workspace/RoboDojo/Assets；未改源资产。
+资产仓库 SHA cfb06d1dadcdf03ccc923102b0e3f3b0a68dfc43。
 
-Grasp attempts **0**, successes **0**, success rate **undefined**. Three simulator
-startup attempts are not three grasp attempts. No successful episode, video or
-manifest exists. `sample_episode_manifest.json` explicitly contains no samples.
-No model weights/training were used, and measured real GPU inference latency is
-not available. Mock Python computation is timed separately in request metadata
-only when an episode can actually run.
+| 资产 | SHA-256 |
+| --- | --- |
+| ARX.usd | 5723a835bf5627a935a8dabb3a44447725bd1465243ce791e221b3e990121d63 |
+| X5A.urdf | 7aaa308a1a5b6a213d914db86ba09ddd6252f25cb498ac9a148bfa6c7166a423 |
+| conveyor/00001/object.usdz | 0aae06620ed290d1204ce4fc32cbdd2ec42027fe94d99d545b5d5a9c03ede612 |
 
-## Reproduce after connection recovery
+原传送带 USD 存在原生 PhysxSurfaceVelocityAPI 与运动图，不能声称资产没有运动能力。
+完整场景引用的实验适配器在启动时遇到 RigidObject 缺少 _data；隐藏繁忙 GPU 0 后仍出现该问题，故不把它全部归因于显存。
+原资产运动没有获得有效物理测量，实验开关 --belt-source robodojo 尚未支持；后续最小修复是隔离引用 Belt/ConveyorTrack 子树、
+排除资产自带场景/图的初始化影响，再先测输送。当前已验证并交付的是简化接触皮带。
 
-All full install/asset/run/collect/inspect/test commands are in
-[quickstart_dynamicbench.md](../docs/quickstart_dynamicbench.md). Continue in this
-order, retaining existing directories and checking status before synchronization:
+繁忙 GPU 0 的仅约 0.3 GB 空余会使 SDK 的跨卡自检、默认 CUDA/PhysX/Warp 上下文失败，即使 renderer 指定 GPU 2。
+单独跳过启动自检不足以解决全部默认上下文分配。独立采集通过 CUDA_VISIBLE_DEVICES=1,2 与 GPU1 渲染完成；
+最终复验将物理渲染 GPU 与 CUDA 重编号显式分开，在最空闲的物理 GPU2 上运行。
+这些是本进程设置，没有更改系统 IOMMU、驱动或其他作业。失败进程仅按核对过的自有 PID 终止。
+libGLU 依赖通过 apt-get download / dpkg-deb 解压到新仓库 outputs/deps，无 sudo。
 
-```bash
-cd /home/ubuntu/Workspace/dynamicbench
-git status --short
-git branch --show-current
-git rev-parse HEAD
-git -c http.proxy=http://127.0.0.1:7897 fetch origin
-git merge --ff-only origin/feat/conveyor-rtc-expert-mvp
-source /home/ubuntu/miniconda3/bin/activate RoboDojo
-bash scripts/dynamicbench/prepare_server.sh
-python -m pytest dynamicbench/tests -q
-bash scripts/dynamicbench/run_isaac.sh run_mvp --headless --device cuda:2 --test belt --ticks 100 --belt-speed .03 --seed 42 --output outputs/belt03_recovery
-bash scripts/dynamicbench/run_isaac.sh run_mvp --headless --device cuda:2 --test expert --belt-speed 0 --seed 42 --output outputs/static42
-bash scripts/dynamicbench/run_isaac.sh run_mvp --headless --device cuda:2 --test expert --belt-speed .03 --seed 42 --output outputs/moving42
-bash scripts/dynamicbench/run_isaac.sh collect_expert --headless --device cuda:2 --num-success 3 --max-attempts 10 --belt-speed .03 --seed 42 --save-failures --output datasets/conveyor_cube_v0
-python scripts/dynamicbench/inspect_dataset.py datasets/conveyor_cube_v0
-for mode in no_latency sync_hold rtc_async; do
-  bash scripts/dynamicbench/run_isaac.sh run_mvp --headless --device cuda:2 --test schedule --ticks 100 --belt-speed .03 --seed 42 --latency .25 --latency-mode "$mode" --output "outputs/schedule_$mode"
-done
-```
-
-First retrieve the third startup traceback/result; if startup completes, verify
-actual belt displacement before attempting a grasp. If contacts/IK fail, inspect
-live joint limits, URDF-vs-USD FK, pinch geometry and cube-filtered forces using
-recorded state. Tune only from those physical measurements. Validate original
-conveyor motion before claiming the primitive replacement is required. Do not
-relax lift/contact criteria, tag failed episodes as success, or report unit
-fixtures as integration evidence. Full intended acceptance remains unfinished.
+本地、服务器和 GitHub CPU CI 已通过 29 个测试；源码 diff、Ruff、编译和 shell 语法检查见交付记录。
+完整 42 旧任务运行、真实 OpenWAM/异步 GPU 推理、.06 抓取及原装皮带运动未验证。
+完整安装、资产准备、运行、采集、读数和测试命令见 [quickstart_dynamicbench.md](../docs/quickstart_dynamicbench.md)。

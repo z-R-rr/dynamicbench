@@ -1,8 +1,61 @@
 {
-  "status": "NOT_GENERATED",
-  "reason": "No physically verified successful expert episode exists in this delivery; server access was lost before acceptance testing completed.",
-  "episodes": [],
-  "successes": 0,
-  "attempts": 0,
-  "success_rate": null
+  "status": "PHYSICALLY_VERIFIED",
+  "source_commit": "c1e4faf2afc400ca91b03af3c1abe220fc0fbb7e",
+  "server_root": "/home/ubuntu/Workspace/dynamicbench/outputs/acceptance_robodojo_view",
+  "attempts": 3,
+  "successes": 3,
+  "success_rate": 1.0,
+  "episodes": [
+    {
+      "episode": "moving_seed42",
+      "actions": 96,
+      "observations": 97,
+      "head_shape": [
+        97,
+        480,
+        640,
+        3
+      ],
+      "duration": 3.2,
+      "success": true,
+      "seed": 42,
+      "belt_speed": 0.03,
+      "source_commit": "c1e4faf2afc400ca91b03af3c1abe220fc0fbb7e",
+      "failure_reason": null
+    },
+    {
+      "episode": "moving_seed43",
+      "actions": 95,
+      "observations": 96,
+      "head_shape": [
+        96,
+        480,
+        640,
+        3
+      ],
+      "duration": 3.1666666666666665,
+      "success": true,
+      "seed": 43,
+      "belt_speed": 0.03,
+      "source_commit": "c1e4faf2afc400ca91b03af3c1abe220fc0fbb7e",
+      "failure_reason": null
+    },
+    {
+      "episode": "moving_seed44",
+      "actions": 95,
+      "observations": 96,
+      "head_shape": [
+        96,
+        480,
+        640,
+        3
+      ],
+      "duration": 3.1666666666666665,
+      "success": true,
+      "seed": 44,
+      "belt_speed": 0.03,
+      "source_commit": "c1e4faf2afc400ca91b03af3c1abe220fc0fbb7e",
+      "failure_reason": null
+    }
+  ]
 }

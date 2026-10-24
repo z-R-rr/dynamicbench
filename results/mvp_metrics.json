@@ -1,66 +1,137 @@
 {
-  "delivery_status": "PARTIAL_PHYSICAL_VALIDATION_BLOCKED",
-  "date": "2026-10-23",
+  "delivery_status": "CORE_MVP_PHYSICALLY_VALIDATED",
+  "date": "2026-10-24",
   "timezone": "Asia/Shanghai",
   "fork": "https://github.com/z-R-rr/dynamicbench",
   "fork_parent": "RoboDojo-Benchmark/RoboDojo",
   "branch": "feat/conveyor-rtc-expert-mvp",
   "upstream_sha": "f57e1633ffed59761bc8e568cfe7530c4b33381c",
-  "code_commit": "9cfd801446cf9ae7537b194d71c449f7503414c5",
-  "last_server_commit": "c320fea637ae44c53db16ad217b72f8ae1774180",
+  "code_commit": "c1e4faf2afc400ca91b03af3c1abe220fc0fbb7e",
+  "initial_acceptance_commit": "4f60d8c670d569dc3a964d8e43a280ef1cea7f38",
+  "independent_collection_commit": "82734179907a686c31f603f87223e103b5e118b2",
   "draft_pr": "https://github.com/z-R-rr/dynamicbench/pull/1",
   "tests": {
-    "local_contracts": {"status": "PASS", "passed": 26, "python": "3.11.16"},
-    "server_contracts": {"status": "PASS", "passed": 22, "commit": "c320fea637ae44c53db16ad217b72f8ae1774180"},
-    "github_ci": {"status": "PASS", "run": "https://github.com/z-R-rr/dynamicbench/actions/runs/39976510653"},
-    "lint": {"status": "PASS"},
-    "upstream_source_unchanged": {"status": "PASS"},
-    "belt_physics_100_ticks": {"status": "NOT RUN", "detail": "launched; completion unverified after SSH loss"},
-    "static_grasp": {"status": "NOT RUN"},
-    "moving_grasp": {"status": "NOT RUN"},
-    "physical_latency_comparison": {"status": "NOT RUN"},
-    "three_successful_demonstrations": {"status": "NOT RUN"},
-    "legacy_task_runtime_regression": {"status": "NOT RUN"}
+    "local_contracts": {
+      "status": "PASS",
+      "passed": 29
+    },
+    "server_contracts": {
+      "status": "PASS",
+      "passed": 29
+    },
+    "github_ci": {
+      "status": "PASS",
+      "url": "https://github.com/z-R-rr/dynamicbench/actions/runs/40091070104"
+    },
+    "lint_compile_shell_diff": {
+      "status": "PASS"
+    },
+    "unchanged_upstream_sources": {
+      "status": "PASS"
+    },
+    "live_acceptance": {
+      "status": "PASS",
+      "cases": 10
+    },
+    "strict_readback_and_head_video_decode": {
+      "status": "PASS",
+      "episodes": 10
+    },
+    "original_conveyor_live_motion": {
+      "status": "INITIALIZATION_FAILED",
+      "details": "experimental full-USD adapter RigidObject missing _data; no transport measurement"
+    },
+    "legacy_42_task_runtime": {
+      "status": "NOT RUN"
+    }
   },
-  "grasp_statistics": {"attempts": 0, "successes": 0, "success_rate": null, "reason": "expert collection not started"},
-  "integration_startup_attempts": 3,
-  "verified_successful_episode_paths": [],
-  "verified_successful_video_paths": [],
-  "real_model_inference_tested": false,
-  "latency": {"type": "fixed_simulated_delay", "requested_seconds": 0.25, "available_after_ticks": 8, "quantized_seconds": 0.26666666666666666, "quantization_error_seconds": 0.016666666666666666, "measured_gpu_inference_wall_ms": null},
+  "grasp_statistics": {
+    "static": {
+      "attempts": 1,
+      "successes": 1
+    },
+    "moving": {
+      "speed_m_s": 0.03,
+      "seeds": [
+        42,
+        43,
+        44
+      ],
+      "attempts": 3,
+      "successes": 3,
+      "success_rate": 1.0
+    },
+    "independent_collector": {
+      "attempts": 3,
+      "successes": 3,
+      "mean_success_sim_seconds": 3.1777777777777776
+    },
+    "pool_repeated_seeds": false
+  },
+  "latency": {
+    "type": "fixed_simulated_delay",
+    "real_model_tested": false,
+    "requested_seconds": 0.25,
+    "quantized_ticks": 8,
+    "quantized_seconds": 0.26666666666666666,
+    "robot_trajectory_separation_m": [
+      0.01313956906337558,
+      0.0068129011238422
+    ]
+  },
+  "scene": {
+    "belt_source": "primitive",
+    "transport_validated_m_s": [
+      0,
+      0.03,
+      0.06
+    ],
+    "grasp_validated_m_s": [
+      0,
+      0.03
+    ],
+    "negative_speed_supported": false,
+    "head_layout": "env_cfg/camera/camera_config.yml:cam_head",
+    "robot_layout": "env_cfg/robot/dual_x5.yml:robots[0]",
+    "lens": "env_cfg/camera/template.py:GEMINI_345LG",
+    "wrist_status": "actual camera; clear after x=.10 z=.08 placement",
+    "physics": "CPU PhysX",
+    "render_gpu_physical": 2,
+    "cuda_visible_devices": "2,1",
+    "cuda_device": "cuda:0"
+  },
   "server": {
-    "requested_address": "10.170.157.74",
-    "fallback_address": "192.168.3.35:31026",
-    "hostname": "vm-zhangR",
     "root": "/home/ubuntu/Workspace/dynamicbench",
     "python": "/home/ubuntu/miniconda3/envs/RoboDojo/bin/python",
     "python_version": "3.11.16",
-    "isaacsim_package": "5.1.0.0",
+    "isaacsim": "5.1.0.0",
     "isaaclab_package": "0.54.3",
-    "isaaclab_experience": "isaaclab.python-2.3.2",
     "isaaclab_checkout": "afca7b09",
     "torch": "2.7.0+cu128",
     "numpy": "1.26.0",
-    "renderer_gpu": 2,
-    "physics_device": "cpu",
-    "last_test_pid": 21694,
-    "last_test_process_state": "UNKNOWN_AFTER_NETWORK_LOSS",
-    "connection": "ZeroTier TCP22 timeout/no route; fallback TCP accepted then SSH connection closed"
+    "assets": "/home/ubuntu/Workspace/RoboDojo/Assets",
+    "asset_commit": "cfb06d1dadcdf03ccc923102b0e3f3b0a68dfc43"
   },
-  "assets": {
-    "path": "/home/ubuntu/Workspace/dynamicbench/Assets",
-    "symlink_target": "/home/ubuntu/Workspace/RoboDojo/Assets",
-    "original_asset_tree_size": "39G",
-    "robot_usd": "Assets/Robots/x5/ARX.usd",
-    "robot_urdf": "Assets/Robots/x5/X5A.urdf",
-    "belt_implementation": "PhysxSurfaceVelocityAPI on primitive collidable belt",
-    "original_conveyor_live_motion_validated": false,
-    "validated_belt_speeds": []
-  },
-  "blockers": [
-    "Server access lost during the third initialization; neither configured route currently usable",
-    "No verified native belt displacement, grasp, dataset or latency trajectory evidence",
-    "Original conveyor USD motion has not been validated live; primitive fallback must not be described as a verified replacement",
-    "Latest local commits after c320fea have not been fetched or rerun on the disconnected server"
-  ]
+  "verified_episode_paths": [
+    "/Users/riri/Documents/Codex/2026-10-23/files-mentioned-by-the-user-dynamicbench/outputs/acceptance_robodojo_view/moving_seed42",
+    "/Users/riri/Documents/Codex/2026-10-23/files-mentioned-by-the-user-dynamicbench/outputs/acceptance_robodojo_view/moving_seed43",
+    "/Users/riri/Documents/Codex/2026-10-23/files-mentioned-by-the-user-dynamicbench/outputs/acceptance_robodojo_view/moving_seed44"
+  ],
+  "verified_video_paths": [
+    "/Users/riri/Documents/Codex/2026-10-23/files-mentioned-by-the-user-dynamicbench/outputs/acceptance_robodojo_view/moving_seed42/head.mp4",
+    "/Users/riri/Documents/Codex/2026-10-23/files-mentioned-by-the-user-dynamicbench/outputs/acceptance_robodojo_view/moving_seed43/head.mp4",
+    "/Users/riri/Documents/Codex/2026-10-23/files-mentioned-by-the-user-dynamicbench/outputs/acceptance_robodojo_view/moving_seed44/head.mp4"
+  ],
+  "remaining": [
+    "original conveyor USD integration",
+    "full 42-task GPU runtime regression",
+    "real model asynchronous GPU inference",
+    ".06 m/s grasp"
+  ],
+  "training_dataset": {
+    "server_root": "/home/ubuntu/Workspace/dynamicbench/datasets/conveyor_cube_v0_robodojo_view",
+    "local_root": "/Users/riri/Documents/Codex/2026-10-23/files-mentioned-by-the-user-dynamicbench/outputs/dataset_conveyor_cube_v0",
+    "episodes": 3,
+    "origin": "export of successful moving episodes from final live acceptance; labels and source SHA preserved"
+  }
 }

@@ -38,18 +38,40 @@ assets/datasets/videos. `asset_audit.json` describes what was found.
 
 GPU 2 was selected for rendering after checking utilization. Check current GPU
 usage before reproducing; CPU PhysX is deliberate for surface velocity support.
+The final reproduced run separated CUDA and Vulkan ordinals to avoid the busy
+physical GPU0 while rendering on the least-used physical GPU2. Check usage first:
+
+```bash
+nvidia-smi --query-gpu=index,memory.used,memory.free --format=csv
+export CUDA_VISIBLE_DEVICES=2,1
+export OMP_NUM_THREADS=4 OPENBLAS_NUM_THREADS=1 PXR_WORK_THREAD_LIMIT=8
+# Physical GPU2 is CUDA0 under this explicit mask. The second visible GPU has
+# no policy/physics worker; it is not used to make a multi-GPU experiment.
+gpu=(--headless --device cuda:0 --render-gpu 2 --kit_args="--/validate/iommu/enabled=false --/validate/p2p/enabled=false --/plugins/carb.tasking.plugin/threadCount=8")
+```
+
+These flags only configure this process and skip startup cross-device self-tests;
+they do not change system IOMMU. GPU selection must be refreshed on another host.
+Without a CUDA mask, --device cuda:2 selects physical GPU2 directly, but the
+installed SDK may also initialize busy GPU0. --render-gpu independently names
+the physical Vulkan ordinal; this avoids the incompatible enumeration produced
+by masking to CUDA0 while also implicitly selecting physical rendering GPU0.
+
 These commands are actual integration commands, not mocks. Use a fresh output
 folder per run; existing episodes are never overwritten.
 
 ```bash
-bash scripts/dynamicbench/run_isaac.sh run_mvp --headless --device cuda:2 --test belt --ticks 100 --belt-speed .03 --seed 42 --output outputs/belt03
-bash scripts/dynamicbench/run_isaac.sh run_mvp --headless --device cuda:2 --test expert --belt-speed 0 --seed 42 --output outputs/static42
-bash scripts/dynamicbench/run_isaac.sh run_mvp --headless --device cuda:2 --test expert --belt-speed .03 --seed 42 --output outputs/moving42
-bash scripts/dynamicbench/run_isaac.sh collect_expert --headless --device cuda:2 --task pick_cube_from_conveyor --num-success 3 --max-attempts 10 --belt-speed .03 --seed 42 --save-failures --output datasets/conveyor_cube_v0
+export OMP_NUM_THREADS=4 OPENBLAS_NUM_THREADS=1 PXR_WORK_THREAD_LIMIT=8
+# Full suite: transport, static grasp, three moving demos, latency comparisons.
+bash scripts/dynamicbench/run_isaac.sh validate_mvp "${gpu[@]}" --num-success 3 --max-attempts 10 --seed 42 --output outputs/acceptance_repro
+bash scripts/dynamicbench/run_isaac.sh run_mvp "${gpu[@]}" --test belt --ticks 100 --belt-speed .03 --seed 42 --output outputs/belt03
+bash scripts/dynamicbench/run_isaac.sh run_mvp "${gpu[@]}" --test expert --belt-speed 0 --seed 42 --output outputs/static42
+bash scripts/dynamicbench/run_isaac.sh run_mvp "${gpu[@]}" --test expert --belt-speed .03 --seed 42 --output outputs/moving42
+bash scripts/dynamicbench/run_isaac.sh collect_expert "${gpu[@]}" --task pick_cube_from_conveyor --num-success 3 --max-attempts 10 --belt-speed .03 --seed 42 --save-failures --output datasets/conveyor_cube_v0
 python scripts/dynamicbench/inspect_dataset.py datasets/conveyor_cube_v0
 python scripts/dynamicbench/inspect_dataset.py datasets/conveyor_cube_v0/episode_seed42 --video outputs/preview42.mp4
 for mode in no_latency sync_hold rtc_async; do
-  bash scripts/dynamicbench/run_isaac.sh run_mvp --headless --device cuda:2 --test schedule --ticks 100 --belt-speed .03 --seed 42 --latency .25 --latency-mode "$mode" --output "outputs/schedule_$mode"
+  bash scripts/dynamicbench/run_isaac.sh run_mvp "${gpu[@]}" --test schedule --ticks 100 --belt-speed .03 --seed 42 --latency .25 --latency-mode "$mode" --output "outputs/schedule_$mode"
 done
 python -m pytest dynamicbench/tests -q
 ```
@@ -79,3 +101,46 @@ source .venv/bin/activate
 pip install -r scripts/dynamicbench/requirements.txt
 python -m pytest dynamicbench/tests -q
 ```
+
+
+## Scene and startup boundaries
+
+Default belt source is `primitive`, with a real collidable kinematic surface
+using PhysxSurfaceVelocityAPI. Cube writes occur only in reset; all transport
+and grasp motion is contact-driven. Speeds 0/.03/.06 were measured for transport;
+expert grasp was measured only at 0 and .03. Success requires cube-bottom
+clearance >.05 m plus bilateral cube-filtered contacts for 15 ticks (0.5 s).
+Three seeds are a small deterministic MVP check, not a general success estimate.
+
+`--belt-source robodojo` selects the experimental original conveyor USD adapter.
+The original USD has authored surface motion. The experimental adapter failed
+to initialize its rigid objects (RigidObject missing _data), including after
+avoiding CUDA OOM. It remains unsupported. This is not proof that the original
+asset has no motion capability. See results/original_asset_probe_error.json.
+The separately validated primitive is the default.
+
+The original GPU0 OOM path was isolated with the CUDA/Vulkan mapping above.
+Use --render-gpu only with the physical index shown by nvidia-smi; --device
+uses the CUDA index after remapping. No driver, BIOS, IOMMU or other user job
+was changed. AppLauncher uses a narrow local subclass to set active_gpu after
+Isaac Lab would otherwise derive it from the remapped CUDA ordinal. This was
+tested against the pinned Isaac Lab checkout.
+
+Head-camera/robot placement is read directly from RoboDojo's original configs:
+layout.robot_config=env_cfg/robot/dual_x5.yml, robot_index=0;
+layout.camera_config=env_cfg/camera/camera_config.yml, head_camera=cam_head.
+Gemini_345Lg lens values/resolution come from env_cfg/camera/template.py.
+Single-arm placement is the original left-arm base, normalized quaternion.
+The expert-specific reset joint pose remains necessary for this task. Source
+config hashes and resolved settings are saved with each episode.
+
+Both real head and wrist arrays are stored. To export the wrist preview:
+
+```bash
+python scripts/dynamicbench/inspect_dataset.py outputs/acceptance_repro/moving_seed42 --camera wrist --video outputs/wrist42.mp4
+```
+
+A native Kit shutdown can stall after an extension failure. Bound new runs with
+`timeout -k 10s 1200s` and preserve run.log/exit_status.json. Stop only the exact
+owned test process after verifying its command. Exit status alone is not
+acceptance: check acceptance.json/collection_metrics.json and strict readback.

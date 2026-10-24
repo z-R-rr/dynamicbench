@@ -49,19 +49,39 @@ The task is also exposed through a new task module without changing existing
 task registration/default configs. Only .gitignore gets output exclusions.
 Single X5 is simpler here because the standalone entry does not require dual_x5.
 Its geometry and drive parameters come from the existing robot asset/config.
+The layout resolver reads env_cfg/robot/dual_x5.yml (robot index 0) and
+env_cfg/camera/camera_config.yml (cam_head) directly. Head lens intrinsics and
+640x480 resolution come from the Gemini_345Lg template. Root quaternions are
+normalized; the source files and their SHA-256 hashes are recorded in metadata.
+No duplicate base position, head pose or head lens constants are maintained.
 IK uses the asset URDF, checks FK against live link6, and avoids assuming the
 server's older CuRobo installation matches the current v2 API.
 
 The belt contact surface gets PhysX surface velocity (CPU physics), not cube
-pose updates. First audit the original conveyor USD; if its contact motion is
-unreliable, use a clearly identified collision belt with the same contact-speed
-mechanism and retain the audit evidence. Cube pose writes are reset-only.
+pose updates. The default is an explicitly identified collidable primitive.
+The original conveyor USD has a native surface-velocity API and graph, so its
+motion capability is not inferred from the DynamicObject wrapper. An optional
+`--belt-source robodojo` adapter references that USD, disables its demo objects,
+extra scene and render-tick graph inside the new instance, and owns its surface
+speed on physics steps. The optional adapter failed to initialize the scene rigid objects in the live
+probe (RigidObject missing _data), including after CUDA allocation errors were
+avoided. No original-asset motion was measured; the asset itself is not claimed
+broken. The primitive scene passed on the same SDK. Cube pose writes are reset-only.
+
+Upstream setup_physics unconditionally forces GPU dynamics. Only this subclass
+switches it back to CPU after the parent setup and checks the actual override.
+The cube has sleep_threshold=0: a sleeping cube on a stationary kinematic belt
+would ignore changes in contact surface velocity. It is never velocity-driven.
+Contact sensors are created before physics startup. Rendering fences two camera
+deliveries at the same frozen physical state; the physical counter is asserted
+unchanged. This avoids the older SDK's first-frame idle-wait deadlock.
 
 FixedRateController owns the integer physical clock. Scheduler never steps
 physics. Fixed-delay chunks are computed from a snapshot and gated until their
-available tick. This validates simulated inference latency only. The optional
-background policy adapter receives copied arrays and never accesses PhysX;
-there is no real OpenWAM experiment in this MVP.
+available tick. This validates simulated inference latency only. No background model worker
+is implemented. A future real model worker must receive copied observations,
+avoid PhysX access, and timestamp result delivery. There is no real OpenWAM
+experiment in this MVP.
 
 The no-latency expert uses measured cube position/velocity and actual robot
 state. Recorder receives observation[k], applied command[k], next observation
@@ -75,3 +95,10 @@ Unit tests use instrumented fake backends to check timing/queues/schema; those
 are never evidence of PhysX motion or grasp success. Integration commands must
 save real states, RGB, videos and terminal outcomes. Every unavailable runtime
 check is NOT RUN; unsuccessful physical attempts stay failures.
+
+
+The 2026-10-24 live acceptance run passed belt transport at 0/.03/.06 m/s,
+static grasp, three moving grasps at .03 m/s, and all three fixed-delay modes.
+The strict reader revalidated all ten saved episodes, including final height
+and bilateral contact evidence. See results/mvp_report.md for measured values,
+source revisions and the remaining original-asset/runtime regression limits.
