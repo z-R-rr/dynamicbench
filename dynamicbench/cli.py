@@ -49,6 +49,14 @@ def launch(p):
     if args.latency_mode != "no_latency" and getattr(args, "test", "expert") == "expert":
         p.error("expert collection currently supports no_latency; use run_mvp --test schedule for latency evaluation")
     args.enable_cameras = True
+    # Warp is imported while Kit extensions start, before SimulationContext.
+    # Select the requested CUDA context now, otherwise it can allocate on GPU 0
+    # even when AppLauncher renders on a different physical GPU.
+    if args.device.startswith("cuda"):
+        import torch
+
+        torch.cuda.set_device(args.device)
+        print(f"[DynamicBench] initial CUDA context: {torch.cuda.current_device()}", flush=True)
     # Native Isaac Lab Camera render products can deadlock at their first warmup
     # with both idle waits enabled in the older server build. Keep rendering
     # asynchronous and fence two delivered frames at the same frozen physics
