@@ -13,7 +13,7 @@ def parser(collect=False, compare_lift=False):
     p.add_argument("--belt-speed", type=float, default=0.03)
     p.add_argument("--belt-source", choices=["primitive", "robodojo"], default=None)
     p.add_argument("--scene-source", choices=["minimal", "robodojo"], default=None)
-    p.add_argument("--lift-xy-mode", choices=["fixed", "track_cube"], default=None)
+    p.add_argument("--lift-xy-mode", choices=["fixed", "track_cube", "contact_anchor"], default=None)
     p.add_argument("--lift-tcp-frame", choices=["nominal", "actual_pinch"], default=None)
     if compare_lift:
         p.add_argument("--compare-lift", action="store_true")

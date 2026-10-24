@@ -2,7 +2,7 @@
 
 import json
 
-from dynamicbench.data.motion_audit import lift_motion
+from dynamicbench.data.motion_audit import contact_motion, lift_motion
 from dynamicbench.data.recorder import EpisodeRecorder
 from dynamicbench.envs.fixed_rate_controller import ControlFailure, FixedRateController
 from dynamicbench.experts.conveyor_cube_expert import ConveyorCubeExpert
@@ -61,6 +61,8 @@ def run_episode(env, *, test="expert", ticks=600, mode="no_latency", latency=0.2
             break
         if test == "expert" and (success or reason or expert.failure):
             reason = reason or expert.failure
+            if expert.failure:
+                success = False
             break
     end = recorder.observations[-1]
     displacement = end["oracle_debug"]["cube_pose"][:3] - start["oracle_debug"]["cube_pose"][:3]
@@ -82,9 +84,32 @@ def run_episode(env, *, test="expert", ticks=600, mode="no_latency", latency=0.2
         real_model_tested=False,
         requests=scheduler.requests,
         lift_xy_mode=expert.lift_xy_mode,
-        lift_tcp_frame=expert.lift_tcp_frame if expert.lift_xy_mode == "track_cube" else "nominal",
+        lift_tcp_frame=(
+            "latched_world_eef" if expert.lift_xy_mode == "contact_anchor"
+            else expert.lift_tcp_frame if expert.lift_xy_mode == "track_cube" else "nominal"
+        ),
         lift_motion=lift_motion(recorder.arrays(), recorder.trace) if test == "expert" else None,
     )
+    if test == "expert":
+        cfg = env.settings["expert"]
+        motion = contact_motion(
+            recorder.arrays(), recorder.trace, force_threshold=cfg.get("contact_force_threshold", 1.0)
+        )
+        metrics["contact_motion"] = motion
+        if expert.lift_xy_mode == "contact_anchor":
+            motion_passed = bool(
+                motion is not None
+                and motion["lift_start_tick"] is not None
+                and motion["eef_contact_xy_peak_m"] <= cfg.get("max_contact_eef_xy_excursion", .01)
+                and motion["cube_contact_xy_peak_m"] <= cfg.get("max_contact_cube_xy_excursion", .02)
+                and motion["command_contact_xy_peak_m"] is not None
+                and motion["command_contact_xy_peak_m"] < 1e-6
+            )
+            metrics["contact_motion_passed"] = motion_passed
+            if success and not motion_passed:
+                metrics["success"] = False
+                metrics["failure_reason"] = "excessive_post_contact_motion"
+            metrics["passed"] = metrics["success"] and motion_passed
     if test == "belt":
         expected = env.speed * controller.clock.sim_time
         metrics.update(

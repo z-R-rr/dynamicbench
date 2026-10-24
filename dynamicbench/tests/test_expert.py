@@ -55,3 +55,61 @@ def test_actual_pinch_transform_does_not_chase_jaw_center_motion():
     np.testing.assert_allclose(command[:2], pos[:2], atol=1e-12)
     assert command[2] > pos[2]
 
+
+def anchored_expert_and_contact():
+    config = dict(robot=dict(tcp_offset_link6=[.145, 0, 0]), cube=dict(size=.035), expert=dict(
+        lift_xy_mode="contact_anchor", approach_height=.12, lift_height=.13,
+        max_tcp_speed=.25, descend_speed=.08, intercept_seconds=.1, close_ticks=18,
+        contact_force_threshold=1., stable_contact_ticks=3, contact_timeout_ticks=30,
+    ))
+    expert = ConveyorCubeExpert(config, .765)
+    expert.phase = "close_gripper"
+    obs = dict(
+        eef10=encode_eef10([-.19, -.02, .929], expert.rotation, -1),
+        oracle_debug=dict(
+            cube_pose=np.array([-.187, -.02, .782]), cube_velocity=np.array([.24, -.04, 0.]),
+            finger_contact_forces=np.array([15., 15.]),
+        ),
+    )
+    return expert, obs
+
+
+def test_contact_stops_velocity_chasing_and_keeps_world_lift_reference():
+    expert, obs = anchored_expert_and_contact()
+    anchor = obs["eef10"][:3].copy()
+    first = decode_eef10(expert.action(obs))[0]
+    np.testing.assert_allclose(first, anchor)
+    assert expert.phase == "grasp_settle"
+    # Cube motion caused by a collision must not generate a new intercept.
+    # Actual EEF tracking error must not be integrated into a drifting reference.
+    obs["oracle_debug"]["cube_pose"][:2] += [.02, -.01]
+    obs["oracle_debug"]["cube_velocity"][:2] = [.5, -.3]
+    obs["eef10"][:2] += [.003, -.002]
+    for _ in range(20):
+        action = expert.action(obs)
+        np.testing.assert_allclose(action[:2], anchor[:2])
+    assert expert.phase == "lift"
+    assert action[2] > anchor[2]
+
+
+def test_lift_requires_consecutive_bilateral_contact_and_detects_loss():
+    expert, obs = anchored_expert_and_contact()
+    obs["oracle_debug"]["finger_contact_forces"] = np.array([15., 0.])
+    for _ in range(10):
+        expert.action(obs)
+        assert expert.phase == "grasp_settle"
+    obs["oracle_debug"]["finger_contact_forces"][:] = 15.
+    expert.action(obs)
+    expert.action(obs)
+    assert expert.phase == "grasp_settle"
+    obs["oracle_debug"]["finger_contact_forces"][0] = 0.
+    expert.action(obs)
+    obs["oracle_debug"]["finger_contact_forces"][:] = 15.
+    for _ in range(3):
+        expert.action(obs)
+    assert expert.phase == "lift"
+    obs["oracle_debug"]["finger_contact_forces"][:] = 0.
+    for _ in range(3):
+        expert.action(obs)
+    assert expert.failure == "lost_bilateral_grasp"
+

@@ -31,8 +31,13 @@ cube:
   initial_xy: [-0.25, -0.02]
   initial_jitter: 0.005
 expert:
-  lift_xy_mode: track_cube
+  lift_xy_mode: contact_anchor
   lift_tcp_frame: actual_pinch
+  contact_force_threshold: 1.0
+  stable_contact_ticks: 3
+  contact_timeout_ticks: 30
+  max_contact_eef_xy_excursion: 0.01
+  max_contact_cube_xy_excursion: 0.02
   approach_height: 0.12
   lift_height: 0.13
   max_tcp_speed: 0.25
