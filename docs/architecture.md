@@ -63,10 +63,12 @@ The original conveyor USD has a native surface-velocity API and graph, so its
 motion capability is not inferred from the DynamicObject wrapper. An optional
 `--belt-source robodojo` adapter references that USD, disables its demo objects,
 extra scene and render-tick graph inside the new instance, and owns its surface
-speed on physics steps. The optional adapter failed to initialize the scene rigid objects in the live
-probe (RigidObject missing _data), including after CUDA allocation errors were
-avoided. No original-asset motion was measured; the asset itself is not claimed
-broken. The primitive scene passed on the same SDK. Cube pose writes are reset-only.
+speed on physics steps. Both belt sources passed live acceptance. The task cube
+uses the exact single-environment path /World/envs/env_0/Cube: the old env_.*
+regex also matched the original USD's nested demo Cube when it was deactivated,
+causing Isaac Lab's deletion callback to unsubscribe the task cube's PLAY
+initialization. See original_usd_fix.md for captured before/after traces.
+Cube pose writes are reset-only.
 
 Upstream setup_physics unconditionally forces GPU dynamics. Only this subclass
 switches it back to CPU after the parent setup and checks the actual override.
@@ -101,4 +103,6 @@ The 2026-10-24 live acceptance run passed belt transport at 0/.03/.06 m/s,
 static grasp, three moving grasps at .03 m/s, and all three fixed-delay modes.
 The strict reader revalidated all ten saved episodes, including final height
 and bilateral contact evidence. See results/mvp_report.md for measured values,
-source revisions and the remaining original-asset/runtime regression limits.
+source revisions and the remaining runtime regression limits.
+On 2026-10-25, the original USD also passed all ten cases and strict readback;
+30 CPU tests passed locally, on server and in CI.

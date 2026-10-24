@@ -1,0 +1,32 @@
+{
+  "date": "2026-10-25",
+  "status": "PASS",
+  "source_commit": "1a0163ae0f60848849fa2eb153d0c83d6abb9951",
+  "root_cause": "AssetBase deletion regex env_.*/Cube matches the nested USD demo Cube and clears task-cube PLAY callbacks",
+  "old_prim_expression": "/World/envs/env_.*/Cube",
+  "foreign_deleted_prim": "/World/envs/env_0/OriginalConveyor/Cube",
+  "fixed_prim_path": "/World/envs/env_0/Cube",
+  "production_uses_standard_RigidObject": true,
+  "server_output": "/home/ubuntu/Workspace/dynamicbench/outputs/acceptance_original_usd_20261025",
+  "physical_acceptance_passed": 10,
+  "strict_readback_and_head_video_decode_passed": 10,
+  "moving_attempts": 3,
+  "moving_successes": 3,
+  "static_grasp_success": true,
+  "transport_speeds_validated": [
+    0,
+    0.03,
+    0.06
+  ],
+  "grasp_speeds_validated": [
+    0,
+    0.03
+  ],
+  "local_tests_passed": 30,
+  "server_tests_passed": 30,
+  "ci_url": "https://github.com/z-R-rr/dynamicbench/actions/runs/40115342234",
+  "render_gpu": 3,
+  "physics": "CPU PhysX",
+  "default_belt_source": "primitive",
+  "default_unchanged": true
+}

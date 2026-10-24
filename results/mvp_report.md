@@ -1,8 +1,8 @@
-# DynamicBench MVP 实测报告（2026-10-24，Asia/Shanghai）
+# DynamicBench MVP 实测报告（2026-10-24，2026-10-25 补充修复）
 
 已完成原生 PhysX 传送、静态抓取、0.03 m/s 动态抓取、三种模拟延迟模式及专家数据采集。
 这些结果来自实际 Isaac Sim 执行和保存的原始状态/RGB，不是单元测试中的假后端。
-默认使用具有真实碰撞和 PhysX 接触表面速度的简化传送带；原装传送带 USD 的适配仍未通过启动验证。
+默认仍使用简化接触皮带。2026-10-25 已修复原装 USD 初始化，原装分支也通过 10/10 项物理验收和三个动态抓取 seed。
 
 ## 仓库与代码边界
 
@@ -97,9 +97,16 @@ Torch 2.7.0+cu128，NumPy 1.26.0。环境为 /home/ubuntu/miniconda3/envs/RoboDo
 | conveyor/00001/object.usdz | 0aae06620ed290d1204ce4fc32cbdd2ec42027fe94d99d545b5d5a9c03ede612 |
 
 原传送带 USD 存在原生 PhysxSurfaceVelocityAPI 与运动图，不能声称资产没有运动能力。
-完整场景引用的实验适配器在启动时遇到 RigidObject 缺少 _data；隐藏繁忙 GPU 0 后仍出现该问题，故不把它全部归因于显存。
-原资产运动没有获得有效物理测量，实验开关 --belt-source robodojo 尚未支持；后续最小修复是隔离引用 Belt/ConveyorTrack 子树、
-排除资产自带场景/图的初始化影响，再先测输送。当前已验证并交付的是简化接触皮带。
+此前原装分支报 RigidObject 缺少 _data 的根因现已定位并修复：禁用原装演示方块
+/World/envs/env_0/OriginalConveyor/Cube 时，Isaac Lab 的删除回调用 env_.*/Cube 误匹配本任务方块，
+取消了它的 PLAY 初始化订阅。本任务固定单环境，因此改用精确路径 /World/envs/env_0/Cube。
+物理初始化继续由原生 RigidObject 执行；源 USD、Isaac Lab 和旧任务均未修改。
+正式代码 SHA 为 1a0163ae0f60848849fa2eb153d0c83d6abb9951，GPU3 渲染 / CPU PhysX。
+原装 USD：.03 输送 100 tick 的位移 0.0999726504 m；静态抓取成功；.03 动态抓取 3/3；
+三种 RTC 模式通过。全部 10 个 episode 已严格回读、解码核对头部视频帧数。
+详细调用链与复现命令见 docs/original_usd_fix.md，实测 JSON 见 physical_acceptance_original_usd.json。
+原装结果单独保存在 /home/ubuntu/Workspace/dynamicbench/outputs/acceptance_original_usd_20261025，
+既有 primitive 数据不重新标记为原装 USD 数据。
 
 繁忙 GPU 0 的仅约 0.3 GB 空余会使 SDK 的跨卡自检、默认 CUDA/PhysX/Warp 上下文失败，即使 renderer 指定 GPU 2。
 单独跳过启动自检不足以解决全部默认上下文分配。独立采集通过 CUDA_VISIBLE_DEVICES=1,2 与 GPU1 渲染完成；
@@ -107,6 +114,6 @@ Torch 2.7.0+cu128，NumPy 1.26.0。环境为 /home/ubuntu/miniconda3/envs/RoboDo
 这些是本进程设置，没有更改系统 IOMMU、驱动或其他作业。失败进程仅按核对过的自有 PID 终止。
 libGLU 依赖通过 apt-get download / dpkg-deb 解压到新仓库 outputs/deps，无 sudo。
 
-本地、服务器和 GitHub CPU CI 已通过 29 个测试；源码 diff、Ruff、编译和 shell 语法检查见交付记录。
-完整 42 旧任务运行、真实 OpenWAM/异步 GPU 推理、.06 抓取及原装皮带运动未验证。
+本地、服务器和 GitHub CPU CI 已通过 30 个测试；源码 diff、Ruff、编译和 shell 语法检查见交付记录。
+完整 42 旧任务运行、真实 OpenWAM/异步 GPU 推理及 .06 抓取未验证。
 完整安装、资产准备、运行、采集、读数和测试命令见 [quickstart_dynamicbench.md](../docs/quickstart_dynamicbench.md)。

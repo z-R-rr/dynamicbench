@@ -112,12 +112,11 @@ expert grasp was measured only at 0 and .03. Success requires cube-bottom
 clearance >.05 m plus bilateral cube-filtered contacts for 15 ticks (0.5 s).
 Three seeds are a small deterministic MVP check, not a general success estimate.
 
-`--belt-source robodojo` selects the experimental original conveyor USD adapter.
-The original USD has authored surface motion. The experimental adapter failed
-to initialize its rigid objects (RigidObject missing _data), including after
-avoiding CUDA OOM. It remains unsupported. This is not proof that the original
-asset has no motion capability. See results/original_asset_probe_error.json.
-The separately validated primitive is the default.
+`--belt-source robodojo` selects the original conveyor USD. It passed the same
+10-case live acceptance (0/.03/.06 transport, static grasp, 3/3 moving grasps at
+.03, and all three fixed-delay modes) after the exact cube-path fix. Details and
+reproduction command: docs/original_usd_fix.md. The default remains primitive
+so existing datasets/configurations retain their scene semantics.
 
 The original GPU0 OOM path was isolated with the CUDA/Vulkan mapping above.
 Use --render-gpu only with the physical index shown by nvidia-smi; --device
