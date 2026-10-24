@@ -1,6 +1,10 @@
 task: pick_cube_from_conveyor
 physics_hz: 300
 control_hz: 30
+scene:
+  source: robodojo
+  config: env_cfg/scene/conveyor.yml
+  light_intensity_scale: 1.0
 layout:
   robot_config: env_cfg/robot/dual_x5.yml
   robot_index: 0
@@ -27,6 +31,7 @@ cube:
   initial_xy: [-0.25, -0.02]
   initial_jitter: 0.005
 expert:
+  lift_xy_mode: track_cube
   approach_height: 0.12
   lift_height: 0.13
   max_tcp_speed: 0.25

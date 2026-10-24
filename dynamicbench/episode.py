@@ -2,6 +2,7 @@
 
 import json
 
+from dynamicbench.data.motion_audit import lift_motion
 from dynamicbench.data.recorder import EpisodeRecorder
 from dynamicbench.envs.fixed_rate_controller import ControlFailure, FixedRateController
 from dynamicbench.experts.conveyor_cube_expert import ConveyorCubeExpert
@@ -46,6 +47,8 @@ def run_episode(env, *, test="expert", ticks=600, mode="no_latency", latency=0.2
             finger_contact_forces=obs["oracle_debug"]["finger_contact_forces"],
             belt_speed=env.speed,
             control_error=result["control_error"],
+            cube_in_eef=obs["oracle_debug"].get("cube_in_eef"),
+            belt_surface_velocity=obs["oracle_debug"].get("belt_surface_velocity"),
             **info,
         )
         recorder.append(result, trace)
@@ -77,6 +80,8 @@ def run_episode(env, *, test="expert", ticks=600, mode="no_latency", latency=0.2
         latency_quantized_seconds=scheduler.delay / 30,
         real_model_tested=False,
         requests=scheduler.requests,
+        lift_xy_mode=expert.lift_xy_mode,
+        lift_motion=lift_motion(recorder.arrays(), recorder.trace) if test == "expert" else None,
     )
     if test == "belt":
         expected = env.speed * controller.clock.sim_time

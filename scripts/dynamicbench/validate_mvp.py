@@ -15,7 +15,7 @@ def main():
 
     from dynamicbench.cli import finish, launch, load_settings, parser
 
-    p = parser(collect=True)
+    p = parser(collect=True, compare_lift=True)
     args, launcher, commit = launch(p)
     env = None
     cases = []
@@ -55,6 +55,12 @@ def main():
         result, _, _ = case("static_grasp", "expert", 0.0, args.seed)
         if not result["passed"]:
             return finish(args, 2)
+        requested_lift_mode = env.settings["expert"].get("lift_xy_mode", "track_cube")
+        if args.compare_lift and requested_lift_mode != "fixed":
+            env.settings["expert"]["lift_xy_mode"] = "fixed"
+            for i in range(args.num_success):
+                case(f"fixed_moving_seed{args.seed + i}", "expert", 0.03, args.seed + i)
+            env.settings["expert"]["lift_xy_mode"] = requested_lift_mode
         successes = 0
         for i in range(args.max_attempts):
             result, _, _ = case(f"moving_seed{args.seed + i}", "expert", 0.03, args.seed + i)
@@ -99,7 +105,7 @@ def main():
             source_commit=commit,
             passed=all(x["passed"] for x in cases) and min(separation) > 1e-4,
             moving_successes=successes,
-            moving_attempts=sum(x["test"] == "expert" and x["belt_speed"] == 0.03 for x in cases),
+            moving_attempts=sum(x["episode"].startswith("moving_seed") for x in cases),
             robot_trajectory_separation_m=separation,
             cases=cases,
         )

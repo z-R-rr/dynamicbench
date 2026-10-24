@@ -15,6 +15,9 @@ class ConveyorCubeExpert:
         self.rotation = np.column_stack([[0, 0, -1], [-1, 0, 0], [0, 1, 0]])
         self.offset = np.asarray(settings["robot"]["tcp_offset_link6"])
         self.grasp_xy = None
+        self.lift_xy_mode = self.cfg.get("lift_xy_mode", "track_cube")
+        if self.lift_xy_mode not in ("fixed", "track_cube"):
+            raise ValueError("unknown lift_xy_mode")
         self.failure = None
 
     def change(self, phase):
@@ -49,7 +52,8 @@ class ConveyorCubeExpert:
                     self.failure = "no_bilateral_grasp_contact"
         if self.phase == "lift":
             opening = -1.0
-            target = np.r_[self.grasp_xy, self.belt_top + self.cfg["lift_height"]]
+            xy = cube[:2] if self.lift_xy_mode == "track_cube" else self.grasp_xy
+            target = np.r_[xy, self.belt_top + self.cfg["lift_height"]]
         speed = self.cfg["descend_speed"] if self.phase == "descend" else self.cfg["max_tcp_speed"]
         delta = target - tcp
         delta *= min(1.0, speed / 30 / max(np.linalg.norm(delta), 1e-9))

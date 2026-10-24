@@ -7,11 +7,15 @@ import subprocess
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def parser(collect=False):
+def parser(collect=False, compare_lift=False):
     p = argparse.ArgumentParser()
     p.add_argument("--task", default="pick_cube_from_conveyor", choices=["pick_cube_from_conveyor"])
     p.add_argument("--belt-speed", type=float, default=0.03)
     p.add_argument("--belt-source", choices=["primitive", "robodojo"], default=None)
+    p.add_argument("--scene-source", choices=["minimal", "robodojo"], default=None)
+    p.add_argument("--lift-xy-mode", choices=["fixed", "track_cube"], default=None)
+    if compare_lift:
+        p.add_argument("--compare-lift", action="store_true")
     p.add_argument(
         "--render-gpu", type=int, default=None, help="physical Vulkan GPU index when CUDA indices are remapped"
     )
@@ -98,6 +102,14 @@ def load_settings(args):
         settings = resolve_robodojo_layout(settings, ROOT)
     if args.belt_source is not None:
         settings["belt"]["source"] = args.belt_source
+    if args.lift_xy_mode is not None:
+        settings["expert"]["lift_xy_mode"] = args.lift_xy_mode
+    if args.scene_source is not None:
+        settings.setdefault("scene", {})["source"] = args.scene_source
+    if settings.get("scene", {}).get("source") == "robodojo":
+        from dynamicbench.scene import resolve_scene
+
+        settings = resolve_scene(settings, ROOT)
     return settings
 
 

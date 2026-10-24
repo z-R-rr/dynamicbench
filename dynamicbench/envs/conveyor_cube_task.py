@@ -9,7 +9,7 @@ from isaaclab.sensors import CameraCfg, ContactSensorCfg
 import isaaclab.sim as sim_utils
 import numpy as np
 from omegaconf import OmegaConf
-from pxr import Gf, PhysxSchema, Usd, UsdPhysics
+from pxr import Gf, PhysxSchema, Usd, UsdGeom, UsdPhysics
 import torch
 
 from env.camera_manager.capture.render_sync import wait_for_latest_cameras
@@ -223,7 +223,13 @@ class ConveyorCubeTask(BaseEnv):
             visual_material=sim_utils.PreviewSurfaceCfg(diffuse_color=(0.25, 0.25, 0.28)),
         )
         ground.func("/World/Ground", ground, translation=(0, 0, -0.025))
-        sim_utils.DomeLightCfg(intensity=1800).func("/World/Light", sim_utils.DomeLightCfg(intensity=1800))
+        if self.settings.get("scene", {}).get("source") == "robodojo":
+            from dynamicbench.scene import spawn_scene
+
+            UsdGeom.Imageable(self.stage.GetPrimAtPath("/World/Ground")).MakeInvisible()
+            self.visual_fixtures, self.asset_audit["scene"] = spawn_scene(self.settings["scene"], self.stage)
+        else:
+            sim_utils.DomeLightCfg(intensity=1800).func("/World/Light", sim_utils.DomeLightCfg(intensity=1800))
         if self.belt_source == "robodojo":
             prim = self._spawn_original_belt()
         else:
@@ -398,7 +404,13 @@ class ConveyorCubeTask(BaseEnv):
             qvel=self.robot.data.joint_vel[0].numpy().copy(),
             head=image,
             wrist=wrist_image,
-            oracle_debug=dict(cube_pose=cube[:7], cube_velocity=cube[7:10], finger_contact_forces=np.asarray(forces)),
+            oracle_debug=dict(
+                cube_pose=cube[:7],
+                cube_velocity=cube[7:10],
+                finger_contact_forces=np.asarray(forces),
+                cube_in_eef=quat_wxyz_matrix(pose[3:]).T @ (cube[:3] - pose[:3]),
+                belt_surface_velocity=np.asarray(self.surface.GetSurfaceVelocityAttr().Get()),
+            ),
         )
 
     def outcome(self, observation, tick):
