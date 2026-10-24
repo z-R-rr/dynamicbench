@@ -48,6 +48,18 @@ def launch(p):
     if args.latency_mode != "no_latency" and getattr(args, "test", "expert") == "expert":
         p.error("expert collection currently supports no_latency; use run_mvp --test schedule for latency evaluation")
     args.enable_cameras = True
+    # Native Isaac Lab Camera render products can deadlock at their first warmup
+    # with both idle waits enabled in the older server build. Keep rendering
+    # asynchronous and fence two delivered frames at the same frozen physics
+    # state in wait_for_latest_cameras instead. Never advance physics to render.
+    kit_defaults = {
+        "/renderer/multiGpu/enabled": "false",
+        "/app/renderer/waitIdle": "false",
+        "/app/hydraEngine/waitIdle": "false",
+    }
+    for key, value in kit_defaults.items():
+        if f"--{key}=" not in (args.kit_args or ""):
+            args.kit_args = ((args.kit_args or "") + f" --{key}={value}").strip()
     add_zero_delay_kit_args(args)
     args.output.mkdir(parents=True, exist_ok=True)
     commit = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()

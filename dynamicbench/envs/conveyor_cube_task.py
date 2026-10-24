@@ -212,6 +212,15 @@ class ConveyorCubeTask(BaseEnv):
     def _post_setup_scene(self, sim):
         pass
 
+    def setup_physics(self, sim):
+        super().setup_physics(sim)
+        # Upstream unconditionally forces GPU dynamics, even with device=cpu.
+        # Override it only in this scene; SurfaceVelocity and tensor-device
+        # diagnostics must describe the backend that actually runs.
+        self.physics_interface.overwrite_gpu_setting(0)
+        if self.physics_interface.get_overwrite_gpu_setting() != 0:
+            raise RuntimeError("CPU_PhysX_override_failed")
+
     def reset(self, seed=None, options=None):
         self.seed_value = self.seed_value if seed is None else int(seed)
         self.generation += 1
