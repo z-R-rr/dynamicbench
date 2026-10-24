@@ -277,7 +277,10 @@ class ConveyorCubeTask(BaseEnv):
         return belt
 
     def _post_setup_scene(self, sim):
-        pass
+        print(
+            "[DynamicBench] rigid objects: " + str({k: v.cfg.prim_path for k, v in sim.scene.rigid_objects.items()}),
+            flush=True,
+        )
 
     def setup_physics(self, sim):
         super().setup_physics(sim)

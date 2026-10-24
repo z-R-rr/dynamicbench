@@ -91,3 +91,17 @@ def finish(args, status):
     temp.replace(args.output / "exit_status.json")
     omni.kit.app.get_app().post_quit(status)
     return status
+
+
+def exception_details(exc):
+    import builtins
+    import traceback
+
+    callback = getattr(builtins, "ISAACLAB_CALLBACK_EXCEPTION", None)
+    return dict(
+        status="ERROR",
+        error=repr(exc),
+        traceback=traceback.format_exc(),
+        isaac_callback_error=repr(callback) if callback else None,
+        isaac_callback_traceback="".join(traceback.format_exception(callback)) if callback else None,
+    )
