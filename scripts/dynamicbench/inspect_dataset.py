@@ -11,8 +11,18 @@ from dynamicbench.data.dataset_reader import export_video, read_episode
 p = argparse.ArgumentParser()
 p.add_argument("path", type=Path)
 p.add_argument("--video", type=Path)
+p.add_argument("--camera", choices=["head", "wrist"], default="head")
 a = p.parse_args()
-paths = [a.path] if (a.path / "trajectory.npz").exists() else sorted(a.path.glob("episode_*"))
+if (a.path / "trajectory.npz").exists():
+    paths = [a.path]
+elif (a.path / "manifest.jsonl").exists():
+    paths = [
+        a.path / json.loads(row)["episode"]
+        for row in (a.path / "manifest.jsonl").read_text().splitlines()
+        if row.strip()
+    ]
+else:
+    paths = sorted(a.path.glob("episode_*"))
 if not paths:
     p.error("no complete episode found")
 for path in paths:
@@ -21,4 +31,4 @@ for path in paths:
 if a.video:
     if len(paths) != 1:
         p.error("--video needs one episode path")
-    export_video(arrays, a.video)
+    export_video(arrays, a.video, camera=a.camera)

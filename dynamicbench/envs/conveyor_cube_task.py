@@ -245,7 +245,7 @@ class ConveyorCubeTask(BaseEnv):
         root = self.stage.GetPrimAtPath(path)
         belts = []
         for prim in list(Usd.PrimRange(root)):
-            if not prim.IsActive():
+            if not prim.IsValid() or not prim.IsActive():
                 continue
             if (
                 prim.GetTypeName() in ("OmniGraph", "RenderProduct", "RenderSettings", "Camera")
