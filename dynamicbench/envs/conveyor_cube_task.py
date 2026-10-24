@@ -166,7 +166,10 @@ class ConveyorCubeTask(BaseEnv):
             history_length=1,
             filter_prim_paths_expr=["/World/envs/env_0/Cube"],
         )
-        wrist_pos = [0.04, 0, 0.07]
+        # The original X5 includes a camera housing behind x=.084. A lens at
+        # x=.04 sees that housing, even though it is outside the palm collider.
+        # Place the new camera forward of it, above the .03-m finger mesh.
+        wrist_pos = cam["wrist_position_link6"]
         scene.wrist = CameraCfg(
             prim_path="{ENV_REGEX_NS}/robot0/link6/DynamicBenchWrist",
             update_period=0,
@@ -177,7 +180,7 @@ class ConveyorCubeTask(BaseEnv):
                 focal_length=12, focus_distance=0.15, horizontal_aperture=20.955, clipping_range=(0.01, 5)
             ),
             offset=CameraCfg.OffsetCfg(
-                pos=tuple(wrist_pos), rot=camera_quaternion(wrist_pos, rc["tcp_offset_link6"]), convention="opengl"
+                pos=tuple(wrist_pos), rot=camera_quaternion(wrist_pos, cam["wrist_target_link6"]), convention="opengl"
             ),
         )
         super().__init__(cfg, app, interactiveSceneCfg=scene)

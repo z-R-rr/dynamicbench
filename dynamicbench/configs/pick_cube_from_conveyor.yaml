@@ -35,6 +35,8 @@ expert:
   success_height: 0.05
   success_hold_ticks: 15
 camera:
+  wrist_position_link6: [0.10, 0, 0.08]
+  wrist_target_link6: [0.17, 0, 0]
   head_position: [0.8, -1.0, 1.5]
   head_target: [-0.15, 0, 0.82]
   width: 320
