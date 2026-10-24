@@ -1,5 +1,6 @@
 """Isolated ARX X5 scene; import only after Isaac Sim AppLauncher starts."""
 
+import json
 from pathlib import Path
 
 from isaaclab.assets import RigidObjectCfg
@@ -8,7 +9,7 @@ from isaaclab.sensors import CameraCfg, ContactSensorCfg
 import isaaclab.sim as sim_utils
 import numpy as np
 from omegaconf import OmegaConf
-from pxr import Gf, PhysxSchema, Usd
+from pxr import Gf, PhysxSchema, Usd, UsdPhysics
 import torch
 
 from env.camera_manager.capture.render_sync import wait_for_latest_cameras
@@ -65,6 +66,9 @@ class ConveyorCubeTask(BaseEnv):
         self.settings = settings
         self.seed_value = int(seed)
         self.generation = 0
+        self.belt_source = settings["belt"].get("source", "primitive")
+        if self.belt_source not in ("primitive", "robodojo"):
+            raise ValueError("unknown belt source")
         self.speed = settings["belt"]["speed"] if belt_speed is None else float(belt_speed)
         if self.speed not in (0.0, 0.03, 0.06):
             raise ValueError("MVP only accepts nonnegative speed 0, .03, .06; see report for validated values")
@@ -99,7 +103,7 @@ class ConveyorCubeTask(BaseEnv):
         material = sim_utils.RigidBodyMaterialCfg(
             static_friction=bc["friction"], dynamic_friction=bc["friction"], restitution=0, friction_combine_mode="max"
         )
-        scene.belt = RigidObjectCfg(
+        primitive_belt = RigidObjectCfg(
             prim_path="{ENV_REGEX_NS}/Belt",
             spawn=sim_utils.CuboidCfg(
                 size=tuple(bc["size"]),
@@ -111,6 +115,8 @@ class ConveyorCubeTask(BaseEnv):
             ),
             init_state=RigidObjectCfg.InitialStateCfg(pos=tuple(bc["center"])),
         )
+        if self.belt_source == "primitive":
+            scene.belt = primitive_belt
         scene.cube = RigidObjectCfg(
             prim_path="{ENV_REGEX_NS}/Cube",
             spawn=sim_utils.CuboidCfg(
@@ -207,11 +213,68 @@ class ConveyorCubeTask(BaseEnv):
         )
         ground.func("/World/Ground", ground, translation=(0, 0, -0.025))
         sim_utils.DomeLightCfg(intensity=1800).func("/World/Light", sim_utils.DomeLightCfg(intensity=1800))
-        prim = self.stage.GetPrimAtPath("/World/envs/env_0/Belt")
+        if self.belt_source == "robodojo":
+            prim = self._spawn_original_belt()
+        else:
+            prim = self.stage.GetPrimAtPath("/World/envs/env_0/Belt")
         self.surface = PhysxSchema.PhysxSurfaceVelocityAPI.Apply(prim)
         self.surface.CreateSurfaceVelocityEnabledAttr(True)
         self.surface.CreateSurfaceVelocityLocalSpaceAttr(False)
         self.surface.CreateSurfaceVelocityAttr(Gf.Vec3f(0, 0, 0))
+
+    def _spawn_original_belt(self):
+        """Reuse the conveyor USD with physics-step-owned contact motion.
+
+        Read geometry/support coordinates from metadata. Disable only the
+        source instance's demo cube, render products, extra physics scene and
+        render-tick graph. Never edit the downloaded source assets.
+        """
+        bc = self.settings["belt"]
+        directory = ROOT / "Assets/Object/RoboDojo/Dynamic/conveyor" / bc.get("asset_index", "00001")
+        info = json.loads((directory / "metadata.json").read_text())
+        vertices = np.asarray(info["geometry"]["aligned_bbox"]["vertices"])
+        bounds_min, bounds_max = vertices.min(0), vertices.max(0)
+        scale = np.r_[np.asarray(bc["size"][:2]) / (bounds_max - bounds_min)[:2], 0.2]
+        supports = np.asarray(info["passive"]["support"]["conveyor/0"]["center"])
+        surface_z = float(np.median(supports[:, 2]))
+        xy = np.asarray(bc["center"][:2]) - (bounds_min + bounds_max)[:2] / 2 * scale[:2]
+        translation = np.r_[xy, self.belt_top - surface_z * scale[2]]
+        path = "/World/envs/env_0/OriginalConveyor"
+        spawn = sim_utils.UsdFileCfg(usd_path=str(directory / "object.usdz"), scale=tuple(scale))
+        spawn.func(path, spawn, translation=tuple(translation))
+        root = self.stage.GetPrimAtPath(path)
+        belts = []
+        for prim in list(Usd.PrimRange(root)):
+            if not prim.IsActive():
+                continue
+            if (
+                prim.GetTypeName() in ("OmniGraph", "RenderProduct", "RenderSettings", "Camera")
+                or prim.IsA(UsdPhysics.Scene)
+                or (prim.HasAPI(UsdPhysics.RigidBodyAPI) and prim.GetName() != "Belt")
+            ):
+                prim.SetActive(False)
+            elif prim.GetName() == "Belt" and prim.HasAPI(UsdPhysics.RigidBodyAPI):
+                belts.append(prim)
+        if len(belts) != 1:
+            raise RuntimeError(f"original_conveyor_body_unresolved:{len(belts)}")
+        belt = belts[0]
+        UsdPhysics.RigidBodyAPI(belt).CreateKinematicEnabledAttr(True)
+        material_path = path + "/DynamicBenchContactMaterial"
+        material = sim_utils.RigidBodyMaterialCfg(
+            static_friction=bc["friction"], dynamic_friction=bc["friction"], restitution=0, friction_combine_mode="max"
+        )
+        material.func(material_path, material)
+        sim_utils.bind_physics_material(belt.GetPath().pathString, material_path)
+        self.asset_audit["selected_belt"] = dict(
+            source="robodojo",
+            usd=str(directory / "object.usdz"),
+            rigid_body=str(belt.GetPath()),
+            scale=scale.tolist(),
+            translation=translation.tolist(),
+            authored_surface_z=surface_z,
+            motion="per-physics-step PhysxSurfaceVelocityAPI; source graph disabled",
+        )
+        return belt
 
     def _post_setup_scene(self, sim):
         pass

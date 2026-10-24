@@ -9,9 +9,7 @@ def main():
     import json
     import traceback
 
-    import yaml
-
-    from dynamicbench.cli import launch, parser
+    from dynamicbench.cli import launch, load_settings, parser
 
     args, launcher, commit = launch(parser())
     env = None
@@ -19,7 +17,7 @@ def main():
         from dynamicbench.envs.conveyor_cube_task import ConveyorCubeTask
         from dynamicbench.episode import metadata, run_episode
 
-        env = ConveyorCubeTask(yaml.safe_load(args.config.read_text()), launcher.app, args.seed, args.belt_speed)
+        env = ConveyorCubeTask(load_settings(args), launcher.app, args.seed, args.belt_speed)
         (args.output / "asset_audit.json").write_text(json.dumps(env.asset_audit, indent=2))
         recorder, metrics = run_episode(
             env, test=args.test, ticks=args.ticks, mode=args.latency_mode, latency=args.latency

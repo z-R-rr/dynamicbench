@@ -11,6 +11,7 @@ def parser(collect=False):
     p = argparse.ArgumentParser()
     p.add_argument("--task", default="pick_cube_from_conveyor", choices=["pick_cube_from_conveyor"])
     p.add_argument("--belt-speed", type=float, default=0.03)
+    p.add_argument("--belt-source", choices=["primitive", "robodojo"], default=None)
     p.add_argument("--seed", type=int, default=42)
     p.add_argument("--ticks", type=int, default=600)
     p.add_argument("--output", type=Path, default=ROOT / ("datasets/conveyor_cube_v0" if collect else "outputs/mvp"))
@@ -64,3 +65,12 @@ def launch(p):
     args.output.mkdir(parents=True, exist_ok=True)
     commit = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
     return args, AppLauncher(args), commit
+
+
+def load_settings(args):
+    import yaml
+
+    settings = yaml.safe_load(args.config.read_text())
+    if args.belt_source is not None:
+        settings["belt"]["source"] = args.belt_source
+    return settings
