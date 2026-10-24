@@ -59,7 +59,7 @@ class EpisodeRecorder:
             out["observation.images.wrist"] = np.asarray([o["wrist"] for o in obs])
         for key in ("cube_pose", "cube_velocity", "finger_contact_forces"):
             out["oracle_debug." + key] = np.asarray([o["oracle_debug"][key] for o in obs])
-        for key in ("cube_in_eef", "belt_surface_velocity"):
+        for key in ("cube_in_eef", "belt_surface_velocity", "finger_midpoint_in_eef", "cube_in_pinch_frame"):
             if key in obs[0]["oracle_debug"]:
                 out["oracle_debug." + key] = np.asarray([o["oracle_debug"][key] for o in obs])
         return out

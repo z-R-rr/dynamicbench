@@ -28,4 +28,7 @@ def lift_motion(arrays, trace):
         velocity = arrays["oracle_debug.belt_surface_velocity"]
         result["belt_surface_velocity_min_m_s"] = velocity.min(axis=0).tolist()
         result["belt_surface_velocity_max_m_s"] = velocity.max(axis=0).tolist()
+    if "oracle_debug.cube_in_pinch_frame" in arrays:
+        pinch = arrays["oracle_debug.cube_in_pinch_frame"]
+        result["cube_in_pinch_peak_change_m"] = float(np.linalg.norm(pinch[start:] - pinch[start], axis=1).max())
     return result

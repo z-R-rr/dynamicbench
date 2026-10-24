@@ -398,6 +398,8 @@ class ConveyorCubeTask(BaseEnv):
         grip = float(np.clip((qpos[self.grip_ids].mean() - lo) / (hi - lo) * 2 - 1, -1, 1))
         forces = [float(s.data.force_matrix_w.norm().item()) for s in self.contact_sensors]
         cube = self.cube.data.root_state_w[0].numpy().copy()
+        rotation = quat_wxyz_matrix(pose[3:])
+        finger_midpoint = self.robot.data.body_link_pos_w[0, self.finger_ids].mean(dim=0).numpy().copy()
         return dict(
             eef10=encode_eef10(pose[:3], quat_wxyz_matrix(pose[3:]), grip),
             qpos=qpos,
@@ -408,7 +410,9 @@ class ConveyorCubeTask(BaseEnv):
                 cube_pose=cube[:7],
                 cube_velocity=cube[7:10],
                 finger_contact_forces=np.asarray(forces),
-                cube_in_eef=quat_wxyz_matrix(pose[3:]).T @ (cube[:3] - pose[:3]),
+                cube_in_eef=rotation.T @ (cube[:3] - pose[:3]),
+                finger_midpoint_in_eef=rotation.T @ (finger_midpoint - pose[:3]),
+                cube_in_pinch_frame=rotation.T @ (cube[:3] - finger_midpoint),
                 belt_surface_velocity=np.asarray(self.surface.GetSurfaceVelocityAttr().Get()),
             ),
         )

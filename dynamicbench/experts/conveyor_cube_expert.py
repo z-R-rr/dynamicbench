@@ -16,8 +16,12 @@ class ConveyorCubeExpert:
         self.offset = np.asarray(settings["robot"]["tcp_offset_link6"])
         self.grasp_xy = None
         self.lift_xy_mode = self.cfg.get("lift_xy_mode", "track_cube")
+        self.lift_tcp_frame = self.cfg.get("lift_tcp_frame", "nominal")
         if self.lift_xy_mode not in ("fixed", "track_cube"):
             raise ValueError("unknown lift_xy_mode")
+        if self.lift_tcp_frame not in ("nominal", "actual_pinch"):
+            raise ValueError("unknown lift_tcp_frame")
+        self.grasp_relative_offset = None
         self.failure = None
 
     def change(self, phase):
@@ -27,6 +31,7 @@ class ConveyorCubeExpert:
         self.phase_tick += 1
         pos, rot, grip = decode_eef10(obs["eef10"])
         tcp = pos + rot @ self.offset
+        offset = self.offset
         dbg = obs["oracle_debug"]
         cube, velocity = dbg["cube_pose"][:3], dbg["cube_velocity"]
         intercept = cube[:2] + np.clip(velocity[:2], -0.1, 0.1) * self.cfg["intercept_seconds"]
@@ -47,15 +52,20 @@ class ConveyorCubeExpert:
                 opening = -1.0
                 if self.phase_tick >= self.cfg["close_ticks"] and np.all(dbg["finger_contact_forces"] > 0.01):
                     self.grasp_xy = cube[:2].copy()
+                    if self.lift_xy_mode == "track_cube" and self.lift_tcp_frame == "actual_pinch":
+                        self.grasp_relative_offset = rot.T @ (cube - pos) - dbg["finger_midpoint_in_eef"]
                     self.change("lift")
                 elif self.phase_tick > 75:
                     self.failure = "no_bilateral_grasp_contact"
         if self.phase == "lift":
             opening = -1.0
+            if self.lift_xy_mode == "track_cube" and self.lift_tcp_frame == "actual_pinch":
+                offset = dbg["finger_midpoint_in_eef"] + self.grasp_relative_offset
+                tcp = pos + rot @ offset
             xy = cube[:2] if self.lift_xy_mode == "track_cube" else self.grasp_xy
             target = np.r_[xy, self.belt_top + self.cfg["lift_height"]]
         speed = self.cfg["descend_speed"] if self.phase == "descend" else self.cfg["max_tcp_speed"]
         delta = target - tcp
         delta *= min(1.0, speed / 30 / max(np.linalg.norm(delta), 1e-9))
         commanded_tcp = tcp + delta
-        return encode_eef10(commanded_tcp - self.rotation @ self.offset, self.rotation, opening)
+        return encode_eef10(commanded_tcp - self.rotation @ offset, self.rotation, opening)

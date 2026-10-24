@@ -14,6 +14,7 @@ def parser(collect=False, compare_lift=False):
     p.add_argument("--belt-source", choices=["primitive", "robodojo"], default=None)
     p.add_argument("--scene-source", choices=["minimal", "robodojo"], default=None)
     p.add_argument("--lift-xy-mode", choices=["fixed", "track_cube"], default=None)
+    p.add_argument("--lift-tcp-frame", choices=["nominal", "actual_pinch"], default=None)
     if compare_lift:
         p.add_argument("--compare-lift", action="store_true")
     p.add_argument(
@@ -104,6 +105,8 @@ def load_settings(args):
         settings["belt"]["source"] = args.belt_source
     if args.lift_xy_mode is not None:
         settings["expert"]["lift_xy_mode"] = args.lift_xy_mode
+    if args.lift_tcp_frame is not None:
+        settings["expert"]["lift_tcp_frame"] = args.lift_tcp_frame
     if args.scene_source is not None:
         settings.setdefault("scene", {})["source"] = args.scene_source
     if settings.get("scene", {}).get("source") == "robodojo":

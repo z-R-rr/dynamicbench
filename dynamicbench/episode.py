@@ -48,6 +48,7 @@ def run_episode(env, *, test="expert", ticks=600, mode="no_latency", latency=0.2
             belt_speed=env.speed,
             control_error=result["control_error"],
             cube_in_eef=obs["oracle_debug"].get("cube_in_eef"),
+            cube_in_pinch_frame=obs["oracle_debug"].get("cube_in_pinch_frame"),
             belt_surface_velocity=obs["oracle_debug"].get("belt_surface_velocity"),
             **info,
         )
@@ -81,6 +82,7 @@ def run_episode(env, *, test="expert", ticks=600, mode="no_latency", latency=0.2
         real_model_tested=False,
         requests=scheduler.requests,
         lift_xy_mode=expert.lift_xy_mode,
+        lift_tcp_frame=expert.lift_tcp_frame if expert.lift_xy_mode == "track_cube" else "nominal",
         lift_motion=lift_motion(recorder.arrays(), recorder.trace) if test == "expert" else None,
     )
     if test == "belt":
