@@ -145,21 +145,26 @@ owned test process after verifying its command. Exit status alone is not
 acceptance: check acceptance.json/collection_metrics.json and strict readback.
 
 
-## Native fixtures and live lift tracking (2026-10-25)
+## Native fixtures and contact-anchored lifting (2026-10-25)
 
-Current default: scene.source=robodojo, lift_xy_mode=track_cube,
-lift_tcp_frame=actual_pinch. Room/Background settings are read from the original
-conveyor scene; the native Room, Background and Light components create the
-render fixtures. Room collisions are disabled for this visual-only change;
-the existing physical ground is hidden from RGB and retains its collision.
-Required assets now also include Assets/Room/Simple_Room/*.usd and
+Current defaults: scene.source=robodojo and lift_xy_mode=contact_anchor.
+First contact latches the world EEF reference, three consecutive bilateral
+contacts trigger vertical lift, and contact-to-end XY excursion is validated.
+The lift_tcp_frame setting applies only to the legacy track_cube diagnostic.
+
+Room/Background settings are read from the original conveyor scene. Native
+Room, Background and Light components create the render fixtures. Room
+collisions are disabled; the existing physical ground remains hidden from RGB.
+Required assets also include Assets/Room/Simple_Room/*.usd and
 Assets/Background/brown_photostudio_02_4k.hdr (part of the existing asset tree).
 
-Use --scene-source minimal --lift-xy-mode fixed for the earlier visual/controller
-baseline. To reproduce the uncalibrated raw proposal, use --lift-xy-mode track_cube
---lift-tcp-frame nominal; this diagnostic failed seeds 42 and 45. The default
-uses the actual finger midpoint to update the EEF/TCP transform.
+Use --lift-xy-mode track_cube --lift-tcp-frame actual_pinch to reproduce the
+previous controller; it still chases cube velocity during close_gripper. Use
+--lift-xy-mode fixed for the older fixed-lift baseline, which shares that closing
+problem. These are diagnostics, not the recommended expert. --scene-source
+minimal switches only the fixtures. --compare-lift adds three legacy fixed
+reference episodes to the ten core acceptance cases.
 
-Add --compare-lift to validate_mvp for paired fixed/current tests: core 10 cases
-plus three fixed references = 13 cases. Full command, measured results and the
-unit/direction correction are in docs/lift_tracking_scene.md.
+See docs/contact_anchor.md for the current reproduction and motion evidence.
+Isaac Sim 6.1 is assessed in docs/isaacsim61_assessment.md; this checkout's
+validated execution environment remains Python 3.11 + Isaac Sim 5.1.

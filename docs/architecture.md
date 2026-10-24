@@ -108,18 +108,27 @@ On 2026-10-25, the original USD also passed all ten cases and strict readback;
 30 CPU tests passed locally, on server and in CI.
 
 
-## Live lift TCP and native fixtures
+## Contact transition and native fixtures
 
-The default expert tracks current cube XY during lift and calibrates the held
-cube offset relative to the actual finger midpoint at grasp establishment.
-Each tick recomputes the EEF/TCP transform from measured finger positions;
-finite-speed EEF10 commands and physics ownership are unchanged. This prevents
-nominal-TCP feedback from chasing internal jaw motion. Raw nominal tracking and
-fixed XY remain explicit ablations, with failed raw tracking episodes retained.
+The default expert uses `lift_xy_mode=contact_anchor`. Before contact it tracks
+and intercepts the moving cube. On first finger contact above 1 N, it captures
+the measured world link6 pose and stops feeding cube velocity into interception.
+It holds that reference while requiring three consecutive bilateral contact
+observations. It then ramps only the commanded world Z position, at the original
+speed bound, toward a height computed once from the confirmed grasp. XY and
+orientation remain at the latched reference; actual EEF error is not integrated
+into the next reference. IK, finite joint drives and native PhysX execute every
+command; cube state writes are still restricted to reset.
+
+The old fixed/track_cube modes remain explicit diagnostics. Both previously
+shared the faulty close_gripper interception loop, so their low pinch-relative
+slip did not prove that post-contact world motion was reasonable. Acceptance now
+audits from first contact, including close/grasp_settle and the final observation:
+command XY must stay within 1 micrometer, actual EEF XY within 10 mm, and cube XY
+within 20 mm of their contact positions. A physical height/contact success that
+fails this motion gate is saved as a failed demonstration.
 
 Native Room/Background/Light components load the original conveyor scene's
-assets and authored lamp properties. Fixture collisions are disabled and the
-old ground collider is retained but hidden, so the fixed baseline reproduces
-its original physical trajectory under the new rendering. Policy inputs still
-exclude all oracle_debug fields, including new pinch-frame diagnostics.
-See lift_tracking_scene.md and results/lift_comparison.json for evidence.
+assets and authored lamp properties. Policy inputs exclude oracle_debug,
+including pinch-frame diagnostics. See contact_anchor.md for the corrected
+problem definition and evidence, and lift_tracking_scene.md for historical runs.

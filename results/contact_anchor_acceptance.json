@@ -1,0 +1,715 @@
+{
+  "source_commit": "6ba165c86e0e05f552bc3764e39398ff7f871564",
+  "passed": true,
+  "moving_successes": 3,
+  "moving_attempts": 3,
+  "robot_trajectory_separation_m": [
+    0.01313956906337558,
+    0.0068129011238422
+  ],
+  "cases": [
+    {
+      "test": "belt",
+      "success": false,
+      "failure_reason": "diagnostic_only",
+      "seed": 42,
+      "belt_speed": 0.0,
+      "control_ticks": 100,
+      "physics_steps": 1000,
+      "sim_time": 3.3333333333333335,
+      "cube_displacement": [
+        -2.9802322387695312e-05,
+        -2.1960586309432983e-06,
+        0.0
+      ],
+      "max_cube_z": 0.7813423871994019,
+      "mean_cube_speed": -8.940696716308594e-06,
+      "latency_mode": "no_latency",
+      "latency_requested_seconds": 0.25,
+      "latency_quantized_seconds": 0.0,
+      "real_model_tested": false,
+      "requests": [],
+      "lift_xy_mode": "contact_anchor",
+      "lift_tcp_frame": "latched_world_eef",
+      "lift_motion": null,
+      "expected_displacement_x": 0.0,
+      "passed": true,
+      "episode": "belt_static"
+    },
+    {
+      "test": "belt",
+      "success": false,
+      "failure_reason": "diagnostic_only",
+      "seed": 42,
+      "belt_speed": 0.03,
+      "control_ticks": 100,
+      "physics_steps": 1000,
+      "sim_time": 3.3333333333333335,
+      "cube_displacement": [
+        0.09997265040874481,
+        3.1907111406326294e-06,
+        -1.1920928955078125e-07
+      ],
+      "max_cube_z": 0.7813425064086914,
+      "mean_cube_speed": 0.02999179512262344,
+      "latency_mode": "no_latency",
+      "latency_requested_seconds": 0.25,
+      "latency_quantized_seconds": 0.0,
+      "real_model_tested": false,
+      "requests": [],
+      "lift_xy_mode": "contact_anchor",
+      "lift_tcp_frame": "latched_world_eef",
+      "lift_motion": null,
+      "expected_displacement_x": 0.1,
+      "passed": true,
+      "episode": "belt_03"
+    },
+    {
+      "test": "belt",
+      "success": false,
+      "failure_reason": "diagnostic_only",
+      "seed": 42,
+      "belt_speed": 0.06,
+      "control_ticks": 100,
+      "physics_steps": 1000,
+      "sim_time": 3.3333333333333335,
+      "cube_displacement": [
+        0.19997680187225342,
+        2.7026981115341187e-06,
+        -1.1920928955078125e-07
+      ],
+      "max_cube_z": 0.7813424468040466,
+      "mean_cube_speed": 0.05999304056167602,
+      "latency_mode": "no_latency",
+      "latency_requested_seconds": 0.25,
+      "latency_quantized_seconds": 0.0,
+      "real_model_tested": false,
+      "requests": [],
+      "lift_xy_mode": "contact_anchor",
+      "lift_tcp_frame": "latched_world_eef",
+      "lift_motion": null,
+      "expected_displacement_x": 0.2,
+      "passed": true,
+      "episode": "belt_06"
+    },
+    {
+      "test": "expert",
+      "success": true,
+      "failure_reason": null,
+      "seed": 42,
+      "belt_speed": 0.0,
+      "control_ticks": 77,
+      "physics_steps": 770,
+      "sim_time": 2.566666666666667,
+      "cube_displacement": [
+        0.0001217573881149292,
+        0.000845104455947876,
+        0.11368966102600098
+      ],
+      "max_cube_z": 0.8954375386238098,
+      "mean_cube_speed": 4.7437943421400985e-05,
+      "latency_mode": "no_latency",
+      "latency_requested_seconds": 0.25,
+      "latency_quantized_seconds": 0.0,
+      "real_model_tested": false,
+      "requests": [],
+      "lift_xy_mode": "contact_anchor",
+      "lift_tcp_frame": "latched_world_eef",
+      "lift_motion": {
+        "start_tick": 57,
+        "end_observation_tick": 77,
+        "duration_seconds": 0.6666666666666666,
+        "cube_world_delta_m": [
+          6.361305713653564e-05,
+          2.380087971687317e-05,
+          0.11198222637176514
+        ],
+        "cube_in_eef_final_delta_m": [
+          -3.858125818823055e-08,
+          -6.0996593525752265e-05,
+          -1.0362194614182713e-07
+        ],
+        "cube_in_eef_peak_change_m": 0.00018103985209815443,
+        "min_finger_contact_N": [
+          14.908520698547363,
+          14.94510269165039
+        ],
+        "belt_surface_velocity_min_m_s": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "belt_surface_velocity_max_m_s": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "cube_in_pinch_peak_change_m": 2.2380290020380864e-06
+      },
+      "contact_motion": {
+        "first_contact_tick": 55,
+        "lift_start_tick": 57,
+        "contact_to_lift_seconds": 0.06666666666666667,
+        "cube_pre_lift_delta_m": [
+          9.398162364959717e-05,
+          -2.7192756533622742e-05,
+          -6.002187728881836e-05
+        ],
+        "eef_pre_lift_delta_m": [
+          5.066394805908203e-07,
+          -1.9241124391555786e-06,
+          -5.936622619628906e-05
+        ],
+        "cube_contact_xy_peak_m": 0.0007686404860578477,
+        "eef_contact_xy_peak_m": 0.0003664348014558258,
+        "command_contact_xy_peak_m": 0.0,
+        "cube_contact_world_delta_m": [
+          0.0001575946807861328,
+          -3.3918768167495728e-06,
+          0.11192220449447632
+        ],
+        "eef_contact_world_delta_m": [
+          1.475214958190918e-06,
+          8.316710591316223e-06,
+          0.1119227409362793
+        ]
+      },
+      "contact_motion_passed": true,
+      "passed": true,
+      "episode": "static_grasp"
+    },
+    {
+      "test": "expert",
+      "success": true,
+      "failure_reason": null,
+      "seed": 42,
+      "belt_speed": 0.03,
+      "control_ticks": 82,
+      "physics_steps": 820,
+      "sim_time": 2.7333333333333334,
+      "cube_displacement": [
+        0.07077266275882721,
+        0.0005305483937263489,
+        0.11367011070251465
+      ],
+      "max_cube_z": 0.8958439230918884,
+      "mean_cube_speed": 0.025892437594692883,
+      "latency_mode": "no_latency",
+      "latency_requested_seconds": 0.25,
+      "latency_quantized_seconds": 0.0,
+      "real_model_tested": false,
+      "requests": [],
+      "lift_xy_mode": "contact_anchor",
+      "lift_tcp_frame": "latched_world_eef",
+      "lift_motion": {
+        "start_tick": 62,
+        "end_observation_tick": 82,
+        "duration_seconds": 0.6666666666666666,
+        "cube_world_delta_m": [
+          0.0014042407274246216,
+          1.0751187801361084e-05,
+          0.11313289403915405
+        ],
+        "cube_in_eef_final_delta_m": [
+          -2.658286316292724e-06,
+          -0.001404235498450336,
+          -3.326469748570664e-06
+        ],
+        "cube_in_eef_peak_change_m": 0.0020871889575236873,
+        "min_finger_contact_N": [
+          14.977526664733887,
+          14.967501640319824
+        ],
+        "belt_surface_velocity_min_m_s": [
+          0.029999999329447746,
+          0.0,
+          0.0
+        ],
+        "belt_surface_velocity_max_m_s": [
+          0.029999999329447746,
+          0.0,
+          0.0
+        ],
+        "cube_in_pinch_peak_change_m": 9.410716551571147e-06
+      },
+      "contact_motion": {
+        "first_contact_tick": 60,
+        "lift_start_tick": 62,
+        "contact_to_lift_seconds": 0.06666666666666667,
+        "cube_pre_lift_delta_m": [
+          0.005408391356468201,
+          -1.6773119568824768e-05,
+          -3.844499588012695e-05
+        ],
+        "eef_pre_lift_delta_m": [
+          1.4901161193847656e-08,
+          -2.0079314708709717e-06,
+          -3.820657730102539e-05
+        ],
+        "cube_contact_xy_peak_m": 0.007612740155309439,
+        "eef_contact_xy_peak_m": 0.00034214007640639006,
+        "command_contact_xy_peak_m": 0.0,
+        "cube_contact_world_delta_m": [
+          0.006812632083892822,
+          -6.021931767463684e-06,
+          0.11309444904327393
+        ],
+        "eef_contact_world_delta_m": [
+          -1.341104507446289e-06,
+          8.394941687583923e-06,
+          0.11309200525283813
+        ]
+      },
+      "contact_motion_passed": true,
+      "passed": true,
+      "episode": "moving_seed42"
+    },
+    {
+      "test": "expert",
+      "success": true,
+      "failure_reason": null,
+      "seed": 43,
+      "belt_speed": 0.03,
+      "control_ticks": 81,
+      "physics_steps": 810,
+      "sim_time": 2.7,
+      "cube_displacement": [
+        0.0703849196434021,
+        0.0006032604724168777,
+        0.1136709451675415
+      ],
+      "max_cube_z": 0.8955836892127991,
+      "mean_cube_speed": 0.02606848875681559,
+      "latency_mode": "no_latency",
+      "latency_requested_seconds": 0.25,
+      "latency_quantized_seconds": 0.0,
+      "real_model_tested": false,
+      "requests": [],
+      "lift_xy_mode": "contact_anchor",
+      "lift_tcp_frame": "latched_world_eef",
+      "lift_motion": {
+        "start_tick": 61,
+        "end_observation_tick": 81,
+        "duration_seconds": 0.6666666666666666,
+        "cube_world_delta_m": [
+          0.0026653259992599487,
+          1.2034550309181213e-05,
+          0.11288130283355713
+        ],
+        "cube_in_eef_final_delta_m": [
+          -3.072333410458761e-07,
+          -0.0026658771906249755,
+          -3.041633337203388e-06
+        ],
+        "cube_in_eef_peak_change_m": 0.0027361442101046826,
+        "min_finger_contact_N": [
+          14.973898887634277,
+          14.970169067382812
+        ],
+        "belt_surface_velocity_min_m_s": [
+          0.029999999329447746,
+          0.0,
+          0.0
+        ],
+        "belt_surface_velocity_max_m_s": [
+          0.029999999329447746,
+          0.0,
+          0.0
+        ],
+        "cube_in_pinch_peak_change_m": 1.548246508523769e-05
+      },
+      "contact_motion": {
+        "first_contact_tick": 59,
+        "lift_start_tick": 61,
+        "contact_to_lift_seconds": 0.06666666666666667,
+        "cube_pre_lift_delta_m": [
+          0.004886895418167114,
+          -1.909397542476654e-05,
+          -4.124641418457031e-05
+        ],
+        "eef_pre_lift_delta_m": [
+          -2.980232238769531e-07,
+          -2.289190888404846e-06,
+          -4.0411949157714844e-05
+        ],
+        "cube_contact_xy_peak_m": 0.00773107772693038,
+        "eef_contact_xy_peak_m": 0.00035295854733696346,
+        "command_contact_xy_peak_m": 0.0,
+        "cube_contact_world_delta_m": [
+          0.007552221417427063,
+          -7.059425115585327e-06,
+          0.11284005641937256
+        ],
+        "eef_contact_world_delta_m": [
+          -1.519918441772461e-06,
+          7.722526788711548e-06,
+          0.11284059286117554
+        ]
+      },
+      "contact_motion_passed": true,
+      "passed": true,
+      "episode": "moving_seed43"
+    },
+    {
+      "test": "expert",
+      "success": true,
+      "failure_reason": null,
+      "seed": 44,
+      "belt_speed": 0.03,
+      "control_ticks": 81,
+      "physics_steps": 810,
+      "sim_time": 2.7,
+      "cube_displacement": [
+        0.07049591839313507,
+        0.0006220266222953796,
+        0.11367040872573853
+      ],
+      "max_cube_z": 0.8955850601196289,
+      "mean_cube_speed": 0.02610959940486484,
+      "latency_mode": "no_latency",
+      "latency_requested_seconds": 0.25,
+      "latency_quantized_seconds": 0.0,
+      "real_model_tested": false,
+      "requests": [],
+      "lift_xy_mode": "contact_anchor",
+      "lift_tcp_frame": "latched_world_eef",
+      "lift_motion": {
+        "start_tick": 61,
+        "end_observation_tick": 81,
+        "duration_seconds": 0.6666666666666666,
+        "cube_world_delta_m": [
+          0.0028987526893615723,
+          1.5478581190109253e-05,
+          0.11283951997756958
+        ],
+        "cube_in_eef_final_delta_m": [
+          2.241970293581641e-07,
+          -0.0028993773441365325,
+          5.305496002860682e-07
+        ],
+        "cube_in_eef_peak_change_m": 0.002952555907488233,
+        "min_finger_contact_N": [
+          14.982040405273438,
+          14.97763729095459
+        ],
+        "belt_surface_velocity_min_m_s": [
+          0.029999999329447746,
+          0.0,
+          0.0
+        ],
+        "belt_surface_velocity_max_m_s": [
+          0.029999999329447746,
+          0.0,
+          0.0
+        ],
+        "cube_in_pinch_peak_change_m": 1.8260608970571254e-05
+      },
+      "contact_motion": {
+        "first_contact_tick": 59,
+        "lift_start_tick": 61,
+        "contact_to_lift_seconds": 0.06666666666666667,
+        "cube_pre_lift_delta_m": [
+          0.004793792963027954,
+          -1.9084662199020386e-05,
+          -4.184246063232422e-05
+        ],
+        "eef_pre_lift_delta_m": [
+          -3.725290298461914e-07,
+          -2.0992010831832886e-06,
+          -4.112720489501953e-05
+        ],
+        "cube_contact_xy_peak_m": 0.007846537977457047,
+        "eef_contact_xy_peak_m": 0.00034871467945823883,
+        "command_contact_xy_peak_m": 0.0,
+        "cube_contact_world_delta_m": [
+          0.007692545652389526,
+          -3.606081008911133e-06,
+          0.11279767751693726
+        ],
+        "eef_contact_world_delta_m": [
+          -1.6242265701293945e-06,
+          7.977709174156189e-06,
+          0.11279863119125366
+        ]
+      },
+      "contact_motion_passed": true,
+      "passed": true,
+      "episode": "moving_seed44"
+    },
+    {
+      "test": "schedule",
+      "success": false,
+      "failure_reason": "diagnostic_only",
+      "seed": 42,
+      "belt_speed": 0.03,
+      "control_ticks": 100,
+      "physics_steps": 1000,
+      "sim_time": 3.3333333333333335,
+      "cube_displacement": [
+        0.09997265040874481,
+        3.1907111406326294e-06,
+        -1.1920928955078125e-07
+      ],
+      "max_cube_z": 0.7813425064086914,
+      "mean_cube_speed": 0.02999179512262344,
+      "latency_mode": "no_latency",
+      "latency_requested_seconds": 0.25,
+      "latency_quantized_seconds": 0.0,
+      "real_model_tested": false,
+      "requests": [
+        {
+          "chunk_id": 0,
+          "t_observe": 0.0,
+          "t_request": 0.0,
+          "chunk_request_tick": 0,
+          "chunk_available_tick": 0,
+          "t_response_available": 0.0,
+          "inference_wall_ms": 0.23141799829318188,
+          "latency_sim_ms": 0.0,
+          "latency_requested_ms": 250.0
+        },
+        {
+          "chunk_id": 1,
+          "t_observe": 0.5333333333333333,
+          "t_request": 0.5333333333333333,
+          "chunk_request_tick": 16,
+          "chunk_available_tick": 16,
+          "t_response_available": 0.5333333333333333,
+          "inference_wall_ms": 0.23608899937244132,
+          "latency_sim_ms": 0.0,
+          "latency_requested_ms": 250.0
+        },
+        {
+          "chunk_id": 2,
+          "t_observe": 1.0666666666666667,
+          "t_request": 1.0666666666666667,
+          "chunk_request_tick": 32,
+          "chunk_available_tick": 32,
+          "t_response_available": 1.0666666666666667,
+          "inference_wall_ms": 0.11796300168498419,
+          "latency_sim_ms": 0.0,
+          "latency_requested_ms": 250.0
+        },
+        {
+          "chunk_id": 3,
+          "t_observe": 1.6,
+          "t_request": 1.6,
+          "chunk_request_tick": 48,
+          "chunk_available_tick": 48,
+          "t_response_available": 1.6,
+          "inference_wall_ms": 0.15013500160421245,
+          "latency_sim_ms": 0.0,
+          "latency_requested_ms": 250.0
+        },
+        {
+          "chunk_id": 4,
+          "t_observe": 2.1333333333333333,
+          "t_request": 2.1333333333333333,
+          "chunk_request_tick": 64,
+          "chunk_available_tick": 64,
+          "t_response_available": 2.1333333333333333,
+          "inference_wall_ms": 0.12132100164308213,
+          "latency_sim_ms": 0.0,
+          "latency_requested_ms": 250.0
+        },
+        {
+          "chunk_id": 5,
+          "t_observe": 2.6666666666666665,
+          "t_request": 2.6666666666666665,
+          "chunk_request_tick": 80,
+          "chunk_available_tick": 80,
+          "t_response_available": 2.6666666666666665,
+          "inference_wall_ms": 0.10834799832082354,
+          "latency_sim_ms": 0.0,
+          "latency_requested_ms": 250.0
+        },
+        {
+          "chunk_id": 6,
+          "t_observe": 3.2,
+          "t_request": 3.2,
+          "chunk_request_tick": 96,
+          "chunk_available_tick": 96,
+          "t_response_available": 3.2,
+          "inference_wall_ms": 0.11555500168469734,
+          "latency_sim_ms": 0.0,
+          "latency_requested_ms": 250.0
+        }
+      ],
+      "lift_xy_mode": "contact_anchor",
+      "lift_tcp_frame": "latched_world_eef",
+      "lift_motion": null,
+      "episode": "schedule_no_latency",
+      "passed": true
+    },
+    {
+      "test": "schedule",
+      "success": false,
+      "failure_reason": "diagnostic_only",
+      "seed": 42,
+      "belt_speed": 0.03,
+      "control_ticks": 100,
+      "physics_steps": 1000,
+      "sim_time": 3.3333333333333335,
+      "cube_displacement": [
+        0.09997265040874481,
+        3.1907111406326294e-06,
+        -1.1920928955078125e-07
+      ],
+      "max_cube_z": 0.7813425064086914,
+      "mean_cube_speed": 0.02999179512262344,
+      "latency_mode": "sync_hold",
+      "latency_requested_seconds": 0.25,
+      "latency_quantized_seconds": 0.26666666666666666,
+      "real_model_tested": false,
+      "requests": [
+        {
+          "chunk_id": 0,
+          "t_observe": 0.0,
+          "t_request": 0.0,
+          "chunk_request_tick": 0,
+          "chunk_available_tick": 8,
+          "t_response_available": 0.26666666666666666,
+          "inference_wall_ms": 0.18602799900691025,
+          "latency_sim_ms": 266.6666666666667,
+          "latency_requested_ms": 250.0
+        },
+        {
+          "chunk_id": 1,
+          "t_observe": 1.3333333333333333,
+          "t_request": 1.3333333333333333,
+          "chunk_request_tick": 40,
+          "chunk_available_tick": 48,
+          "t_response_available": 1.6,
+          "inference_wall_ms": 0.1702110021142289,
+          "latency_sim_ms": 266.6666666666667,
+          "latency_requested_ms": 250.0
+        },
+        {
+          "chunk_id": 2,
+          "t_observe": 2.6666666666666665,
+          "t_request": 2.6666666666666665,
+          "chunk_request_tick": 80,
+          "chunk_available_tick": 88,
+          "t_response_available": 2.933333333333333,
+          "inference_wall_ms": 0.13812600082019344,
+          "latency_sim_ms": 266.6666666666667,
+          "latency_requested_ms": 250.0
+        }
+      ],
+      "lift_xy_mode": "contact_anchor",
+      "lift_tcp_frame": "latched_world_eef",
+      "lift_motion": null,
+      "episode": "schedule_sync_hold",
+      "passed": true,
+      "cube_displacement_during_initial_latency": 0.007988005876541138
+    },
+    {
+      "test": "schedule",
+      "success": false,
+      "failure_reason": "diagnostic_only",
+      "seed": 42,
+      "belt_speed": 0.03,
+      "control_ticks": 100,
+      "physics_steps": 1000,
+      "sim_time": 3.3333333333333335,
+      "cube_displacement": [
+        0.09997265040874481,
+        3.1907111406326294e-06,
+        -1.1920928955078125e-07
+      ],
+      "max_cube_z": 0.7813425064086914,
+      "mean_cube_speed": 0.02999179512262344,
+      "latency_mode": "rtc_async",
+      "latency_requested_seconds": 0.25,
+      "latency_quantized_seconds": 0.26666666666666666,
+      "real_model_tested": false,
+      "requests": [
+        {
+          "chunk_id": 0,
+          "t_observe": 0.0,
+          "t_request": 0.0,
+          "chunk_request_tick": 0,
+          "chunk_available_tick": 8,
+          "t_response_available": 0.26666666666666666,
+          "inference_wall_ms": 0.13868300084141083,
+          "latency_sim_ms": 266.6666666666667,
+          "latency_requested_ms": 250.0
+        },
+        {
+          "chunk_id": 1,
+          "t_observe": 0.5333333333333333,
+          "t_request": 0.5333333333333333,
+          "chunk_request_tick": 16,
+          "chunk_available_tick": 24,
+          "t_response_available": 0.8,
+          "inference_wall_ms": 0.13212300109444186,
+          "latency_sim_ms": 266.6666666666667,
+          "latency_requested_ms": 250.0
+        },
+        {
+          "chunk_id": 2,
+          "t_observe": 1.0666666666666667,
+          "t_request": 1.0666666666666667,
+          "chunk_request_tick": 32,
+          "chunk_available_tick": 40,
+          "t_response_available": 1.3333333333333333,
+          "inference_wall_ms": 0.15573299970128573,
+          "latency_sim_ms": 266.6666666666667,
+          "latency_requested_ms": 250.0
+        },
+        {
+          "chunk_id": 3,
+          "t_observe": 1.6,
+          "t_request": 1.6,
+          "chunk_request_tick": 48,
+          "chunk_available_tick": 56,
+          "t_response_available": 1.8666666666666667,
+          "inference_wall_ms": 0.09643600060371682,
+          "latency_sim_ms": 266.6666666666667,
+          "latency_requested_ms": 250.0
+        },
+        {
+          "chunk_id": 4,
+          "t_observe": 2.1333333333333333,
+          "t_request": 2.1333333333333333,
+          "chunk_request_tick": 64,
+          "chunk_available_tick": 72,
+          "t_response_available": 2.4,
+          "inference_wall_ms": 0.15550900207017548,
+          "latency_sim_ms": 266.6666666666667,
+          "latency_requested_ms": 250.0
+        },
+        {
+          "chunk_id": 5,
+          "t_observe": 2.6666666666666665,
+          "t_request": 2.6666666666666665,
+          "chunk_request_tick": 80,
+          "chunk_available_tick": 88,
+          "t_response_available": 2.933333333333333,
+          "inference_wall_ms": 0.1803499981178902,
+          "latency_sim_ms": 266.6666666666667,
+          "latency_requested_ms": 250.0
+        },
+        {
+          "chunk_id": 6,
+          "t_observe": 3.2,
+          "t_request": 3.2,
+          "chunk_request_tick": 96,
+          "chunk_available_tick": 104,
+          "t_response_available": 3.466666666666667,
+          "inference_wall_ms": 0.13724099699174985,
+          "latency_sim_ms": 266.6666666666667,
+          "latency_requested_ms": 250.0
+        }
+      ],
+      "lift_xy_mode": "contact_anchor",
+      "lift_tcp_frame": "latched_world_eef",
+      "lift_motion": null,
+      "episode": "schedule_rtc_async",
+      "passed": true,
+      "cube_displacement_during_initial_latency": 0.007988005876541138,
+      "old_chunk_executes_during_prediction": true,
+      "actual_robot_moves_during_prediction": 0.0023320482735539085
+    }
+  ]
+}

@@ -18,8 +18,9 @@ N entries with only the final entry true. No reset settle frames enter training.
   gripper [-1,+1] from mean joint7/8 travel. World is right-handed, Z up.
 - `action.eef10`: [N,10], absolute commanded world link6 pose, same convention.
   This is the wrist/link6 frame. Approach uses nominal local TCP [0.145,0,0];
-  lift can use the measured finger midpoint plus the captured grasp offset.
-  Internal TCP calibration never changes the action frame or EEF10 schema.
+  the contact_anchor default latches world link6 XY/orientation and ramps Z.
+  Legacy track_cube can use the measured finger midpoint and grasp offset.
+  Internal control references never change the action frame or EEF10 schema.
 - `observation.state.qpos/qvel`: [N+1,8], actual joint1..joint8, radians/rad/s
   for six arm joints and meters/m/s for two prismatic fingers.
 - `action.joint_target`: [N,8], actually submitted (possibly rate limited) drive
@@ -54,3 +55,8 @@ EEF-relative displacement includes internal jaw-center motion. Use pinch-relativ
 changes to assess translation within the held grasp; do not equate world motion
 or total path length with slip. Metadata records lift_xy_mode, lift_tcp_frame,
 and scene.source. Old datasets remain readable without these additive fields.
+
+Metadata also records contact_motion from the first finger contact through the
+terminal observation, including the pre-lift interval. contact_anchor requires
+contact_motion_passed as well as the existing height/hold success. These metrics
+do not change raw array indexing or the action coordinate convention.

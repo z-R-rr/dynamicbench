@@ -1,3 +1,5 @@
+> 2026-10-25 接触控制修正：前一轮漏检了 close_gripper 接触后的速度反馈自我追逐，旧版在此阶段移动约 12 cm。当前默认 contact_anchor 已将接触后 EEF 峰值水平偏移降至约 0.35 mm，三个动态 seed 通过；原装 USD 10 项回归和 36 项 CPU 测试通过。详见 docs/contact_anchor.md；6.1 仅评估、未升级。以下历史结果保留原始判据与 SHA。
+
 > 2026-10-25 最新补充：已加入实际夹持中心换算的当前方块 XY 跟踪，并复用原生 Room/Background/Light 渲染。13 项验收、三个动态 seed 和 33 项 CPU 测试通过；原始方案 A 的失败及位移单位复核见 docs/lift_tracking_scene.md。以下早期统计按各自 source_commit 保留。
 
 # DynamicBench MVP 实测报告（2026-10-24，2026-10-25 补充修复）
