@@ -3,7 +3,7 @@
 import json
 from pathlib import Path
 
-from isaaclab.assets import RigidObjectCfg
+from isaaclab.assets import RigidObject, RigidObjectCfg
 from isaaclab.scene import InteractiveSceneCfg
 from isaaclab.sensors import CameraCfg, ContactSensorCfg
 import isaaclab.sim as sim_utils
@@ -21,6 +21,24 @@ from .physics_clock import integral_ratio
 from .poses import decode_eef10, encode_eef10, quat_wxyz_matrix
 
 ROOT = Path(__file__).resolve().parents[2]
+
+
+class TracedRigidObject(RigidObject):
+    """Trace initialization/subscription loss inside this task, not the SDK."""
+
+    def _initialize_callback(self, event):
+        print(f"[DynamicBench] initialize {self.cfg.prim_path}", flush=True)
+        super()._initialize_callback(event)
+        print(
+            f"[DynamicBench] initialized {self.cfg.prim_path}: data={hasattr(self, '_data')}",
+            flush=True,
+        )
+
+    def _on_prim_deletion(self, prim_path):
+        subscribed = self._initialize_handle is not None
+        super()._on_prim_deletion(prim_path)
+        if subscribed and self._initialize_handle is None:
+            print(f"[DynamicBench] callbacks removed for {self.cfg.prim_path} by {prim_path}", flush=True)
 
 
 def audit_assets(asset_root):
@@ -118,6 +136,7 @@ class ConveyorCubeTask(BaseEnv):
         if self.belt_source == "primitive":
             scene.belt = primitive_belt
         scene.cube = RigidObjectCfg(
+            class_type=TracedRigidObject,
             prim_path="{ENV_REGEX_NS}/Cube",
             spawn=sim_utils.CuboidCfg(
                 size=(cc["size"],) * 3,
@@ -288,6 +307,12 @@ class ConveyorCubeTask(BaseEnv):
             "[DynamicBench] rigid objects: " + str({k: v.cfg.prim_path for k, v in sim.scene.rigid_objects.items()}),
             flush=True,
         )
+        for key, obj in sim.scene.rigid_objects.items():
+            print(
+                f"[DynamicBench] before play {key}: initialized={obj.is_initialized} "
+                f"subscribed={obj._initialize_handle is not None}",
+                flush=True,
+            )
 
     def setup_physics(self, sim):
         super().setup_physics(sim)
