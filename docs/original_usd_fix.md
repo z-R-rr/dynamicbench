@@ -64,6 +64,7 @@ initialized /World/envs/env_0/Cube: data=True
 ```bash
 cd /home/ubuntu/Workspace/dynamicbench
 source /home/ubuntu/miniconda3/bin/activate RoboDojo
+unset CUDA_VISIBLE_DEVICES
 export OMP_NUM_THREADS=4 OPENBLAS_NUM_THREADS=1 PXR_WORK_THREAD_LIMIT=8
 bash scripts/dynamicbench/run_isaac.sh validate_mvp --headless --device cuda:3 --belt-source robodojo --num-success 3 --max-attempts 10 --seed 42 --output outputs/acceptance_original_usd_repro --kit_args="--/validate/iommu/enabled=false --/validate/p2p/enabled=false --/plugins/carb.tasking.plugin/threadCount=8"
 python scripts/dynamicbench/inspect_dataset.py outputs/acceptance_original_usd_repro
