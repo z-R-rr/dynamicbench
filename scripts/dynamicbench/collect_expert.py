@@ -11,7 +11,7 @@ def main():
     import json
     import traceback
 
-    from dynamicbench.cli import launch, load_settings, parser
+    from dynamicbench.cli import finish, launch, load_settings, parser
 
     p = parser(collect=True)
     args, launcher, commit = launch(p)
@@ -57,14 +57,14 @@ def main():
             temp.replace(args.output / "collection_metrics.json")
             print(json.dumps(summary), flush=True)
             if successes >= args.num_success:
-                return 0
-        return 2
+                return finish(args, 0)
+        return finish(args, 2)
     except Exception as exc:
         (args.output / "collection_error.json").write_text(
             json.dumps(dict(error=repr(exc), traceback=traceback.format_exc(), completed_attempts=attempts), indent=2)
         )
         traceback.print_exc()
-        return 1
+        return finish(args, 1)
     finally:
         lock.close()
         if env is not None:

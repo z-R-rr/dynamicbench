@@ -13,7 +13,7 @@ def main():
 
     import numpy as np
 
-    from dynamicbench.cli import launch, load_settings, parser
+    from dynamicbench.cli import finish, launch, load_settings, parser
 
     p = parser(collect=True)
     args, launcher, commit = launch(p)
@@ -51,10 +51,10 @@ def main():
         for speed, name in [(0.0, "belt_static"), (0.03, "belt_03"), (0.06, "belt_06")]:
             result, _, _ = case(name, "belt", speed, args.seed)
             if not result["passed"]:
-                return 2
+                return finish(args, 2)
         result, _, _ = case("static_grasp", "expert", 0.0, args.seed)
         if not result["passed"]:
-            return 2
+            return finish(args, 2)
         successes = 0
         for i in range(args.max_attempts):
             result, _, _ = case(f"moving_seed{args.seed + i}", "expert", 0.03, args.seed + i)
@@ -63,9 +63,9 @@ def main():
                 break
             # Stop early on repeated identical grasp failures; retain every failed attempt.
             if i >= 2 and successes == 0:
-                return 2
+                return finish(args, 2)
         if successes < args.num_success:
-            return 2
+            return finish(args, 2)
         schedule = {}
         for mode in ("no_latency", "sync_hold", "rtc_async"):
             result, arrays, trace = case(f"schedule_{mode}", "schedule", 0.03, args.seed, mode)
@@ -104,13 +104,13 @@ def main():
             cases=cases,
         )
         (args.output / "acceptance.json").write_text(json.dumps(summary, indent=2))
-        return 0 if summary["passed"] else 2
+        return finish(args, 0 if summary["passed"] else 2)
     except Exception as exc:
         (args.output / "acceptance_error.json").write_text(
             json.dumps(dict(error=repr(exc), traceback=traceback.format_exc(), cases=cases), indent=2)
         )
         traceback.print_exc()
-        return 1
+        return finish(args, 1)
     finally:
         if env is not None:
             env.close()

@@ -9,7 +9,7 @@ def main():
     import json
     import traceback
 
-    from dynamicbench.cli import launch, load_settings, parser
+    from dynamicbench.cli import finish, launch, load_settings, parser
 
     args, launcher, commit = launch(parser())
     env = None
@@ -27,13 +27,13 @@ def main():
         )
         (args.output / "metrics.json").write_text(json.dumps(metrics, indent=2))
         print(json.dumps(dict(metrics=metrics, episode=entry)), flush=True)
-        return 0 if metrics.get("passed", metrics["success"]) or args.test == "schedule" else 2
+        return finish(args, 0 if metrics.get("passed", metrics["success"]) or args.test == "schedule" else 2)
     except Exception as exc:
         (args.output / "error.json").write_text(
             json.dumps(dict(status="ERROR", error=repr(exc), traceback=traceback.format_exc()), indent=2)
         )
         traceback.print_exc()
-        return 1
+        return finish(args, 1)
     finally:
         if env is not None:
             env.close()

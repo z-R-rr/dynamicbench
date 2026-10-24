@@ -74,3 +74,20 @@ def load_settings(args):
     if args.belt_source is not None:
         settings["belt"]["source"] = args.belt_source
     return settings
+
+
+def finish(args, status):
+    """Persist status and give Kit the same return code before its shutdown.
+
+    Some Kit builds terminate from close() before Python's SystemExit runs.
+    A failed physical acceptance must still report a nonzero exit code.
+    """
+    import json
+
+    import omni.kit.app
+
+    temp = args.output / ".exit_status.tmp"
+    temp.write_text(json.dumps({"exit_code": status}))
+    temp.replace(args.output / "exit_status.json")
+    omni.kit.app.get_app().post_quit(status)
+    return status
