@@ -207,6 +207,14 @@ class ConveyorCubeTask(BaseEnv):
                 convention="opengl",
             ),
         )
+        if ISAAC61:
+            from isaaclab_physx.renderers import IsaacRtxRendererCfg, IsaacRtxRendererGlobalSettingsCfg
+
+            renderer = IsaacRtxRendererCfg(
+                global_settings=IsaacRtxRendererGlobalSettingsCfg(antialiasing_mode="TAA")
+            )
+            scene.head.renderer_cfg = renderer
+            scene.wrist.renderer_cfg = renderer.copy()
         super().__init__(cfg, app, interactiveSceneCfg=scene)
         self.launch_sim(cfg)
         self.robot = self.sim.scene["robot0"]
