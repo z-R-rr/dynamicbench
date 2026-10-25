@@ -85,8 +85,11 @@ def run_episode(env, *, test="expert", ticks=600, mode="no_latency", latency=0.2
         requests=scheduler.requests,
         lift_xy_mode=expert.lift_xy_mode,
         lift_tcp_frame=(
-            "latched_world_eef" if expert.lift_xy_mode == "contact_anchor"
-            else expert.lift_tcp_frame if expert.lift_xy_mode == "track_cube" else "nominal"
+            "latched_world_eef"
+            if expert.lift_xy_mode == "contact_anchor"
+            else expert.lift_tcp_frame
+            if expert.lift_xy_mode == "track_cube"
+            else "nominal"
         ),
         lift_motion=lift_motion(recorder.arrays(), recorder.trace) if test == "expert" else None,
     )
@@ -100,8 +103,8 @@ def run_episode(env, *, test="expert", ticks=600, mode="no_latency", latency=0.2
             motion_passed = bool(
                 motion is not None
                 and motion["lift_start_tick"] is not None
-                and motion["eef_contact_xy_peak_m"] <= cfg.get("max_contact_eef_xy_excursion", .01)
-                and motion["cube_contact_xy_peak_m"] <= cfg.get("max_contact_cube_xy_excursion", .02)
+                and motion["eef_contact_xy_peak_m"] <= cfg.get("max_contact_eef_xy_excursion", 0.01)
+                and motion["cube_contact_xy_peak_m"] <= cfg.get("max_contact_cube_xy_excursion", 0.02)
                 and motion["command_contact_xy_peak_m"] is not None
                 and motion["command_contact_xy_peak_m"] < 1e-6
             )
@@ -124,8 +127,11 @@ def run_episode(env, *, test="expert", ticks=600, mode="no_latency", latency=0.2
 
 
 def metadata(env, metrics, commit):
+    from dynamicbench.envs.runtime import runtime_metadata
+
     cfg = env.settings["expert"]
     return dict(
+        runtime=runtime_metadata(),
         **metrics,
         task="pick_cube_from_conveyor",
         source_commit=commit,

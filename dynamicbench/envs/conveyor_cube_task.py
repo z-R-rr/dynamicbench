@@ -13,13 +13,27 @@ from pxr import Gf, PhysxSchema, Usd, UsdGeom, UsdPhysics
 import torch
 
 from env.camera_manager.capture.render_sync import wait_for_latest_cameras
-from env.environment.base_env import BaseEnv
 from env.robot_manager.robot_config.x5 import get_robot_config
 
 from .kinematics import URDFArmIK
 from .physics_clock import integral_ratio
 from .poses import decode_eef10, encode_eef10, quat_wxyz_matrix
+from .runtime import (
+    ISAAC61,
+    joint_state,
+    lab_quaternion,
+    position_target,
+    public_pose,
+    root_state,
+    tensor,
+    velocity_target,
+)
 from .scene_paths import CUBE_PRIM_PATH
+
+if ISAAC61:
+    from .base_env61 import BaseEnv61 as BaseEnv
+else:
+    from env.environment.base_env import BaseEnv
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -94,7 +108,7 @@ class ConveyorCubeTask(BaseEnv):
         robot_cfg.spawn.activate_contact_sensors = True
         robot_cfg.actuators["gripper"].effort_limit_sim = rc["gripper_effort"]
         robot_cfg.init_state.pos = tuple(rc["base_position"])
-        robot_cfg.init_state.rot = tuple(rc["base_quaternion_wxyz"])
+        robot_cfg.init_state.rot = lab_quaternion(rc["base_quaternion_wxyz"])
         for i, q in enumerate(rc["initial_q"]):
             robot_cfg.init_state.joint_pos[f"joint{i + 1}"] = q
         scene.robot0 = robot_cfg.replace(prim_path="{ENV_REGEX_NS}/robot0")
@@ -158,7 +172,7 @@ class ConveyorCubeTask(BaseEnv):
             ),
             offset=CameraCfg.OffsetCfg(
                 pos=tuple(cam["head_position"]),
-                rot=tuple(cam["head_quaternion_wxyz"]),
+                rot=lab_quaternion(cam["head_quaternion_wxyz"]),
                 convention="opengl",
             ),
         )
@@ -188,7 +202,9 @@ class ConveyorCubeTask(BaseEnv):
                 focal_length=12, focus_distance=0.15, horizontal_aperture=20.955, clipping_range=(0.01, 5)
             ),
             offset=CameraCfg.OffsetCfg(
-                pos=tuple(wrist_pos), rot=camera_quaternion(wrist_pos, cam["wrist_target_link6"]), convention="opengl"
+                pos=tuple(wrist_pos),
+                rot=lab_quaternion(camera_quaternion(wrist_pos, cam["wrist_target_link6"])),
+                convention="opengl",
             ),
         )
         super().__init__(cfg, app, interactiveSceneCfg=scene)
@@ -207,7 +223,7 @@ class ConveyorCubeTask(BaseEnv):
             quat_wxyz_matrix(rc["base_quaternion_wxyz"]),
             self.arm_names,
         )
-        self.target = self.robot.data.default_joint_pos[0].numpy().copy()
+        self.target = tensor(self.robot.data.default_joint_pos)[0].numpy().copy()
         self.contact_sensors = [self.sim.scene["finger_left"], self.sim.scene["finger_right"]]
         self.reset(seed)
 
@@ -312,11 +328,15 @@ class ConveyorCubeTask(BaseEnv):
         self.seed_value = self.seed_value if seed is None else int(seed)
         self.generation += 1
         self.sim.reset()
-        q = self.robot.data.default_joint_pos.clone()
-        self.robot.write_joint_state_to_sim(q, torch.zeros_like(q))  # reset only
+        q = tensor(self.robot.data.default_joint_pos).clone()
+        joint_state(self.robot, q, torch.zeros_like(q))  # reset only
         self.target = q[0].numpy().copy()
-        self.robot.set_joint_position_target(q)
-        state = self.cube.data.default_root_state.clone()
+        position_target(self.robot, q)
+        state = (
+            torch.cat([tensor(self.cube.data.default_root_pose), tensor(self.cube.data.default_root_vel)], dim=-1)
+            if ISAAC61
+            else self.cube.data.default_root_state
+        ).clone()
         rng = np.random.default_rng(self.seed_value)
         state[0, :3] = torch.tensor(
             self.cube_start
@@ -325,14 +345,14 @@ class ConveyorCubeTask(BaseEnv):
             ]
         )
         state[0, 7:] = 0
-        self.cube.write_root_state_to_sim(state)  # reset only, never during grasp
+        root_state(self.cube, state)  # reset only, never during grasp
         self.surface.GetSurfaceVelocityAttr().Set(Gf.Vec3f(0, 0, 0))
         for _ in range(150):
             self.sim_step(render=False)
         for sensor in self.contact_sensors:
             sensor.reset()
-        actual = self.robot.data.body_link_pose_w[0, self.eef_id].numpy()
-        predicted = self.ik.fk(self.robot.data.joint_pos[0, self.arm_ids].numpy())
+        actual = public_pose(self.robot.data.body_link_pose_w)[0, self.eef_id]
+        predicted = self.ik.fk(tensor(self.robot.data.joint_pos)[0, self.arm_ids].numpy())
         if np.linalg.norm(actual[:3] - predicted[:3, 3]) > 0.005:
             raise RuntimeError(f"URDF_USD_FK_mismatch:{actual[:3]}:{predicted[:3, 3]}")
         angle = np.linalg.norm(
@@ -344,7 +364,7 @@ class ConveyorCubeTask(BaseEnv):
             raise RuntimeError(f"URDF_USD_rotation_mismatch:{angle}")
         self.before_physics_step()
         self.success_count = 0
-        self.max_cube_z = float(self.cube.data.root_pos_w[0, 2])
+        self.max_cube_z = float(tensor(self.cube.data.root_pos_w)[0, 2])
 
     def before_physics_step(self):
         v = np.asarray(self.settings["belt"]["direction"]) * self.speed
@@ -354,12 +374,12 @@ class ConveyorCubeTask(BaseEnv):
         super().sim_step(render=render)
 
     def actual_joint_target(self):
-        return self.robot.data.joint_pos[0].numpy().copy()
+        return tensor(self.robot.data.joint_pos)[0].numpy().copy()
 
     def solve_target(self, action):
         pos, rot, grip = decode_eef10(action)
-        q = self.robot.data.joint_pos[0, self.arm_ids].numpy()
-        limits = self.robot.data.soft_joint_pos_limits[0, self.arm_ids].numpy()
+        q = tensor(self.robot.data.joint_pos)[0, self.arm_ids].numpy()
+        limits = tensor(self.robot.data.soft_joint_pos_limits)[0, self.arm_ids].numpy()
         solution = self.ik.solve(pos, rot, q, (limits[:, 0], limits[:, 1]))
         if solution is None:
             return None, "ik_failure"
@@ -377,33 +397,40 @@ class ConveyorCubeTask(BaseEnv):
 
     def set_joint_target(self, q):
         self.target = np.asarray(q).copy()
-        self.robot.set_joint_position_target(torch.tensor(q, dtype=torch.float32).unsqueeze(0))
-        self.robot.set_joint_velocity_target(torch.zeros((1, len(q))))
+        position_target(self.robot, torch.tensor(q, dtype=torch.float32).unsqueeze(0))
+        velocity_target(self.robot, torch.zeros((1, len(q))))
 
     def observe(self):
         # Rendering/dispatch can take wall time but cannot advance physics.
         step = self.physics_step
         wait_for_latest_cameras(self)
         self.head.update(0, force_recompute=True)
-        image = self.head.data.output["rgb"][0, :, :, :3].cpu().numpy().copy()
+        image = tensor(self.head.data.output["rgb"])[0, :, :, :3].cpu().numpy().copy()
         self.wrist.update(0, force_recompute=True)
-        wrist_image = self.wrist.data.output["rgb"][0, :, :, :3].cpu().numpy().copy()
+        wrist_image = tensor(self.wrist.data.output["rgb"])[0, :, :, :3].cpu().numpy().copy()
         if image.dtype != np.uint8 or image.size == 0 or image.shape[-1] != 3:
             raise RuntimeError("render_resource_unavailable")
         if self.physics_step != step:
             raise RuntimeError("render_advanced_physics")
-        qpos = self.robot.data.joint_pos[0].numpy().copy()
-        pose = self.robot.data.body_link_pose_w[0, self.eef_id].numpy().copy()
+        qpos = tensor(self.robot.data.joint_pos)[0].numpy().copy()
+        pose = public_pose(self.robot.data.body_link_pose_w)[0, self.eef_id]
         lo, hi = self.settings["robot"]["gripper_range"]
         grip = float(np.clip((qpos[self.grip_ids].mean() - lo) / (hi - lo) * 2 - 1, -1, 1))
-        forces = [float(s.data.force_matrix_w.norm().item()) for s in self.contact_sensors]
-        cube = self.cube.data.root_state_w[0].numpy().copy()
+        forces = [
+            float(tensor(s.data.normal_force_matrix_w if ISAAC61 else s.data.force_matrix_w).norm().item())
+            for s in self.contact_sensors
+        ]
+        cube = (
+            np.r_[public_pose(self.cube.data.root_link_pose_w)[0], tensor(self.cube.data.root_com_vel_w)[0].numpy()]
+            if ISAAC61
+            else self.cube.data.root_state_w[0].numpy().copy()
+        )
         rotation = quat_wxyz_matrix(pose[3:])
-        finger_midpoint = self.robot.data.body_link_pos_w[0, self.finger_ids].mean(dim=0).numpy().copy()
+        finger_midpoint = tensor(self.robot.data.body_link_pos_w)[0, self.finger_ids].mean(dim=0).numpy().copy()
         return dict(
             eef10=encode_eef10(pose[:3], quat_wxyz_matrix(pose[3:]), grip),
             qpos=qpos,
-            qvel=self.robot.data.joint_vel[0].numpy().copy(),
+            qvel=tensor(self.robot.data.joint_vel)[0].numpy().copy(),
             head=image,
             wrist=wrist_image,
             oracle_debug=dict(
