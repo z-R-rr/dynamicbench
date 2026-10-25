@@ -31,9 +31,14 @@ def spawn_scene(cfg, stage):
     from pxr import Gf, Usd, UsdGeom, UsdPhysics
     from scipy.spatial.transform import Rotation
 
-    from env.scene_manager.objects.background import Background
-    from env.scene_manager.objects.light import Light
-    from env.scene_manager.objects.room import Room
+    from dynamicbench.envs.runtime import ISAAC61
+
+    if ISAAC61:
+        from dynamicbench.envs.fixtures61 import Background, Light, Room
+    else:
+        from env.scene_manager.objects.background import Background
+        from env.scene_manager.objects.light import Light
+        from env.scene_manager.objects.room import Room
 
     root = "/World/envs/env_0/Room"
     room = Room(prim_path=root, usd_path=cfg["room"]["usd_path"], instance_config=cfg["room"])
@@ -85,6 +90,7 @@ def spawn_scene(cfg, stage):
     background = Background("/World/Background", OmegaConf.create(cfg["background"]))
     audit = dict(
         components=["Room", "Background", "Light"],
+        component_backend="USD adapters (Sim 6.1)" if ISAAC61 else "RoboDojo component classes",
         room=cfg["room"],
         background=cfg["background"],
         lights=light_cfgs,
