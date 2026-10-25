@@ -68,14 +68,16 @@ def launch(p):
 
         torch.cuda.set_device(args.device)
         print(f"[DynamicBench] initial CUDA context: {torch.cuda.current_device()}", flush=True)
-    # Native Isaac Lab Camera render products can deadlock at their first warmup
-    # with both idle waits enabled in the older server build. Keep rendering
-    # asynchronous and fence two delivered frames at the same frozen physics
-    # state in wait_for_latest_cameras instead. Never advance physics to render.
+    from dynamicbench.envs.runtime import ISAAC61
+
+    # Lab 3's native RTX camera pipeline needs synchronous delivery, especially
+    # after reset. The older 5.1 build deadlocks with idle waits and instead
+    # uses the two-delivery fence in render_sync.
+    idle = "true" if ISAAC61 else "false"
     kit_defaults = {
         "/renderer/multiGpu/enabled": "false",
-        "/app/renderer/waitIdle": "false",
-        "/app/hydraEngine/waitIdle": "false",
+        "/app/renderer/waitIdle": idle,
+        "/app/hydraEngine/waitIdle": idle,
     }
     for key, value in kit_defaults.items():
         if f"--{key}=" not in (args.kit_args or ""):
