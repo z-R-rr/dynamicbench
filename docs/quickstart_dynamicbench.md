@@ -10,8 +10,9 @@ The conveyor task has an independent Python 3.12 / Isaac Sim 6.1 / Lab 3
 adapter. See [the migration record](isaacsim61_migration.md) for the pinned
 installer, task commands and current acceptance status. Use
 `run_isaac61.sh` for that environment; `run_isaac.sh` continues to use the
-currently activated Python. The 6.1 physics suite passed, but the final
-cross-reset image validation is still pending after a server connection loss.
+currently activated Python. The 6.1 physics suite, strict data readback and
+cross-reset image validation have passed. The three accepted moving episodes
+retain their actual 6.1 runtime and source metadata.
 
 ## Existing Isaac Sim 5.1 installation
 
