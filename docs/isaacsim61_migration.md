@@ -20,7 +20,18 @@ The [migration guide](https://isaac-sim.github.io/IsaacLab/v3.0.0-EA/source/migr
 explains the quaternion, ProxyArray, backend, and indexed-write changes.
 The pinned source and frozen lock file are authoritative for installation.
 
-From this repository's root, with Conda available:
+On the tested server, the checkout and complete asset tree already exist.
+For a fresh checkout, with Git LFS and Conda available:
+
+```bash
+git clone -b feat/conveyor-rtc-expert-mvp https://github.com/z-R-rr/dynamicbench.git /home/ubuntu/Workspace/dynamicbench
+cd /home/ubuntu/Workspace/dynamicbench
+# Reuse the server's complete assets; choose init_assets.sh instead on a new host.
+ln -s /home/ubuntu/Workspace/RoboDojo/Assets Assets
+# Alternative asset download: bash scripts/init_assets.sh
+```
+
+Then, from the repository root:
 
 ```bash
 bash scripts/dynamicbench/prepare_isaac61.sh
@@ -30,6 +41,25 @@ Installation is isolated under `outputs/envs/dynamicbench61`, with the matching
 vendor source in `outputs/deps/IsaacLab61`. `outputs/envs/isaacsim61` is only the
 Python/uv bootstrap. Assets continue to use the existing `Assets` tree.
 Neither the old Conda environment nor the GPU driver is upgraded by this script.
+The tested host also uses repository-local `libGLU`/`libOpenGL` extracted by the
+earlier 5.1 preparation. On Ubuntu, if `ldconfig -p` does not show `libGLU.so.1`,
+prepare the same libraries without changing Python packages:
+
+```bash
+mkdir -p outputs/deps
+cd outputs/deps
+apt-get download libglu1-mesa libopengl0
+dpkg-deb -x libglu1-mesa_*.deb root
+dpkg-deb -x libopengl0_*.deb root
+cd ../..
+```
+
+The launcher adds that local library directory. Do not run the old
+`prepare_server.sh` in the 6.1 environment: its 5.1 requirements pin NumPy below
+2, while this frozen 6.1 environment uses NumPy 2.5.1. The new installer supplies
+the task's extra Python dependencies separately. Full scene assets also require
+`Assets/Room/Simple_Room` and `Assets/Background/brown_photostudio_02_4k.hdr`;
+the shared server tree contains both.
 
 ## Adapter behavior
 
