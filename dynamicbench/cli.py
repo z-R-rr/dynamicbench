@@ -43,6 +43,9 @@ def parser(collect=False, compare_lift=False):
     from isaaclab.app import AppLauncher
 
     AppLauncher.add_app_launcher_args(p)
+    # Lab 3 removed this CLI flag; keep the public DynamicBench command stable.
+    if "--headless" not in p._option_string_actions:
+        p.add_argument("--headless", action="store_true")
     return p
 
 
