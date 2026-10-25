@@ -6,7 +6,7 @@ from isaaclab.scene import InteractiveScene
 from isaaclab.sim import SimulationCfg, SimulationContext
 from isaaclab.sim.utils import get_current_stage
 from isaaclab_physx.physics import PhysxCfg
-from omni.physx import acquire_physx_interface
+from omni.physx import get_physx_interface
 
 
 class BaseEnv61:
@@ -41,7 +41,7 @@ class BaseEnv61:
         self.setup_physics(sim)
 
     def setup_physics(self, sim):
-        self.physics_interface = acquire_physx_interface()
+        self.physics_interface = get_physx_interface()
         self.physics_interface.overwrite_gpu_setting(0)
 
     def _physics_tick(self, dt):
