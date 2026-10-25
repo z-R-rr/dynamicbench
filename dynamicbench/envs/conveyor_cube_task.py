@@ -211,7 +211,9 @@ class ConveyorCubeTask(BaseEnv):
             from isaaclab_physx.renderers import IsaacRtxRendererCfg, IsaacRtxRendererGlobalSettingsCfg
 
             renderer = IsaacRtxRendererCfg(
-                global_settings=IsaacRtxRendererGlobalSettingsCfg(antialiasing_mode="TAA")
+                global_settings=IsaacRtxRendererGlobalSettingsCfg(
+                    antialiasing_mode="DLAA", enable_dl_denoiser=True, samples_per_pixel=4
+                )
             )
             scene.head.renderer_cfg = renderer
             scene.wrist.renderer_cfg = renderer.copy()
