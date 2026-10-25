@@ -4,7 +4,16 @@ Fork: https://github.com/z-R-rr/dynamicbench
 Branch: feat/conveyor-rtc-expert-mvp. Original RoboDojo LICENSE/README retained.
 Only the independent entrypoints below use the new timing and scene.
 
-## Install
+## Isaac Sim 6.1 environment
+
+The conveyor task has an independent Python 3.12 / Isaac Sim 6.1 / Lab 3
+adapter. See [the migration record](isaacsim61_migration.md) for the pinned
+installer, task commands and current acceptance status. Use
+`run_isaac61.sh` for that environment; `run_isaac.sh` continues to use the
+currently activated Python. The 6.1 physics suite passed, but the final
+cross-reset image validation is still pending after a server connection loss.
+
+## Existing Isaac Sim 5.1 installation
 
 The tested server root is `/home/ubuntu/Workspace/dynamicbench` (no nested repo).
 Use the existing Isaac environment, Python 3.11 and Isaac Sim 5.1.0. The report
@@ -165,6 +174,7 @@ problem. These are diagnostics, not the recommended expert. --scene-source
 minimal switches only the fixtures. --compare-lift adds three legacy fixed
 reference episodes to the ten core acceptance cases.
 
-See docs/contact_anchor.md for the current reproduction and motion evidence.
-Isaac Sim 6.1 is assessed in docs/isaacsim61_assessment.md; this checkout's
-validated execution environment remains Python 3.11 + Isaac Sim 5.1.
+See docs/contact_anchor.md for the 5.1 reproduction and motion evidence.
+The subsequent 6.1 installation, adapter and validation status are recorded in
+docs/isaacsim61_migration.md. The assessment page is retained as historical
+upgrade planning.

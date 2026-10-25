@@ -85,6 +85,7 @@ def launch(p):
     add_zero_delay_kit_args(args)
     args.output.mkdir(parents=True, exist_ok=True)
     commit = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
+
     # SimulationApp's multi_gpu launch config otherwise defaults to True and
     # can override the renderer setting while enumerating unrelated busy GPUs.
     class SingleGpuLauncher(AppLauncher):
