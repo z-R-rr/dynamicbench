@@ -26,7 +26,7 @@ def resolve_robodojo_layout(settings, root):
     orientation = camera["ori"]
     if len(orientation) == 3:
         orientation = Rotation.from_euler("xyz", orientation, degrees=True).as_quat()[[3, 0, 1, 2]].tolist()
-    result["camera"].update(
+    result.setdefault("camera", {}).update(
         head_position=list(camera["pos"]),
         head_quaternion_wxyz=list(orientation),
         width=lens["resolution"][0],

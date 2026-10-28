@@ -107,6 +107,12 @@ def load_settings(args):
         from dynamicbench.layout import resolve_robodojo_layout
 
         settings = resolve_robodojo_layout(settings, ROOT)
+        from dynamicbench.robot_sources import resolve_robot_asset_config
+
+        settings = resolve_robot_asset_config(settings, ROOT)
+    from dynamicbench.rendering import resolve_render_settings
+
+    settings["render"] = resolve_render_settings(ROOT)
     if args.belt_source is not None:
         settings["belt"]["source"] = args.belt_source
     if args.lift_xy_mode is not None:

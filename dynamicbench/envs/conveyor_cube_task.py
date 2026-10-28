@@ -64,18 +64,6 @@ def audit_assets(asset_root):
     )
 
 
-def camera_quaternion(position, target):
-    z = np.asarray(position, float) - target
-    z /= np.linalg.norm(z)
-    x = np.cross([0, 0, 1], z)
-    x /= np.linalg.norm(x)
-    y = np.cross(z, x)
-    from scipy.spatial.transform import Rotation
-
-    q = Rotation.from_matrix(np.column_stack([x, y, z])).as_quat()
-    return tuple(q[[3, 0, 1, 2]])
-
-
 class ConveyorCubeTask(BaseEnv):
     def __init__(self, settings, app, seed=42, belt_speed=None):
         self.settings = settings
@@ -99,7 +87,7 @@ class ConveyorCubeTask(BaseEnv):
                 use_fabric=False,
                 scene=dict(num_envs=1, env_spacing=7),
                 physx=dict(enable_ccd=True, enable_stabilization=True),
-                render=dict(antialiasing_mode="TAA"),
+                render=settings["render"]["defaults"],
             )
         )
         scene = InteractiveSceneCfg(num_envs=1, env_spacing=7, replicate_physics=False)
@@ -109,8 +97,8 @@ class ConveyorCubeTask(BaseEnv):
         robot_cfg.actuators["gripper"].effort_limit_sim = rc["gripper_effort"]
         robot_cfg.init_state.pos = tuple(rc["base_position"])
         robot_cfg.init_state.rot = lab_quaternion(rc["base_quaternion_wxyz"])
-        for i, q in enumerate(rc["initial_q"]):
-            robot_cfg.init_state.joint_pos[f"joint{i + 1}"] = q
+        for name, q in zip(rc["arm_joint_names"], rc["initial_q"], strict=True):
+            robot_cfg.init_state.joint_pos[name] = q
         scene.robot0 = robot_cfg.replace(prim_path="{ENV_REGEX_NS}/robot0")
         bc, cc = settings["belt"], settings["cube"]
         self.belt_top = bc["center"][2] + bc["size"][2] / 2
@@ -188,33 +176,32 @@ class ConveyorCubeTask(BaseEnv):
             history_length=1,
             filter_prim_paths_expr=[CUBE_PRIM_PATH],
         )
-        # The original X5 includes a camera housing behind x=.084. A lens at
-        # x=.04 sees that housing, even though it is outside the palm collider.
-        # Place the new camera forward of it, above the .03-m finger mesh.
-        wrist_pos = cam["wrist_position_link6"]
+        wrist = cam["wrist"]
+        wrist_lens = wrist["lens"]
         scene.wrist = CameraCfg(
-            prim_path="{ENV_REGEX_NS}/robot0/link6/DynamicBenchWrist",
+            prim_path="{ENV_REGEX_NS}/robot0/" + wrist["mount_link"] + "/DynamicBenchWrist",
             update_period=0,
-            height=cam["height"],
-            width=cam["width"],
+            height=wrist_lens["resolution"][1],
+            width=wrist_lens["resolution"][0],
             data_types=["rgb"],
             spawn=sim_utils.PinholeCameraCfg(
-                focal_length=12, focus_distance=0.15, horizontal_aperture=20.955, clipping_range=(0.01, 5)
+                focal_length=wrist_lens["focal_length"],
+                horizontal_aperture=wrist_lens["horizontal_aperture"],
+                vertical_aperture=wrist_lens["vertical_aperture"],
+                clipping_range=tuple(wrist_lens["clipping_range"]),
             ),
             offset=CameraCfg.OffsetCfg(
-                pos=tuple(wrist_pos),
-                rot=lab_quaternion(camera_quaternion(wrist_pos, cam["wrist_target_link6"])),
+                pos=tuple(wrist["position"]),
+                rot=lab_quaternion(wrist["quaternion_wxyz"]),
                 convention="opengl",
             ),
         )
         if ISAAC61:
-            from isaaclab_physx.renderers import IsaacRtxRendererCfg, IsaacRtxRendererGlobalSettingsCfg
+            from isaaclab_physx.renderers import IsaacRtxRendererCfg
 
-            renderer = IsaacRtxRendererCfg(
-                global_settings=IsaacRtxRendererGlobalSettingsCfg(
-                    antialiasing_mode="DLAA", enable_dl_denoiser=True, samples_per_pixel=4
-                )
-            )
+            from dynamicbench.rendering import isaac61_global_settings
+
+            renderer = IsaacRtxRendererCfg(global_settings=isaac61_global_settings(settings["render"]))
             scene.head.renderer_cfg = renderer
             scene.wrist.renderer_cfg = renderer.copy()
         super().__init__(cfg, app, interactiveSceneCfg=scene)
@@ -223,12 +210,12 @@ class ConveyorCubeTask(BaseEnv):
         self.cube = self.sim.scene["cube"]
         self.head = self.sim.scene["head"]
         self.wrist = self.sim.scene["wrist"]
-        self.arm_ids, self.arm_names = self.robot.find_joints([f"joint{i}" for i in range(1, 7)], preserve_order=True)
-        self.grip_ids, _ = self.robot.find_joints(["joint7", "joint8"], preserve_order=True)
-        self.eef_id = self.robot.body_names.index("link6")
-        self.finger_ids = [self.robot.body_names.index(x) for x in ("link7", "link8")]
+        self.arm_ids, self.arm_names = self.robot.find_joints(rc["arm_joint_names"], preserve_order=True)
+        self.grip_ids, _ = self.robot.find_joints(rc["gripper_joint_names"], preserve_order=True)
+        self.eef_id = self.robot.body_names.index(rc["eef_link"])
+        self.finger_ids = [self.robot.body_names.index(x) for x in rc["finger_links"]]
         self.ik = URDFArmIK(
-            ROOT / "Assets/Robots/x5/X5A.urdf",
+            Path(rc["urdf_path"]),
             rc["base_position"],
             quat_wxyz_matrix(rc["base_quaternion_wxyz"]),
             self.arm_names,
@@ -236,6 +223,11 @@ class ConveyorCubeTask(BaseEnv):
         self.target = tensor(self.robot.data.default_joint_pos)[0].numpy().copy()
         self.contact_sensors = [self.sim.scene["finger_left"], self.sim.scene["finger_right"]]
         self.reset(seed)
+        from dynamicbench.rendering import audit_render_settings
+
+        self.asset_audit["render"] = audit_render_settings(settings["render"])
+        if not self.asset_audit["render"]["passed"]:
+            raise RuntimeError("Official_render_quality_settings_mismatch")
 
     @property
     def physics_step(self):
@@ -372,6 +364,15 @@ class ConveyorCubeTask(BaseEnv):
         )
         if angle > 0.03:
             raise RuntimeError(f"URDF_USD_rotation_mismatch:{angle}")
+        if self.settings.get("scene", {}).get("source") == "robodojo":
+            from dynamicbench.scene import room_physics_snapshot
+
+            after = room_physics_snapshot(self.stage, "/World/envs/env_0/Room")
+            scene_audit = self.asset_audit["scene"]
+            scene_audit["room_physics_after_reset"] = after
+            scene_audit["room_physics_preserved"] = after == scene_audit["room_physics_source"]
+            if not scene_audit["room_physics_preserved"]:
+                raise RuntimeError("Room_source_physics_changed")
         self.before_physics_step()
         self.success_count = 0
         self.max_cube_z = float(tensor(self.cube.data.root_pos_w)[0, 2])

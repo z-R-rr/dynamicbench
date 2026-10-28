@@ -6,6 +6,64 @@ import hashlib
 import yaml
 
 
+def resolve_camera_stand(original, root):
+    """Resolve the fixed stand exactly as the official saved-layout generator."""
+    matches = [
+        entry
+        for entry in original.get("Geometry", [])
+        if "camera_stand" in entry.get("select_mode", {}).get("label", [])
+    ]
+    if len(matches) != 1:
+        raise ValueError("Expected one official camera_stand entry")
+    entry = matches[0]
+    common = entry["common"]
+    if common.get("rotate_rand", False) or common["relative_plane"] != "Ground":
+        raise ValueError("Expected a fixed Ground-relative camera stand")
+    categories = entry["category"]
+    if len(categories) != 1 or len(categories[0]["index"]) != 1:
+        raise ValueError("Expected one fixed camera stand asset")
+    category = categories[0]
+    directory = root / "Assets/Object/RoboDojo/Geometry" / category["name"] / f"{category['index'][0]:05d}"
+    usd = directory / "object.usdz"
+    if not usd.is_file():
+        usd = directory / "object.usd"
+    if not usd.is_file():
+        raise FileNotFoundError(usd)
+    position = []
+    for axis in ("xlim", "ylim", "zlim"):
+        if common[axis][0] != common[axis][1]:
+            raise ValueError("Camera stand placement must be fixed")
+        position.append(float(common[axis][0]))
+    ground = original["Ground"]
+    if ground["axis"] != "Z":
+        raise ValueError("The official conveyor layout expects a Z ground support")
+    position[2] += ground["default_pos"][2] + ground["thickness"] / 2
+    return dict(
+        usd_path=str(usd),
+        position=position,
+        quaternion_wxyz=common["qpos"],
+        scale=[1, 1, 1],
+        collision=False,
+        source="conveyor.yml Geometry/camera_stand; official GeometryObject default",
+        ground_reference_height=ground["default_pos"][2] + ground["thickness"] / 2,
+    )
+
+
+def room_physics_snapshot(stage, root):
+    from pxr import Usd, UsdPhysics
+
+    records = {}
+    for prim in Usd.PrimRange(stage.GetPrimAtPath(root)):
+        values = {}
+        if prim.HasAPI(UsdPhysics.CollisionAPI):
+            values["collision_enabled"] = UsdPhysics.CollisionAPI(prim).GetCollisionEnabledAttr().Get()
+        if prim.HasAPI(UsdPhysics.RigidBodyAPI):
+            values["rigid_body_enabled"] = UsdPhysics.RigidBodyAPI(prim).GetRigidBodyEnabledAttr().Get()
+        if values:
+            records[str(prim.GetPath()).removeprefix(root)] = values
+    return records
+
+
 def resolve_scene(settings, root):
     result = copy.deepcopy(settings)
     cfg = result["scene"]
@@ -17,12 +75,17 @@ def resolve_scene(settings, root):
     files = sorted((root / "Assets/Room" / room["default"]).glob("*.usd"))
     if len(files) != 1:
         raise FileNotFoundError(f"expected one room USD: {room['default']}")
-    room.update(usd_path=str(files[0]), collision=False)
+    room.update(usd_path=str(files[0]))
     background = original["Background"].copy()
     background["texture_path"] = str(root / "Assets/Background" / background["default"])
     if not (root / "Assets/Background" / background["default"]).is_file():
         raise FileNotFoundError(background["texture_path"])
-    cfg.update(room=room, background=background, source_sha256=hashlib.sha256(path.read_bytes()).hexdigest())
+    cfg.update(
+        room=room,
+        background=background,
+        camera_stand=resolve_camera_stand(original, root),
+        source_sha256=hashlib.sha256(path.read_bytes()).hexdigest(),
+    )
     return result
 
 
@@ -44,15 +107,10 @@ def spawn_scene(cfg, stage):
     room = Room(prim_path=root, usd_path=cfg["room"]["usd_path"], instance_config=cfg["room"])
     lights = []
     light_cfgs = []
-    disabled_colliders = 0
+    room_physics = room_physics_snapshot(stage, root)
     for prim in list(Usd.PrimRange(stage.GetPrimAtPath(root))):
         if not prim.IsValid() or not prim.IsActive():
             continue
-        if prim.HasAPI(UsdPhysics.CollisionAPI):
-            UsdPhysics.CollisionAPI(prim).CreateCollisionEnabledAttr(False)
-            disabled_colliders += 1
-        if prim.HasAPI(UsdPhysics.RigidBodyAPI):
-            UsdPhysics.RigidBodyAPI(prim).CreateRigidBodyEnabledAttr(False)
         if prim.GetTypeName() != "RectLight":
             continue
         # Recreate the room's authored light through RoboDojo's Light class.
@@ -88,14 +146,34 @@ def spawn_scene(cfg, stage):
     if not lights:
         raise RuntimeError("RoboDojo room has no authored RectLight to reuse")
     background = Background("/World/Background", OmegaConf.create(cfg["background"]))
+    stand_cfg = cfg["camera_stand"]
+    stand_path = "/World/envs/env_0/CameraStand"
+    stand = stage.DefinePrim(stand_path, "Xform")
+    stand.GetReferences().AddReference(stand_cfg["usd_path"])
+    stand_xf = UsdGeom.Xformable(stand)
+    stand_xf.ClearXformOpOrder()
+    stand_xf.AddTranslateOp().Set(Gf.Vec3d(*stand_cfg["position"]))
+    q = stand_cfg["quaternion_wxyz"]
+    stand_xf.AddOrientOp(precision=UsdGeom.XformOp.PrecisionDouble).Set(
+        Gf.Quatd(float(q[0]), Gf.Vec3d(*q[1:])).GetNormalized()
+    )
+    stand_xf.AddScaleOp().Set(Gf.Vec3f(*stand_cfg["scale"]))
+    # Match GeometryObject's defaults on the stand root only. Room physics
+    # and descendant asset settings are left authored by their source USDs.
+    UsdPhysics.CollisionAPI.Apply(stand).CreateCollisionEnabledAttr(stand_cfg["collision"])
+    if stand.HasAPI(UsdPhysics.RigidBodyAPI):
+        UsdPhysics.RigidBodyAPI(stand).CreateRigidBodyEnabledAttr(False)
     audit = dict(
-        components=["Room", "Background", "Light"],
+        components=["Room", "Background", "Light", "camera_stand"],
         component_backend="USD adapters (Sim 6.1)" if ISAAC61 else "RoboDojo component classes",
         room=cfg["room"],
         background=cfg["background"],
         lights=light_cfgs,
-        room_colliders_disabled=disabled_colliders,
+        camera_stand=dict(prim_path=stand_path, **stand_cfg),
+        room_colliders_disabled=0,
+        room_collision_policy="preserve source-authored CollisionAPI and RigidBodyAPI values",
+        room_physics_source=room_physics,
         physics_ground="unchanged collider; hidden from RGB",
         source_sha256=cfg["source_sha256"],
     )
-    return (room, background, lights), audit
+    return (room, background, lights, stand), audit
