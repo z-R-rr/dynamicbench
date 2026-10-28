@@ -89,7 +89,11 @@ adapter deliberately rejects randomized ranges and unsupported light types.
 Newton is not selected for this task. Camera rendering uses the new RTX backend
 with DLAA, DL denoising and four direct-light samples per pixel: retaining the old
 TAA setting alone produced visibly noisy images in 6.1. Layout and camera
-extrinsics are preserved; pixel equality between engines is not claimed.
+extrinsics of the existing DynamicBench task are preserved across the runtime
+migration; pixel equality between engines is not claimed. This does not mean
+the task reproduces the official full scene: its original-USD belt is rescaled
+and relocated, and its arm reset pose differs. See
+[the measured visual layout audit](visual_layout_audit.md).
 
 ## Run and rollback
 
