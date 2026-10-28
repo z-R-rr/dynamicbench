@@ -1,0 +1,175 @@
+{
+  "passed": true,
+  "episodes": [
+    {
+      "episode": "belt_static",
+      "actions": 100,
+      "observations": 101,
+      "head_shape": [
+        101,
+        480,
+        640,
+        3
+      ],
+      "duration": 3.3333333333333335,
+      "success": false,
+      "head_video_frames": 101,
+      "source_commit": "c1e4faf2afc400ca91b03af3c1abe220fc0fbb7e"
+    },
+    {
+      "episode": "belt_03",
+      "actions": 100,
+      "observations": 101,
+      "head_shape": [
+        101,
+        480,
+        640,
+        3
+      ],
+      "duration": 3.3333333333333335,
+      "success": false,
+      "head_video_frames": 101,
+      "source_commit": "c1e4faf2afc400ca91b03af3c1abe220fc0fbb7e"
+    },
+    {
+      "episode": "belt_06",
+      "actions": 100,
+      "observations": 101,
+      "head_shape": [
+        101,
+        480,
+        640,
+        3
+      ],
+      "duration": 3.3333333333333335,
+      "success": false,
+      "head_video_frames": 101,
+      "source_commit": "c1e4faf2afc400ca91b03af3c1abe220fc0fbb7e"
+    },
+    {
+      "episode": "static_grasp",
+      "actions": 90,
+      "observations": 91,
+      "head_shape": [
+        91,
+        480,
+        640,
+        3
+      ],
+      "duration": 3.0,
+      "success": true,
+      "head_video_frames": 91,
+      "source_commit": "c1e4faf2afc400ca91b03af3c1abe220fc0fbb7e",
+      "min_final_hold_bottom_clearance_m": 0.05084031820297241,
+      "min_final_hold_finger_force_N": [
+        14.986797332763672,
+        14.992868423461914
+      ]
+    },
+    {
+      "episode": "moving_seed42",
+      "actions": 96,
+      "observations": 97,
+      "head_shape": [
+        97,
+        480,
+        640,
+        3
+      ],
+      "duration": 3.2,
+      "success": true,
+      "head_video_frames": 97,
+      "source_commit": "c1e4faf2afc400ca91b03af3c1abe220fc0fbb7e",
+      "min_final_hold_bottom_clearance_m": 0.056326329708099365,
+      "min_final_hold_finger_force_N": [
+        14.745302200317383,
+        14.782812118530273
+      ]
+    },
+    {
+      "episode": "moving_seed43",
+      "actions": 95,
+      "observations": 96,
+      "head_shape": [
+        96,
+        480,
+        640,
+        3
+      ],
+      "duration": 3.1666666666666665,
+      "success": true,
+      "head_video_frames": 96,
+      "source_commit": "c1e4faf2afc400ca91b03af3c1abe220fc0fbb7e",
+      "min_final_hold_bottom_clearance_m": 0.057420969009399414,
+      "min_final_hold_finger_force_N": [
+        14.924590110778809,
+        14.915374755859375
+      ]
+    },
+    {
+      "episode": "moving_seed44",
+      "actions": 95,
+      "observations": 96,
+      "head_shape": [
+        96,
+        480,
+        640,
+        3
+      ],
+      "duration": 3.1666666666666665,
+      "success": true,
+      "head_video_frames": 96,
+      "source_commit": "c1e4faf2afc400ca91b03af3c1abe220fc0fbb7e",
+      "min_final_hold_bottom_clearance_m": 0.05660355091094971,
+      "min_final_hold_finger_force_N": [
+        14.872166633605957,
+        14.910218238830566
+      ]
+    },
+    {
+      "episode": "schedule_no_latency",
+      "actions": 100,
+      "observations": 101,
+      "head_shape": [
+        101,
+        480,
+        640,
+        3
+      ],
+      "duration": 3.3333333333333335,
+      "success": false,
+      "head_video_frames": 101,
+      "source_commit": "c1e4faf2afc400ca91b03af3c1abe220fc0fbb7e"
+    },
+    {
+      "episode": "schedule_sync_hold",
+      "actions": 100,
+      "observations": 101,
+      "head_shape": [
+        101,
+        480,
+        640,
+        3
+      ],
+      "duration": 3.3333333333333335,
+      "success": false,
+      "head_video_frames": 101,
+      "source_commit": "c1e4faf2afc400ca91b03af3c1abe220fc0fbb7e"
+    },
+    {
+      "episode": "schedule_rtc_async",
+      "actions": 100,
+      "observations": 101,
+      "head_shape": [
+        101,
+        480,
+        640,
+        3
+      ],
+      "duration": 3.3333333333333335,
+      "success": false,
+      "head_video_frames": 101,
+      "source_commit": "c1e4faf2afc400ca91b03af3c1abe220fc0fbb7e"
+    }
+  ]
+}

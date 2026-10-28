@@ -1,0 +1,673 @@
+{
+  "rows": [
+    {
+      "start_tick": 76,
+      "end_observation_tick": 96,
+      "duration_seconds": 0.6666666666666666,
+      "cube_world_delta_m": [
+        0.004112012684345245,
+        -0.003591533750295639,
+        0.06055247783660889
+      ],
+      "cube_in_eef_final_delta_m": [
+        5.034382915047875e-06,
+        -0.009811048370677707,
+        -1.1589607770165575e-06
+      ],
+      "cube_in_eef_peak_change_m": 0.012291754242120265,
+      "min_finger_contact_N": [
+        14.745302200317383,
+        14.739225387573242
+      ],
+      "pinch_peak_reconstructed_m": 1.9187423071627347e-05,
+      "group": "legacy_primitive_fixed",
+      "episode": "moving_seed42",
+      "seed": 42,
+      "source_commit": "c1e4faf2afc400ca91b03af3c1abe220fc0fbb7e",
+      "success": true,
+      "failure_reason": null,
+      "control_ticks": 96,
+      "lift_xy_mode": "fixed",
+      "lift_tcp_frame": "nominal"
+    },
+    {
+      "start_tick": 75,
+      "end_observation_tick": 95,
+      "duration_seconds": 0.6666666666666666,
+      "cube_world_delta_m": [
+        0.003350023180246353,
+        -0.0049977488815784454,
+        0.06266278028488159
+      ],
+      "cube_in_eef_final_delta_m": [
+        6.113530063661665e-06,
+        -0.009744294554865706,
+        -6.544449205980827e-07
+      ],
+      "cube_in_eef_peak_change_m": 0.012180241781137772,
+      "min_finger_contact_N": [
+        14.631726264953613,
+        14.781944274902344
+      ],
+      "pinch_peak_reconstructed_m": 9.347507307830187e-06,
+      "group": "legacy_primitive_fixed",
+      "episode": "moving_seed43",
+      "seed": 43,
+      "source_commit": "c1e4faf2afc400ca91b03af3c1abe220fc0fbb7e",
+      "success": true,
+      "failure_reason": null,
+      "control_ticks": 95,
+      "lift_xy_mode": "fixed",
+      "lift_tcp_frame": "nominal"
+    },
+    {
+      "start_tick": 75,
+      "end_observation_tick": 95,
+      "duration_seconds": 0.6666666666666666,
+      "cube_world_delta_m": [
+        0.004327327013015747,
+        -0.003668390214443207,
+        0.06056857109069824
+      ],
+      "cube_in_eef_final_delta_m": [
+        6.205209412191159e-06,
+        -0.009908497563734756,
+        -8.195833926433237e-07
+      ],
+      "cube_in_eef_peak_change_m": 0.01227607694585113,
+      "min_finger_contact_N": [
+        14.643243789672852,
+        14.809659004211426
+      ],
+      "pinch_peak_reconstructed_m": 6.693636567789892e-06,
+      "group": "legacy_primitive_fixed",
+      "episode": "moving_seed44",
+      "seed": 44,
+      "source_commit": "c1e4faf2afc400ca91b03af3c1abe220fc0fbb7e",
+      "success": true,
+      "failure_reason": null,
+      "control_ticks": 95,
+      "lift_xy_mode": "fixed",
+      "lift_tcp_frame": "nominal"
+    },
+    {
+      "start_tick": 76,
+      "end_observation_tick": 96,
+      "duration_seconds": 0.6666666666666666,
+      "cube_world_delta_m": [
+        0.006133913993835449,
+        0.0007989183068275452,
+        0.06631869077682495
+      ],
+      "cube_in_eef_final_delta_m": [
+        -3.1675126907770856e-06,
+        -0.009149848197352579,
+        1.1479878683327708e-06
+      ],
+      "cube_in_eef_peak_change_m": 0.011965993240412882,
+      "min_finger_contact_N": [
+        14.682930946350098,
+        14.829943656921387
+      ],
+      "belt_surface_velocity_min_m_s": [
+        0.029999999329447746,
+        0.0,
+        0.0
+      ],
+      "belt_surface_velocity_max_m_s": [
+        0.029999999329447746,
+        0.0,
+        0.0
+      ],
+      "pinch_peak_reconstructed_m": 1.2479895973794477e-05,
+      "group": "nominal",
+      "episode": "fixed_moving_seed42",
+      "seed": 42,
+      "source_commit": "28331bc59c55ea33f92016c95c9b7c5c8f97431f",
+      "success": true,
+      "failure_reason": null,
+      "control_ticks": 96,
+      "lift_xy_mode": "fixed",
+      "lift_tcp_frame": "nominal"
+    },
+    {
+      "start_tick": 75,
+      "end_observation_tick": 95,
+      "duration_seconds": 0.6666666666666666,
+      "cube_world_delta_m": [
+        0.0027507953345775604,
+        -0.004839777946472168,
+        0.07981002330780029
+      ],
+      "cube_in_eef_final_delta_m": [
+        5.758508964948117e-06,
+        -0.009177403809861422,
+        2.879680776403685e-07
+      ],
+      "cube_in_eef_peak_change_m": 0.012236313061141391,
+      "min_finger_contact_N": [
+        14.750208854675293,
+        14.882624626159668
+      ],
+      "belt_surface_velocity_min_m_s": [
+        0.029999999329447746,
+        0.0,
+        0.0
+      ],
+      "belt_surface_velocity_max_m_s": [
+        0.029999999329447746,
+        0.0,
+        0.0
+      ],
+      "pinch_peak_reconstructed_m": 9.560301398563103e-06,
+      "group": "nominal",
+      "episode": "fixed_moving_seed43",
+      "seed": 43,
+      "source_commit": "28331bc59c55ea33f92016c95c9b7c5c8f97431f",
+      "success": true,
+      "failure_reason": null,
+      "control_ticks": 95,
+      "lift_xy_mode": "fixed",
+      "lift_tcp_frame": "nominal"
+    },
+    {
+      "start_tick": 75,
+      "end_observation_tick": 95,
+      "duration_seconds": 0.6666666666666666,
+      "cube_world_delta_m": [
+        0.0028648823499679565,
+        -0.005052588880062103,
+        0.08030354976654053
+      ],
+      "cube_in_eef_final_delta_m": [
+        5.961561165196416e-06,
+        -0.009371805033961006,
+        2.744745703710423e-07
+      ],
+      "cube_in_eef_peak_change_m": 0.012269447175453042,
+      "min_finger_contact_N": [
+        14.739134788513184,
+        14.851853370666504
+      ],
+      "belt_surface_velocity_min_m_s": [
+        0.029999999329447746,
+        0.0,
+        0.0
+      ],
+      "belt_surface_velocity_max_m_s": [
+        0.029999999329447746,
+        0.0,
+        0.0
+      ],
+      "pinch_peak_reconstructed_m": 7.939673737533194e-06,
+      "group": "nominal",
+      "episode": "fixed_moving_seed44",
+      "seed": 44,
+      "source_commit": "28331bc59c55ea33f92016c95c9b7c5c8f97431f",
+      "success": true,
+      "failure_reason": null,
+      "control_ticks": 95,
+      "lift_xy_mode": "fixed",
+      "lift_tcp_frame": "nominal"
+    },
+    {
+      "start_tick": 76,
+      "end_observation_tick": 348,
+      "duration_seconds": 9.066666666666666,
+      "cube_world_delta_m": [
+        0.13950954377651215,
+        -0.12525004148483276,
+        0.049918413162231445
+      ],
+      "cube_in_eef_final_delta_m": [
+        9.125490368133704e-06,
+        -0.008557806816413008,
+        1.000703365309271e-07
+      ],
+      "cube_in_eef_peak_change_m": 0.011371863431221879,
+      "min_finger_contact_N": [
+        14.5377197265625,
+        14.744688987731934
+      ],
+      "belt_surface_velocity_min_m_s": [
+        0.029999999329447746,
+        0.0,
+        0.0
+      ],
+      "belt_surface_velocity_max_m_s": [
+        0.029999999329447746,
+        0.0,
+        0.0
+      ],
+      "pinch_peak_reconstructed_m": 1.2143167084424378e-05,
+      "group": "nominal",
+      "episode": "moving_seed42",
+      "seed": 42,
+      "source_commit": "28331bc59c55ea33f92016c95c9b7c5c8f97431f",
+      "success": false,
+      "failure_reason": "out_of_reach",
+      "control_ticks": 348,
+      "lift_xy_mode": "track_cube",
+      "lift_tcp_frame": "nominal"
+    },
+    {
+      "start_tick": 75,
+      "end_observation_tick": 95,
+      "duration_seconds": 0.6666666666666666,
+      "cube_world_delta_m": [
+        0.026815518736839294,
+        -0.016631975769996643,
+        0.06918519735336304
+      ],
+      "cube_in_eef_final_delta_m": [
+        6.147255920796457e-06,
+        -0.00954821211777216,
+        -1.601502624682923e-07
+      ],
+      "cube_in_eef_peak_change_m": 0.011996455300775954,
+      "min_finger_contact_N": [
+        14.593507766723633,
+        14.790349006652832
+      ],
+      "belt_surface_velocity_min_m_s": [
+        0.029999999329447746,
+        0.0,
+        0.0
+      ],
+      "belt_surface_velocity_max_m_s": [
+        0.029999999329447746,
+        0.0,
+        0.0
+      ],
+      "pinch_peak_reconstructed_m": 9.759506747851232e-06,
+      "group": "nominal",
+      "episode": "moving_seed43",
+      "seed": 43,
+      "source_commit": "28331bc59c55ea33f92016c95c9b7c5c8f97431f",
+      "success": true,
+      "failure_reason": null,
+      "control_ticks": 95,
+      "lift_xy_mode": "track_cube",
+      "lift_tcp_frame": "nominal"
+    },
+    {
+      "start_tick": 75,
+      "end_observation_tick": 95,
+      "duration_seconds": 0.6666666666666666,
+      "cube_world_delta_m": [
+        0.02797337993979454,
+        -0.016770582646131516,
+        0.07025039196014404
+      ],
+      "cube_in_eef_final_delta_m": [
+        6.061447915761686e-06,
+        -0.009565803475589836,
+        -1.0820664913201682e-07
+      ],
+      "cube_in_eef_peak_change_m": 0.012123564818308456,
+      "min_finger_contact_N": [
+        14.611190795898438,
+        14.786201477050781
+      ],
+      "belt_surface_velocity_min_m_s": [
+        0.029999999329447746,
+        0.0,
+        0.0
+      ],
+      "belt_surface_velocity_max_m_s": [
+        0.029999999329447746,
+        0.0,
+        0.0
+      ],
+      "pinch_peak_reconstructed_m": 7.697571236477988e-06,
+      "group": "nominal",
+      "episode": "moving_seed44",
+      "seed": 44,
+      "source_commit": "28331bc59c55ea33f92016c95c9b7c5c8f97431f",
+      "success": true,
+      "failure_reason": null,
+      "control_ticks": 95,
+      "lift_xy_mode": "track_cube",
+      "lift_tcp_frame": "nominal"
+    },
+    {
+      "start_tick": 76,
+      "end_observation_tick": 364,
+      "duration_seconds": 9.6,
+      "cube_world_delta_m": [
+        0.14401698112487793,
+        -0.12411372363567352,
+        0.04450124502182007
+      ],
+      "cube_in_eef_final_delta_m": [
+        9.697534939762109e-06,
+        -0.008915067553120416,
+        -1.9578511060210774e-07
+      ],
+      "cube_in_eef_peak_change_m": 0.011465909924452603,
+      "min_finger_contact_N": [
+        14.6350679397583,
+        14.798446655273438
+      ],
+      "belt_surface_velocity_min_m_s": [
+        0.029999999329447746,
+        0.0,
+        0.0
+      ],
+      "belt_surface_velocity_max_m_s": [
+        0.029999999329447746,
+        0.0,
+        0.0
+      ],
+      "pinch_peak_reconstructed_m": 9.949159589131045e-06,
+      "group": "nominal",
+      "episode": "moving_seed45",
+      "seed": 45,
+      "source_commit": "28331bc59c55ea33f92016c95c9b7c5c8f97431f",
+      "success": false,
+      "failure_reason": "out_of_reach",
+      "control_ticks": 364,
+      "lift_xy_mode": "track_cube",
+      "lift_tcp_frame": "nominal"
+    },
+    {
+      "start_tick": 75,
+      "end_observation_tick": 95,
+      "duration_seconds": 0.6666666666666666,
+      "cube_world_delta_m": [
+        0.025805000215768814,
+        -0.012540318071842194,
+        0.0620841383934021
+      ],
+      "cube_in_eef_final_delta_m": [
+        4.892433321468381e-06,
+        -0.009703852081948995,
+        -5.798713874428756e-06
+      ],
+      "cube_in_eef_peak_change_m": 0.012058408356228517,
+      "min_finger_contact_N": [
+        14.5952730178833,
+        14.797940254211426
+      ],
+      "belt_surface_velocity_min_m_s": [
+        0.029999999329447746,
+        0.0,
+        0.0
+      ],
+      "belt_surface_velocity_max_m_s": [
+        0.029999999329447746,
+        0.0,
+        0.0
+      ],
+      "pinch_peak_reconstructed_m": 9.552519782793253e-06,
+      "group": "nominal",
+      "episode": "moving_seed46",
+      "seed": 46,
+      "source_commit": "28331bc59c55ea33f92016c95c9b7c5c8f97431f",
+      "success": true,
+      "failure_reason": null,
+      "control_ticks": 95,
+      "lift_xy_mode": "track_cube",
+      "lift_tcp_frame": "nominal"
+    },
+    {
+      "start_tick": 76,
+      "end_observation_tick": 96,
+      "duration_seconds": 0.6666666666666666,
+      "cube_world_delta_m": [
+        0.006133913993835449,
+        0.0007989183068275452,
+        0.06631869077682495
+      ],
+      "cube_in_eef_final_delta_m": [
+        -3.1675126907770856e-06,
+        -0.009149848197352579,
+        1.1479878683327708e-06
+      ],
+      "cube_in_eef_peak_change_m": 0.011965993240412882,
+      "min_finger_contact_N": [
+        14.682930946350098,
+        14.829943656921387
+      ],
+      "belt_surface_velocity_min_m_s": [
+        0.029999999329447746,
+        0.0,
+        0.0
+      ],
+      "belt_surface_velocity_max_m_s": [
+        0.029999999329447746,
+        0.0,
+        0.0
+      ],
+      "cube_in_pinch_peak_change_m": 1.2497199369038618e-05,
+      "pinch_peak_reconstructed_m": 1.2479895973794477e-05,
+      "group": "actual_pinch",
+      "episode": "fixed_moving_seed42",
+      "seed": 42,
+      "source_commit": "5706912201ed933092a53db16931321a2be2faa8",
+      "success": true,
+      "failure_reason": null,
+      "control_ticks": 96,
+      "lift_xy_mode": "fixed",
+      "lift_tcp_frame": "nominal"
+    },
+    {
+      "start_tick": 75,
+      "end_observation_tick": 95,
+      "duration_seconds": 0.6666666666666666,
+      "cube_world_delta_m": [
+        0.0027507953345775604,
+        -0.004839777946472168,
+        0.07981002330780029
+      ],
+      "cube_in_eef_final_delta_m": [
+        5.758508964948117e-06,
+        -0.009177403809861422,
+        2.879680776403685e-07
+      ],
+      "cube_in_eef_peak_change_m": 0.012236313061141391,
+      "min_finger_contact_N": [
+        14.750208854675293,
+        14.882624626159668
+      ],
+      "belt_surface_velocity_min_m_s": [
+        0.029999999329447746,
+        0.0,
+        0.0
+      ],
+      "belt_surface_velocity_max_m_s": [
+        0.029999999329447746,
+        0.0,
+        0.0
+      ],
+      "cube_in_pinch_peak_change_m": 9.573163622330526e-06,
+      "pinch_peak_reconstructed_m": 9.560301398563103e-06,
+      "group": "actual_pinch",
+      "episode": "fixed_moving_seed43",
+      "seed": 43,
+      "source_commit": "5706912201ed933092a53db16931321a2be2faa8",
+      "success": true,
+      "failure_reason": null,
+      "control_ticks": 95,
+      "lift_xy_mode": "fixed",
+      "lift_tcp_frame": "nominal"
+    },
+    {
+      "start_tick": 75,
+      "end_observation_tick": 95,
+      "duration_seconds": 0.6666666666666666,
+      "cube_world_delta_m": [
+        0.0028648823499679565,
+        -0.005052588880062103,
+        0.08030354976654053
+      ],
+      "cube_in_eef_final_delta_m": [
+        5.961561165196416e-06,
+        -0.009371805033961006,
+        2.744745703710423e-07
+      ],
+      "cube_in_eef_peak_change_m": 0.012269447175453042,
+      "min_finger_contact_N": [
+        14.739134788513184,
+        14.851853370666504
+      ],
+      "belt_surface_velocity_min_m_s": [
+        0.029999999329447746,
+        0.0,
+        0.0
+      ],
+      "belt_surface_velocity_max_m_s": [
+        0.029999999329447746,
+        0.0,
+        0.0
+      ],
+      "cube_in_pinch_peak_change_m": 7.988296802530561e-06,
+      "pinch_peak_reconstructed_m": 7.939673737533194e-06,
+      "group": "actual_pinch",
+      "episode": "fixed_moving_seed44",
+      "seed": 44,
+      "source_commit": "5706912201ed933092a53db16931321a2be2faa8",
+      "success": true,
+      "failure_reason": null,
+      "control_ticks": 95,
+      "lift_xy_mode": "fixed",
+      "lift_tcp_frame": "nominal"
+    },
+    {
+      "start_tick": 76,
+      "end_observation_tick": 101,
+      "duration_seconds": 0.8333333333333334,
+      "cube_world_delta_m": [
+        0.009261686354875565,
+        0.0010780096054077148,
+        0.06655502319335938
+      ],
+      "cube_in_eef_final_delta_m": [
+        -2.27852307224663e-06,
+        -0.008817977903308398,
+        1.3908307641674047e-06
+      ],
+      "cube_in_eef_peak_change_m": 0.011712906288139487,
+      "min_finger_contact_N": [
+        14.570014953613281,
+        14.764708518981934
+      ],
+      "belt_surface_velocity_min_m_s": [
+        0.029999999329447746,
+        0.0,
+        0.0
+      ],
+      "belt_surface_velocity_max_m_s": [
+        0.029999999329447746,
+        0.0,
+        0.0
+      ],
+      "cube_in_pinch_peak_change_m": 1.265754488674227e-05,
+      "pinch_peak_reconstructed_m": 1.2673427659345684e-05,
+      "group": "actual_pinch",
+      "episode": "moving_seed42",
+      "seed": 42,
+      "source_commit": "5706912201ed933092a53db16931321a2be2faa8",
+      "success": true,
+      "failure_reason": null,
+      "control_ticks": 101,
+      "lift_xy_mode": "track_cube",
+      "lift_tcp_frame": "actual_pinch"
+    },
+    {
+      "start_tick": 75,
+      "end_observation_tick": 95,
+      "duration_seconds": 0.6666666666666666,
+      "cube_world_delta_m": [
+        0.008999213576316833,
+        -0.00032654404640197754,
+        0.0859229564666748
+      ],
+      "cube_in_eef_final_delta_m": [
+        -3.832001589681999e-06,
+        -0.009346630100225043,
+        1.1926161317926242e-06
+      ],
+      "cube_in_eef_peak_change_m": 0.012269368506391092,
+      "min_finger_contact_N": [
+        14.60460090637207,
+        14.803600311279297
+      ],
+      "belt_surface_velocity_min_m_s": [
+        0.029999999329447746,
+        0.0,
+        0.0
+      ],
+      "belt_surface_velocity_max_m_s": [
+        0.029999999329447746,
+        0.0,
+        0.0
+      ],
+      "cube_in_pinch_peak_change_m": 9.177444990396326e-06,
+      "pinch_peak_reconstructed_m": 9.175741990877602e-06,
+      "group": "actual_pinch",
+      "episode": "moving_seed43",
+      "seed": 43,
+      "source_commit": "5706912201ed933092a53db16931321a2be2faa8",
+      "success": true,
+      "failure_reason": null,
+      "control_ticks": 95,
+      "lift_xy_mode": "track_cube",
+      "lift_tcp_frame": "actual_pinch"
+    },
+    {
+      "start_tick": 75,
+      "end_observation_tick": 95,
+      "duration_seconds": 0.6666666666666666,
+      "cube_world_delta_m": [
+        0.008537113666534424,
+        -0.0014555379748344421,
+        0.08976715803146362
+      ],
+      "cube_in_eef_final_delta_m": [
+        -3.6130004046897035e-06,
+        -0.009510749313543206,
+        1.0201416832967278e-06
+      ],
+      "cube_in_eef_peak_change_m": 0.012314510526043428,
+      "min_finger_contact_N": [
+        14.636994361877441,
+        14.791845321655273
+      ],
+      "belt_surface_velocity_min_m_s": [
+        0.029999999329447746,
+        0.0,
+        0.0
+      ],
+      "belt_surface_velocity_max_m_s": [
+        0.029999999329447746,
+        0.0,
+        0.0
+      ],
+      "cube_in_pinch_peak_change_m": 7.580255301973737e-06,
+      "pinch_peak_reconstructed_m": 7.5845492235051835e-06,
+      "group": "actual_pinch",
+      "episode": "moving_seed44",
+      "seed": 44,
+      "source_commit": "5706912201ed933092a53db16931321a2be2faa8",
+      "success": true,
+      "failure_reason": null,
+      "control_ticks": 95,
+      "lift_xy_mode": "track_cube",
+      "lift_tcp_frame": "actual_pinch"
+    }
+  ],
+  "urdf_gripper_origins": [
+    [
+      0.08657,
+      0.024896,
+      -0.0002436
+    ],
+    [
+      0.08657,
+      -0.0249,
+      -0.00024366
+    ]
+  ],
+  "reconstruction": "ARX joint7/8 prismatic axes +Y/-Y; actual qpos, actual EEF pose; fixed source URDF. New runs also record measured finger-body midpoint."
+}

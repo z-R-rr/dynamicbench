@@ -1,0 +1,48 @@
+task: pick_cube_from_conveyor
+physics_hz: 300
+control_hz: 30
+scene:
+  source: robodojo
+  config: env_cfg/scene/conveyor.yml
+  light_intensity_scale: 1.0
+layout:
+  robot_config: env_cfg/robot/dual_x5.yml
+  robot_index: 0
+  camera_config: env_cfg/camera/camera_config.yml
+  head_camera: cam_head
+# Original X5 asset; world frame, +x on link6 points towards finger tips.
+robot:
+  # URDF IK seed places the pinch TCP near [-.25,-.12,.95], facing down.
+  initial_q: [-0.1488804, 1.8515, 1.9196, -1.6389, 0, -0.1488715]
+  max_joint_velocity: 2.0
+  gripper_effort: 15.0
+belt:
+  center: [-0.12, -0.02, 0.725]
+  size: [0.7, 0.28, 0.08]
+  direction: [1, 0, 0]
+  speed: 0.03
+  friction: 1.0
+cube:
+  size: 0.035
+  mass: 0.05
+  friction: 1.5
+  initial_xy: [-0.25, -0.02]
+  initial_jitter: 0.005
+expert:
+  lift_xy_mode: contact_anchor
+  lift_tcp_frame: actual_pinch
+  contact_force_threshold: 1.0
+  stable_contact_ticks: 3
+  contact_timeout_ticks: 30
+  max_contact_eef_xy_excursion: 0.01
+  max_contact_cube_xy_excursion: 0.02
+  approach_height: 0.12
+  lift_height: 0.13
+  max_tcp_speed: 0.25
+  descend_speed: 0.08
+  intercept_seconds: 0.10
+  observe_ticks: 10
+  close_ticks: 18
+  timeout_ticks: 600
+  success_height: 0.05
+  success_hold_ticks: 15
