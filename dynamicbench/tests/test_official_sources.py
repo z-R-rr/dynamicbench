@@ -5,6 +5,7 @@ import numpy as np
 import pytest
 import yaml
 
+from dynamicbench.envs.poses import quat_wxyz_matrix
 from dynamicbench.rendering import resolve_render_settings
 from dynamicbench.robot_sources import resolve_robot_asset_config
 from dynamicbench.scene import resolve_scene
@@ -31,7 +32,7 @@ def test_robot_tcp_and_wrist_follow_asset_file_and_physical_joint_limits(tmp_pat
                 mesh="pinhole",
                 type="d435",
                 pos=[0.001, 0.002, 0.003],
-                ori=[0, 0, 90],
+                ori=[0, -80, -90],
             )
         ],
     )
@@ -47,7 +48,13 @@ def test_robot_tcp_and_wrist_follow_asset_file_and_physical_joint_limits(tmp_pat
     assert result["robot"]["finger_links"] == ["finger_a", "finger_b"]
     assert result["camera"]["wrist"]["mount_link"] == "native_mount"
     assert result["camera"]["wrist"]["position"] == [0.001, 0.002, 0.003]
-    assert np.allclose(result["camera"]["wrist"]["quaternion_wxyz"], [2**-0.5, 0, 0, 2**-0.5])
+    # Intrinsic rotations compose Ry(-80) @ Rz(-90), not the reverse.
+    angle = np.deg2rad(-80)
+    ry = np.array([[np.cos(angle), 0, np.sin(angle)], [0, 1, 0], [-np.sin(angle), 0, np.cos(angle)]])
+    rz = np.array([[0, 1, 0], [-1, 0, 0], [0, 0, 1]])
+    actual = quat_wxyz_matrix(result["camera"]["wrist"]["quaternion_wxyz"])
+    np.testing.assert_allclose(actual, ry @ rz, atol=1e-12)
+    assert not np.allclose(actual, rz @ ry)
     assert result["camera"]["wrist"]["lens"]["focal_length"] == 13
     assert len(result["layout"]["source_sha256"]) == 2
 

@@ -4,8 +4,9 @@ import copy
 import hashlib
 import xml.etree.ElementTree as ET
 
-from scipy.spatial.transform import Rotation
 import yaml
+
+from dynamicbench.layout import official_camera_quaternion
 
 
 def resolve_robot_asset_config(settings, root):
@@ -52,17 +53,13 @@ def resolve_robot_asset_config(settings, root):
     camera = cameras[0]
     if tree.find(f"link[@name='{camera['link']}']") is None:
         raise ValueError("Official wrist mount is absent from the URDF")
-    angles = camera["ori"]
-    quaternion = (
-        Rotation.from_euler("xyz", angles, degrees=True).as_quat()[[3, 0, 1, 2]].tolist()
-        if len(angles) == 3
-        else list(angles)
-    )
+    quaternion = official_camera_quaternion(camera["ori"])
     result["camera"]["wrist"] = dict(
         name=camera["name"],
         mount_link=camera["link"],
         position=list(camera["pos"]),
         quaternion_wxyz=quaternion,
+        euler_convention="intrinsic XYZ, matching CameraManager/euler_angles_to_quat",
         lens=copy.deepcopy(getattr(template, camera["type"].upper())),
         type=camera["type"],
         source=str(path),

@@ -8,6 +8,16 @@ from scipy.spatial.transform import Rotation
 import yaml
 
 
+def official_camera_quaternion(orientation):
+    # CameraManager calls euler_angles_to_quat(..., extrinsic=False), whose
+    # actual default is intrinsic XYZ. Lower-case xyz only agrees for one axis.
+    if len(orientation) == 3:
+        return Rotation.from_euler("XYZ", orientation, degrees=True).as_quat()[[3, 0, 1, 2]].tolist()
+    if len(orientation) != 4:
+        raise ValueError("Camera orientation must be XYZ degrees or WXYZ quaternion")
+    return list(orientation)
+
+
 def resolve_robodojo_layout(settings, root):
     from env_cfg.camera import template
 
@@ -20,12 +30,8 @@ def resolve_robodojo_layout(settings, root):
     lens = getattr(template, camera["type"].upper())
     quaternion = np.asarray(robot["default_root_rot"], dtype=float)
     quaternion /= np.linalg.norm(quaternion)
-    result["robot"].update(
-        base_position=list(robot["default_root_pos"]), base_quaternion_wxyz=quaternion.tolist()
-    )
-    orientation = camera["ori"]
-    if len(orientation) == 3:
-        orientation = Rotation.from_euler("xyz", orientation, degrees=True).as_quat()[[3, 0, 1, 2]].tolist()
+    result["robot"].update(base_position=list(robot["default_root_pos"]), base_quaternion_wxyz=quaternion.tolist())
+    orientation = official_camera_quaternion(camera["ori"])
     result.setdefault("camera", {}).update(
         head_position=list(camera["pos"]),
         head_quaternion_wxyz=list(orientation),
