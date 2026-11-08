@@ -109,6 +109,15 @@ class ConveyorCubeTask(BaseEnv):
         for name, q in zip(rc["arm_joint_names"], rc["initial_q"], strict=True):
             robot_cfg.init_state.joint_pos[name] = q
         scene.robot0 = robot_cfg.replace(prim_path="{ENV_REGEX_NS}/robot0")
+        self.passive_robot_names = []
+        for i, passive in enumerate(settings.get("layout", {}).get("passive_robots", [])):
+            config = articulation_config(dict(embodiment=passive["robot_name"]), ROOT)
+            config.init_state.pos = tuple(passive["default_root_pos"])
+            q = np.asarray(passive["default_root_rot"], dtype=float)
+            config.init_state.rot = lab_quaternion(q / np.linalg.norm(q))
+            key = f"passive_robot{i}"
+            setattr(scene, key, config.replace(prim_path="{ENV_REGEX_NS}/" + key))
+            self.passive_robot_names.append(key)
         bc, cc = settings["belt"], settings["cube"]
         self.belt_top = bc["center"][2] + bc["size"][2] / 2
         self.cube_start = np.r_[cc["initial_xy"], self.belt_top + cc["size"] / 2 + 0.002]
@@ -220,6 +229,7 @@ class ConveyorCubeTask(BaseEnv):
         super().__init__(cfg, app, interactiveSceneCfg=scene)
         self.launch_sim(cfg)
         self.robot = self.sim.scene["robot0"]
+        self.passive_robots = [self.sim.scene[key] for key in self.passive_robot_names]
         self.cube = self.sim.scene["cube"]
         self.head = self.sim.scene["head"]
         self.wrist = self.sim.scene["wrist"]
@@ -242,6 +252,17 @@ class ConveyorCubeTask(BaseEnv):
         self.asset_audit["render"] = audit_render_settings(settings["render"])
         if not self.asset_audit["render"]["passed"]:
             raise RuntimeError("Official_render_quality_settings_mismatch")
+        self.asset_audit["layout"] = dict(
+            profile=settings.get("layout", {}).get("profile", "compact"),
+            active_robot_count=1,
+            passive_robot_count=len(self.passive_robots),
+            robot_base=rc["base_position"],
+            configured_arm_q=rc["initial_q"],
+            measured_initial_arm_q=tensor(self.robot.data.joint_pos)[0, self.arm_ids].numpy().tolist(),
+            head_position=settings["camera"]["head_position"],
+            head_quaternion_wxyz=settings["camera"]["head_quaternion_wxyz"],
+            ground_visibility=UsdGeom.Imageable(self.stage.GetPrimAtPath("/World/Ground")).ComputeVisibility(),
+        )
 
     @property
     def physics_step(self):
@@ -249,17 +270,26 @@ class ConveyorCubeTask(BaseEnv):
 
     def _setup_scene(self, sim):
         super()._setup_scene(sim)
-        ground = sim_utils.CuboidCfg(
-            size=(4, 4, 0.05),
-            collision_props=sim_utils.CollisionPropertiesCfg(),
-            visual_material=sim_utils.PreviewSurfaceCfg(diffuse_color=(0.25, 0.25, 0.28)),
-        )
-        ground.func("/World/Ground", ground, translation=(0, 0, -0.025))
+        official_ground = self.settings.get("scene", {}).get("official_ground")
+        if official_ground:
+            from dynamicbench.scene import spawn_official_ground
+
+            self.asset_audit["ground"] = spawn_official_ground(official_ground, self.stage)
+        else:
+            ground = sim_utils.CuboidCfg(
+                size=(4, 4, 0.05),
+                collision_props=sim_utils.CollisionPropertiesCfg(),
+                visual_material=sim_utils.PreviewSurfaceCfg(diffuse_color=(0.25, 0.25, 0.28)),
+            )
+            ground.func("/World/Ground", ground, translation=(0, 0, -0.025))
         if self.settings.get("scene", {}).get("source") == "robodojo":
             from dynamicbench.scene import spawn_scene
 
-            UsdGeom.Imageable(self.stage.GetPrimAtPath("/World/Ground")).MakeInvisible()
+            if not official_ground:
+                UsdGeom.Imageable(self.stage.GetPrimAtPath("/World/Ground")).MakeInvisible()
             self.visual_fixtures, self.asset_audit["scene"] = spawn_scene(self.settings["scene"], self.stage)
+            if official_ground:
+                self.asset_audit["scene"]["physics_ground"] = "official visible Ground mesh and MDL"
         else:
             sim_utils.DomeLightCfg(intensity=1800).func("/World/Light", sim_utils.DomeLightCfg(intensity=1800))
         if self.belt_source == "robodojo":
@@ -288,10 +318,25 @@ class ConveyorCubeTask(BaseEnv):
         surface_z = float(np.median(supports[:, 2]))
         xy = np.asarray(bc["center"][:2]) - (bounds_min + bounds_max)[:2] / 2 * scale[:2]
         translation = np.r_[xy, self.belt_top - surface_z * scale[2]]
+        quaternion = [1.0, 0.0, 0.0, 0.0]
+        if "root_transform" in bc:
+            saved = bc["root_transform"]
+            scale, translation = np.asarray(saved["scale"]), np.asarray(saved["position"])
+            quaternion = saved["quaternion_wxyz"]
         path = "/World/envs/env_0/OriginalConveyor"
         spawn = sim_utils.UsdFileCfg(usd_path=str(directory / "object.usdz"), scale=tuple(scale))
         spawn.func(path, spawn, translation=tuple(translation))
         root = self.stage.GetPrimAtPath(path)
+        if "root_transform" in bc:
+            # Author WXYZ directly through USD, as in the validated layout audit;
+            # do not depend on the Lab 2/3 spawning quaternion convention.
+            xform = UsdGeom.Xformable(root)
+            xform.ClearXformOpOrder()
+            xform.AddTranslateOp(opSuffix="official").Set(Gf.Vec3d(*translation))
+            xform.AddOrientOp(precision=UsdGeom.XformOp.PrecisionDouble, opSuffix="official").Set(
+                Gf.Quatd(float(quaternion[0]), Gf.Vec3d(*quaternion[1:]))
+            )
+            xform.AddScaleOp(opSuffix="official").Set(Gf.Vec3f(*scale))
         belts = []
         for prim in list(Usd.PrimRange(root)):
             if not prim.IsValid() or not prim.IsActive():
@@ -314,12 +359,32 @@ class ConveyorCubeTask(BaseEnv):
         )
         material.func(material_path, material)
         sim_utils.bind_physics_material(belt.GetPath().pathString, material_path)
+        box = (
+            UsdGeom.BBoxCache(Usd.TimeCode.Default(), [UsdGeom.Tokens.default_, UsdGeom.Tokens.render])
+            .ComputeWorldBound(belt)
+            .ComputeAlignedRange()
+        )
+        if "root_transform" in bc:
+            minimum, maximum = np.asarray(box.GetMin()), np.asarray(box.GetMax())
+            self.belt_top = float(maximum[2])
+            self.cube_start[2] = self.belt_top + self.settings["cube"]["size"] / 2 + 0.002
+            bc["center"] = ((minimum + maximum) / 2).tolist()
+            bc["size"] = (maximum - minimum).tolist()
+            bc["measured_surface_height"] = self.belt_top
         self.asset_audit["selected_belt"] = dict(
             source="robodojo",
             usd=str(directory / "object.usdz"),
             rigid_body=str(belt.GetPath()),
             scale=scale.tolist(),
             translation=translation.tolist(),
+            quaternion_wxyz=list(quaternion),
+            root_transform_source=bc.get("source_layout", "compact task geometry"),
+            belt_bounds_min=list(box.GetMin()),
+            belt_bounds_max=list(box.GetMax()),
+            success_reference_height=self.belt_top,
+            root_world_transform=[
+                list(row) for row in UsdGeom.Xformable(root).ComputeLocalToWorldTransform(Usd.TimeCode.Default())
+            ],
             authored_surface_z=surface_z,
             motion="per-physics-step PhysxSurfaceVelocityAPI; source graph disabled",
         )
@@ -344,6 +409,11 @@ class ConveyorCubeTask(BaseEnv):
         self.seed_value = self.seed_value if seed is None else int(seed)
         self.generation += 1
         self.sim.reset()
+        for passive in self.passive_robots:
+            passive_q = tensor(passive.data.default_joint_pos).clone()
+            joint_state(passive, passive_q, torch.zeros_like(passive_q))
+            position_target(passive, passive_q)
+            velocity_target(passive, torch.zeros_like(passive_q))
         q = tensor(self.robot.data.default_joint_pos).clone()
         joint_state(self.robot, q, torch.zeros_like(q))  # reset only
         self.target = q[0].numpy().copy()

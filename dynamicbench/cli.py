@@ -12,6 +12,7 @@ def parser(collect=False, compare_lift=False, evaluation=False):
     p.add_argument("--task", default="pick_cube_from_conveyor", choices=["pick_cube_from_conveyor"])
     p.add_argument("--belt-speed", type=float, default=0.03)
     p.add_argument("--belt-source", choices=["primitive", "robodojo"], default=None)
+    p.add_argument("--layout-profile", choices=["official", "compact"], default=None)
     p.add_argument("--scene-source", choices=["minimal", "robodojo"], default=None)
     p.add_argument("--lift-xy-mode", choices=["fixed", "track_cube", "contact_anchor"], default=None)
     p.add_argument("--lift-tcp-frame", choices=["nominal", "actual_pinch"], default=None)
@@ -136,6 +137,11 @@ def load_settings(args):
         settings["expert"]["lift_tcp_frame"] = args.lift_tcp_frame
     if args.scene_source is not None:
         settings.setdefault("scene", {})["source"] = args.scene_source
+    if args.layout_profile is not None:
+        settings["layout"]["profile"] = args.layout_profile
+    from dynamicbench.production_layout import resolve_production_layout
+
+    settings = resolve_production_layout(settings, ROOT)
     if settings.get("scene", {}).get("source") == "robodojo":
         from dynamicbench.scene import resolve_scene
 
