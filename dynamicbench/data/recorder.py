@@ -59,7 +59,17 @@ class EpisodeRecorder:
             out["observation.images.wrist"] = np.asarray([o["wrist"] for o in obs])
         for key in ("cube_pose", "cube_velocity", "finger_contact_forces"):
             out["oracle_debug." + key] = np.asarray([o["oracle_debug"][key] for o in obs])
-        for key in ("cube_in_eef", "belt_surface_velocity", "finger_midpoint_in_eef", "cube_in_pinch_frame"):
+        for key in (
+            "cube_in_eef",
+            "belt_surface_velocity",
+            "finger_midpoint_in_eef",
+            "cube_in_pinch_frame",
+            "object_pose",
+            "object_velocity",
+            "object_bottom_z",
+            "object_top_z",
+            "object_grasp_position",
+        ):
             if key in obs[0]["oracle_debug"]:
                 out["oracle_debug." + key] = np.asarray([o["oracle_debug"][key] for o in obs])
         return out
@@ -101,6 +111,7 @@ class EpisodeRecorder:
                 belt_speed=metadata["belt_speed"],
                 source_commit=metadata["source_commit"],
                 failure_reason=metadata["failure_reason"],
+                **({"object_id": metadata["object"]["id"]} if "object" in metadata else {}),
             )
             fd, tmp = tempfile.mkstemp(prefix=".manifest-", dir=root)
             with os.fdopen(fd, "w") as f:

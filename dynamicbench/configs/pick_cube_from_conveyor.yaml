@@ -27,8 +27,12 @@ belt:
   direction: [1, 0, 0]
   speed: 0.03
   friction: 1.0
-cube:
-  size: 0.035
+object:
+  id: yellow_cube_35mm
+  source: primitive
+  shape: box
+  size: [0.035, 0.035, 0.035]
+  color: [1.0, 0.55, 0.02]
   mass: 0.05
   friction: 1.5
   initial_xy: [-0.25, -0.02]

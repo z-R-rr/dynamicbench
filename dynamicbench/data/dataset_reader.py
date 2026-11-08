@@ -71,13 +71,31 @@ def validate(arrays, metadata):
         raise ValueError("success/failure labels inconsistent")
     if metadata["control_hz"] != 30 or metadata["physics_hz"] != 300:
         raise ValueError("invalid episode frequencies")
+    if "object" in metadata:
+        from dynamicbench.objects import vertical_bounds
+
+        cfg = metadata["object"]
+        if cfg.get("schema_version") != "dynamicbench.object.v1":
+            raise ValueError("unknown object schema")
+        poses = arrays["oracle_debug.object_pose"]
+        if poses.shape != (n + 1, 7):
+            raise ValueError("invalid object pose shape")
+        bounds = np.array([vertical_bounds(cfg["geometry"], pose) for pose in poses])
+        bottom = arrays["oracle_debug.object_bottom_z"]
+        if bottom.shape != (n + 1,) or not np.allclose(bottom, bounds[:, 0], rtol=0, atol=1e-6):
+            raise ValueError("object bottom disagrees with pose and geometry")
+        if not np.array_equal(poses, arrays["oracle_debug.cube_pose"]):
+            raise ValueError("legacy object-pose alias mismatch")
     if metadata["success"]:
         hold = metadata["success_hold_ticks"]
         cubes = arrays["oracle_debug.cube_pose"][-hold:]
         contacts = arrays["oracle_debug.finger_contact_forces"][-hold:]
-        if len(cubes) < hold or not np.all(
-            cubes[:, 2] - metadata["cube_size"] / 2 > metadata["belt_top"] + metadata["success_height"]
-        ):
+        lowest = (
+            arrays["oracle_debug.object_bottom_z"][-hold:]
+            if "object" in metadata
+            else cubes[:, 2] - metadata["cube_size"] / 2
+        )
+        if len(cubes) < hold or not np.all(lowest > metadata["belt_top"] + metadata["success_height"]):
             raise ValueError("success lift evidence missing")
         if not np.all(contacts > 0.01):
             raise ValueError("success bilateral contact evidence missing")
