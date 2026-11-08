@@ -1,0 +1,28 @@
+{
+  "checked_date": "2026-11-08",
+  "reference_commit": "b66cb6b6c3a4b52932cb96ca6ee66ab5fe5c51f4",
+  "public_head": "fd45961603cc50debaa959be52116626bc0fda1f",
+  "identical_git_blobs": true,
+  "files": [
+    {
+      "path": "scripts/realtime_eval/control.py",
+      "sha": "2f9674dd97ea7a61529f349c740682992e013e89"
+    },
+    {
+      "path": "scripts/realtime_eval/runtime.py",
+      "sha": "69feea37a95b19f38baf87ecb4ba6c88c2ff7827"
+    },
+    {
+      "path": "scripts/realtime_eval/strategies/sync_hold.py",
+      "sha": "015610df8badebaf64ea7e5cd733075027d1dd72"
+    },
+    {
+      "path": "scripts/realtime_eval/strategies/async_queue.py",
+      "sha": "848d7f345b69e064d0192fd5acc3bda30cbbd870"
+    },
+    {
+      "path": "scripts/realtime_eval/strategies/rtc_queue.py",
+      "sha": "e44417adbda100addf39dc6a4eaf085d8e476301"
+    }
+  ]
+}

@@ -28,6 +28,12 @@ vertically. Piper uses a 30-degree inclined approach because its joint5 limit
 prevents the selected vertical pregrasp; the jaw yaw avoids the joint6 wrap seam.
 These are task placements, not claims of an official RoboDojo conveyor layout.
 
+New-adapter arm drives use task-specific stiffness 2000 and damping 40, with
+the source effort limits retained. The first Franka diagnostic using its
+original high damping could not catch the moving target promptly. All overrides
+are recorded in `settings.robot`; X5 gains are unchanged. Finger effort remains
+15 N for Franka and is capped at the Piper URDF's 10 N.
+
 X5 keeps its official asset camera mount. Franka and Piper use an explicitly
 task-mounted D435 at the declared EEF, local position [.05,0,.025], WXYZ
 [0,1,0,0]. This is not presented as an official wrist-camera calibration.
@@ -37,6 +43,12 @@ Piper assets are discovered in the sibling RoboTwin checkout or supplied via
 URDF importer into `outputs/assets/piper/<urdf-hash>/piper.usd`; source assets
 are not edited. Fixed links are retained; both finger joints are driven.
 Generated USD and large assets are not committed.
+
+The 6.1 importer authors a nested `Geometry/...` link hierarchy and a world
+fixed joint. The adapter resolves rigid-body paths from the generated USD and
+retains that fixed joint. Reapplying `fix_root_link=True` tries to relocate a
+referenced Newton schema in this Lab version and fails; the adapter avoids
+that redundant operation without modifying Isaac Lab or source assets.
 
 ```bash
 bash scripts/dynamicbench/run_isaac61.sh run_mvp --headless \

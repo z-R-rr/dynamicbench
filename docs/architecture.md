@@ -1,5 +1,11 @@
 # DynamicBench MVP architecture
 
+Current evaluation extensions: [LIBERO scheduling](libero_scheduling.md) uses a
+separate inference worker and physical-substep synchronous latency;
+[embodiment adapters](embodiments.md) add Piper and Franka. The MVP scheduler
+described below remains the legacy diagnostic path, not the new evaluation
+protocol. No compatible learned checkpoint has yet been evaluated by this task.
+
 Source audit baseline: RoboDojo `f57e1633ffed59761bc8e568cfe7530c4b33381c`.
 LICENSE and the original README attribution are retained.
 

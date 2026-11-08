@@ -1,5 +1,12 @@
 # Dataset v1
 
+This document describes uniform expert/MVP data. The new `evaluate_policy`
+entrypoint writes `dynamicbench.eef10.eval.v2`, documented in
+[libero_scheduling.md](libero_scheduling.md), with explicit physical timestamps
+and separate synchronous-wait transitions. It must not be interpreted as a
+uniform training trajectory. Piper/Franka EEF links and joint dimensions are
+declared in metadata; see [embodiments.md](embodiments.md).
+
 Schema `dynamicbench.eef10.columns.v1`, NPZ (allow_pickle=False), JSON metadata,
 trace JSONL and head.mp4 per atomic episode directory; manifest.jsonl references
 only completed directories. One collector per output folder (file lock).
@@ -13,17 +20,19 @@ N entries with only the final entry true. No reset settle frames enter training.
 - `observation.images.head`: uint8 [N+1,H,W,3], RGB, top-left origin.
 - `observation.images.wrist`: same when available; metadata explicitly says
   not_available when absent. Never duplicate the head image as a wrist image.
-- `observation.state.eef10`: [N+1,10], ACTUAL world link6 xyz in meters,
+- `observation.state.eef10`: [N+1,10], ACTUAL world EEF xyz in meters
+  (`link6` for X5/Piper, `panda_hand` for Franka; explicit in metadata),
   rotation first TWO COLUMNS concatenated (R00,R10,R20,R01,R11,R21), measured
   gripper [-1,+1] from mean joint7/8 travel. World is right-handed, Z up.
-- `action.eef10`: [N,10], absolute commanded world link6 pose, same convention.
+- `action.eef10`: [N,10], absolute commanded world EEF pose, same convention.
   This is the wrist/link6 frame. Approach uses nominal local TCP [0.145,0,0];
   the contact_anchor default latches world link6 XY/orientation and ramps Z.
   Legacy track_cube can use the measured finger midpoint and grasp offset.
   Internal control references never change the action frame or EEF10 schema.
-- `observation.state.qpos/qvel`: [N+1,8], actual joint1..joint8, radians/rad/s
-  for six arm joints and meters/m/s for two prismatic fingers.
-- `action.joint_target`: [N,8], actually submitted (possibly rate limited) drive
+- `observation.state.qpos/qvel`: [N+1,D], actual articulation joint order;
+  D=8 for X5/Piper and D=9 for Franka. Arm units are radians/rad/s;
+  the two prismatic fingers use meters/m/s.
+- `action.joint_target`: [N,D], actually submitted (possibly rate limited) drive
   target, constant for all ten physical steps. IK failures use previous legal
   target and are logged, never joint teleportation.
 - `timestamp.sim`, `control_tick`, `physics_step`: [N+1]; exact control grid.

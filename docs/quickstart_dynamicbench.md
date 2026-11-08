@@ -1,5 +1,9 @@
 # DynamicBench first-stage reproduction
 
+For the new evaluation protocol use [LIBERO scheduling](libero_scheduling.md).
+For `--embodiment piper|franka`, see [embodiment adapters](embodiments.md).
+The commands below preserve the original MVP and expert-collection behavior.
+
 Fork: https://github.com/z-R-rr/dynamicbench
 Branch: feat/conveyor-rtc-expert-mvp. Original RoboDojo LICENSE/README retained.
 Only the independent entrypoints below use the new timing and scene.
