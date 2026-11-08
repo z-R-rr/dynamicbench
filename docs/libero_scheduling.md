@@ -73,3 +73,5 @@ and return finite absolute world EEF10. The configuration must declare robot,
 frame, rotation convention, gripper convention, frequency, checkpoint SHA-256,
 normalization and training data. A compatible checkpoint is still required;
 an adapter declaration alone is not a model experiment.
+
+Measured-wallclock conveyor integration and reproducible diagnostic command: [validation report](../results/measured_clock_validation_20261108.md).

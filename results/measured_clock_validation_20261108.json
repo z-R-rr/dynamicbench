@@ -1,0 +1,1324 @@
+{
+  "passed": true,
+  "source_commit": "40015786826240d74761a855d1f83fcb0f78f815",
+  "real_model_tested": false,
+  "timing_scope": "worker call plus CPU output materialization and validation; not end-to-end",
+  "cases": [
+    {
+      "case": "no_latency_normal",
+      "audit": {
+        "passed": true,
+        "released_requests": 2,
+        "physics_steps_during_worker": 0,
+        "old_queue_actions_during_pending": 0,
+        "belt_displacement_error_m": [
+          -1.603806018829479e-05,
+          2.8889626264572144e-05,
+          0.0
+        ],
+        "release_lateness_steps": [
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "case": "sync_hold_normal",
+      "audit": {
+        "passed": true,
+        "released_requests": 2,
+        "physics_steps_during_worker": 0,
+        "old_queue_actions_during_pending": 0,
+        "belt_displacement_error_m": [
+          -1.5777373313902165e-05,
+          3.6424025893211365e-05,
+          0.0
+        ],
+        "release_lateness_steps": [
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "case": "async_queue_normal",
+      "audit": {
+        "passed": true,
+        "released_requests": 3,
+        "physics_steps_during_worker": 78,
+        "old_queue_actions_during_pending": 16,
+        "belt_displacement_error_m": [
+          -1.603806018829479e-05,
+          2.8889626264572144e-05,
+          0.0
+        ],
+        "release_lateness_steps": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "case": "rtc_normal",
+      "audit": {
+        "passed": true,
+        "released_requests": 4,
+        "physics_steps_during_worker": 78,
+        "old_queue_actions_during_pending": 24,
+        "belt_displacement_error_m": [
+          -1.603806018829479e-05,
+          2.8889626264572144e-05,
+          0.0
+        ],
+        "release_lateness_steps": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "case": "async_queue_slow",
+      "audit": {
+        "passed": true,
+        "released_requests": 3,
+        "physics_steps_during_worker": 40,
+        "old_queue_actions_during_pending": 16,
+        "belt_displacement_error_m": [
+          -1.603806018829479e-05,
+          2.8889626264572144e-05,
+          0.0
+        ],
+        "release_lateness_steps": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "case": "rtc_slow",
+      "audit": {
+        "passed": true,
+        "released_requests": 4,
+        "physics_steps_during_worker": 44,
+        "old_queue_actions_during_pending": 24,
+        "belt_displacement_error_m": [
+          -1.603806018829479e-05,
+          2.8889626264572144e-05,
+          0.0
+        ],
+        "release_lateness_steps": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    }
+  ],
+  "expert_schema": {
+    "actions": 112,
+    "observations": 113,
+    "head_shape": [
+      113,
+      480,
+      640,
+      3
+    ],
+    "duration": 3.7333333333333334,
+    "success": true
+  },
+  "expert_passed": true,
+  "runtime": {
+    "isaacsim": "6.1.0.0",
+    "physics_backend": "PhysX",
+    "physics_device": "cpu",
+    "isaaclab": "17.0.2",
+    "isaaclab-physx": "6.0.0",
+    "torch": "2.11.0+cu128",
+    "warp-lang": "1.16.0",
+    "lab_quaternion_order": "xyzw",
+    "dataset_quaternion_order": "wxyz"
+  },
+  "embodiment": "x5",
+  "layout_profile": "official",
+  "seed": 42,
+  "belt_speed_m_s": 0.03,
+  "control_hz": 30,
+  "physics_hz": 300,
+  "diagnostic_worker_sleep_seconds": 0.25,
+  "unit_tests": 89,
+  "libero_reference_audit": {
+    "reference_commit": "b66cb6b6c3a4b52932cb96ca6ee66ab5fe5c51f4",
+    "cases": [
+      {
+        "mode": "sync_hold",
+        "latency": 0,
+        "ticks": 120,
+        "passed": true
+      },
+      {
+        "mode": "sync_hold",
+        "latency": 0.25,
+        "ticks": 120,
+        "passed": true
+      },
+      {
+        "mode": "sync_hold",
+        "latency": 1.2,
+        "ticks": 120,
+        "passed": true
+      },
+      {
+        "mode": "async_queue",
+        "latency": 0,
+        "ticks": 120,
+        "passed": true
+      },
+      {
+        "mode": "async_queue",
+        "latency": 0.25,
+        "ticks": 120,
+        "passed": true
+      },
+      {
+        "mode": "async_queue",
+        "latency": 1.2,
+        "ticks": 120,
+        "passed": true
+      },
+      {
+        "mode": "rtc",
+        "latency": 0,
+        "ticks": 120,
+        "passed": true
+      },
+      {
+        "mode": "rtc",
+        "latency": 0.25,
+        "ticks": 120,
+        "passed": true
+      },
+      {
+        "mode": "rtc",
+        "latency": 1.2,
+        "ticks": 120,
+        "passed": true
+      }
+    ],
+    "passed": true
+  },
+  "normal_slow_comparison": {
+    "async_queue": {
+      "passed": true,
+      "identical_fields": [
+        "request_tick",
+        "release_tick",
+        "queue_delay_steps",
+        "dropped_prefix",
+        "enqueued",
+        "overlap"
+      ],
+      "requests": [
+        {
+          "request_tick": 0,
+          "release_tick": 8,
+          "queue_delay_steps": 8,
+          "dropped_prefix": 0,
+          "enqueued": 32,
+          "overlap": 0
+        },
+        {
+          "request_tick": 24,
+          "release_tick": 32,
+          "queue_delay_steps": 8,
+          "dropped_prefix": 8,
+          "enqueued": 24,
+          "overlap": 8
+        },
+        {
+          "request_tick": 40,
+          "release_tick": 48,
+          "queue_delay_steps": 8,
+          "dropped_prefix": 8,
+          "enqueued": 24,
+          "overlap": 8
+        }
+      ]
+    },
+    "rtc": {
+      "passed": true,
+      "identical_fields": [
+        "request_tick",
+        "release_tick",
+        "queue_delay_steps",
+        "dropped_prefix",
+        "enqueued",
+        "overlap"
+      ],
+      "requests": [
+        {
+          "request_tick": 0,
+          "release_tick": 8,
+          "queue_delay_steps": 8,
+          "dropped_prefix": 8,
+          "enqueued": 24,
+          "overlap": 0
+        },
+        {
+          "request_tick": 16,
+          "release_tick": 24,
+          "queue_delay_steps": 8,
+          "dropped_prefix": 8,
+          "enqueued": 24,
+          "overlap": 0
+        },
+        {
+          "request_tick": 32,
+          "release_tick": 40,
+          "queue_delay_steps": 8,
+          "dropped_prefix": 8,
+          "enqueued": 24,
+          "overlap": 0
+        },
+        {
+          "request_tick": 48,
+          "release_tick": 56,
+          "queue_delay_steps": 8,
+          "dropped_prefix": 8,
+          "enqueued": 24,
+          "overlap": 0
+        }
+      ]
+    }
+  },
+  "metrics": [
+    {
+      "schema_version": "dynamicbench.eef10.eval.v2",
+      "test": "policy_evaluation",
+      "reference_commit": "b66cb6b6c3a4b52932cb96ca6ee66ab5fe5c51f4",
+      "success": false,
+      "failure_reason": "timeout",
+      "seed": 42,
+      "belt_speed": 0.03,
+      "control_actions": 64,
+      "recorded_transitions": 64,
+      "physics_steps": 640,
+      "sim_time": 2.1333333333333333,
+      "sync_latency_physics_steps": 0,
+      "underflow_steps": 0,
+      "executed_queue_actions": 64,
+      "latency_mode": "no_latency",
+      "latency_source": "measured_wallclock",
+      "latency_requested_seconds": 0.25,
+      "action_horizon": 32,
+      "prefetch_threshold": 16,
+      "requests": [
+        {
+          "chunk_id": 0,
+          "request_tick": 0,
+          "t_observe": 0.0,
+          "t_request": 0.0,
+          "executed_at_submit": 0,
+          "latency_sim_seconds": 0.0,
+          "rtc_conditioning_requested": false,
+          "rtc_conditioning_used": false,
+          "leftover_count": 0,
+          "status": "released",
+          "clock_pacing_wall_seconds": 0.0,
+          "worker_wait_wall_seconds": 0.2558405470044818,
+          "inference_wall_seconds": 0.2557716650189832,
+          "policy_call_wall_seconds": 0.2506826500175521,
+          "available_tick": 0,
+          "release_tick": 0,
+          "effective_delay_steps": 0,
+          "release_lateness_steps": 0,
+          "queue_delay_steps": 0,
+          "dropped_prefix": 0,
+          "overlap": 0,
+          "enqueued": 32
+        },
+        {
+          "chunk_id": 1,
+          "request_tick": 32,
+          "t_observe": 1.0666666666666667,
+          "t_request": 1.0666666666666667,
+          "executed_at_submit": 32,
+          "latency_sim_seconds": 0.0,
+          "rtc_conditioning_requested": false,
+          "rtc_conditioning_used": false,
+          "leftover_count": 0,
+          "status": "released",
+          "clock_pacing_wall_seconds": 0.0,
+          "worker_wait_wall_seconds": 0.25584998400881886,
+          "inference_wall_seconds": 0.2555332229821943,
+          "policy_call_wall_seconds": 0.2503831439826172,
+          "available_tick": 32,
+          "release_tick": 32,
+          "effective_delay_steps": 0,
+          "release_lateness_steps": 0,
+          "queue_delay_steps": 0,
+          "dropped_prefix": 0,
+          "overlap": 0,
+          "enqueued": 32
+        }
+      ],
+      "hold_semantics": "finite_joint_drive_previous_target_no_state_writes",
+      "real_model_tested": false,
+      "policy": {
+        "kind": "timed_diagnostic_mock",
+        "worker_sleep_seconds": 0.25
+      },
+      "object_displacement": [
+        0.0639839619398117,
+        2.8889626264572144e-05,
+        0.0
+      ],
+      "cube_displacement": [
+        0.0639839619398117,
+        2.8889626264572144e-05,
+        0.0
+      ],
+      "case": "no_latency_normal",
+      "rollout_wall_seconds": 14.866164028004277,
+      "extra_wall_seconds_per_control_interval": 0.0,
+      "audit": {
+        "passed": true,
+        "released_requests": 2,
+        "physics_steps_during_worker": 0,
+        "old_queue_actions_during_pending": 0,
+        "belt_displacement_error_m": [
+          -1.603806018829479e-05,
+          2.8889626264572144e-05,
+          0.0
+        ],
+        "release_lateness_steps": [
+          0,
+          0
+        ]
+      },
+      "schema_audit": {
+        "actions": 64,
+        "observations": 65,
+        "head_shape": [
+          65,
+          480,
+          640,
+          3
+        ],
+        "duration": 2.1333333333333333,
+        "success": false
+      }
+    },
+    {
+      "schema_version": "dynamicbench.eef10.eval.v2",
+      "test": "policy_evaluation",
+      "reference_commit": "b66cb6b6c3a4b52932cb96ca6ee66ab5fe5c51f4",
+      "success": false,
+      "failure_reason": "timeout",
+      "seed": 42,
+      "belt_speed": 0.03,
+      "control_actions": 64,
+      "recorded_transitions": 80,
+      "physics_steps": 794,
+      "sim_time": 2.6466666666666665,
+      "sync_latency_physics_steps": 154,
+      "underflow_steps": 0,
+      "executed_queue_actions": 64,
+      "latency_mode": "sync_hold",
+      "latency_source": "measured_wallclock",
+      "latency_requested_seconds": 0.25,
+      "action_horizon": 32,
+      "prefetch_threshold": 16,
+      "requests": [
+        {
+          "chunk_id": 0,
+          "request_tick": 0,
+          "t_observe": 0.0,
+          "t_request": 0.0,
+          "executed_at_submit": 0,
+          "latency_sim_seconds": 0.2556752570089884,
+          "rtc_conditioning_requested": false,
+          "rtc_conditioning_used": false,
+          "leftover_count": 0,
+          "status": "released",
+          "clock_pacing_wall_seconds": 0.0,
+          "worker_wait_wall_seconds": 0.2558437680127099,
+          "inference_wall_seconds": 0.2556752570089884,
+          "policy_call_wall_seconds": 0.2505416770000011,
+          "available_tick": 0,
+          "release_tick": 0,
+          "effective_delay_steps": 0,
+          "release_lateness_steps": 0,
+          "queue_delay_steps": 0,
+          "dropped_prefix": 0,
+          "overlap": 0,
+          "enqueued": 32,
+          "sync_physics_steps": 77,
+          "sync_applied_seconds": 0.25666666666666665,
+          "t_response_available": 0.25666666666666665
+        },
+        {
+          "chunk_id": 1,
+          "request_tick": 32,
+          "t_observe": 1.3233333333333333,
+          "t_request": 1.3233333333333333,
+          "executed_at_submit": 32,
+          "latency_sim_seconds": 0.2557412199967075,
+          "rtc_conditioning_requested": false,
+          "rtc_conditioning_used": false,
+          "leftover_count": 0,
+          "status": "released",
+          "clock_pacing_wall_seconds": 0.0,
+          "worker_wait_wall_seconds": 0.2560969939804636,
+          "inference_wall_seconds": 0.2557412199967075,
+          "policy_call_wall_seconds": 0.25062101599178277,
+          "available_tick": 32,
+          "release_tick": 32,
+          "effective_delay_steps": 0,
+          "release_lateness_steps": 0,
+          "queue_delay_steps": 0,
+          "dropped_prefix": 0,
+          "overlap": 0,
+          "enqueued": 32,
+          "sync_physics_steps": 77,
+          "sync_applied_seconds": 0.25666666666666665,
+          "t_response_available": 1.5799999999999998
+        }
+      ],
+      "hold_semantics": "finite_joint_drive_previous_target_no_state_writes",
+      "real_model_tested": false,
+      "policy": {
+        "kind": "timed_diagnostic_mock",
+        "worker_sleep_seconds": 0.25
+      },
+      "object_displacement": [
+        0.0793842226266861,
+        3.6424025893211365e-05,
+        0.0
+      ],
+      "cube_displacement": [
+        0.0793842226266861,
+        3.6424025893211365e-05,
+        0.0
+      ],
+      "case": "sync_hold_normal",
+      "rollout_wall_seconds": 15.557106322987238,
+      "extra_wall_seconds_per_control_interval": 0.0,
+      "audit": {
+        "passed": true,
+        "released_requests": 2,
+        "physics_steps_during_worker": 0,
+        "old_queue_actions_during_pending": 0,
+        "belt_displacement_error_m": [
+          -1.5777373313902165e-05,
+          3.6424025893211365e-05,
+          0.0
+        ],
+        "release_lateness_steps": [
+          0,
+          0
+        ]
+      },
+      "schema_audit": {
+        "actions": 80,
+        "observations": 81,
+        "head_shape": [
+          81,
+          480,
+          640,
+          3
+        ],
+        "duration": 2.6466666666666665,
+        "success": false
+      }
+    },
+    {
+      "schema_version": "dynamicbench.eef10.eval.v2",
+      "test": "policy_evaluation",
+      "reference_commit": "b66cb6b6c3a4b52932cb96ca6ee66ab5fe5c51f4",
+      "success": false,
+      "failure_reason": "timeout",
+      "seed": 42,
+      "belt_speed": 0.03,
+      "control_actions": 64,
+      "recorded_transitions": 64,
+      "physics_steps": 640,
+      "sim_time": 2.1333333333333333,
+      "sync_latency_physics_steps": 0,
+      "underflow_steps": 8,
+      "executed_queue_actions": 56,
+      "latency_mode": "async_queue",
+      "latency_source": "measured_wallclock",
+      "latency_requested_seconds": 0.25,
+      "action_horizon": 32,
+      "prefetch_threshold": 16,
+      "requests": [
+        {
+          "chunk_id": 0,
+          "request_tick": 0,
+          "t_observe": 0.0,
+          "t_request": 0.0,
+          "executed_at_submit": 0,
+          "latency_sim_seconds": 0.2555489209771622,
+          "rtc_conditioning_requested": false,
+          "rtc_conditioning_used": false,
+          "leftover_count": 0,
+          "status": "released",
+          "clock_pacing_wall_seconds": 1.7610029317438602e-05,
+          "worker_wait_wall_seconds": 1.4577002730220556e-05,
+          "inference_wall_seconds": 0.2555489209771622,
+          "policy_call_wall_seconds": 0.2504717569972854,
+          "available_tick": 8,
+          "release_tick": 8,
+          "effective_delay_steps": 8,
+          "release_lateness_steps": 0,
+          "queue_delay_steps": 8,
+          "dropped_prefix": 0,
+          "overlap": 0,
+          "enqueued": 32
+        },
+        {
+          "chunk_id": 1,
+          "request_tick": 24,
+          "t_observe": 0.8,
+          "t_request": 0.8,
+          "executed_at_submit": 16,
+          "latency_sim_seconds": 0.2561292949831113,
+          "rtc_conditioning_requested": false,
+          "rtc_conditioning_used": false,
+          "leftover_count": 16,
+          "status": "released",
+          "clock_pacing_wall_seconds": 0.00014839996583759785,
+          "worker_wait_wall_seconds": 1.2324017006903887e-05,
+          "inference_wall_seconds": 0.2561292949831113,
+          "policy_call_wall_seconds": 0.2503957139851991,
+          "available_tick": 32,
+          "release_tick": 32,
+          "effective_delay_steps": 8,
+          "release_lateness_steps": 0,
+          "queue_delay_steps": 8,
+          "dropped_prefix": 8,
+          "overlap": 8,
+          "enqueued": 24
+        },
+        {
+          "chunk_id": 2,
+          "request_tick": 40,
+          "t_observe": 1.3333333333333333,
+          "t_request": 1.3333333333333333,
+          "executed_at_submit": 32,
+          "latency_sim_seconds": 0.25761450300342403,
+          "rtc_conditioning_requested": false,
+          "rtc_conditioning_used": false,
+          "leftover_count": 16,
+          "status": "released",
+          "clock_pacing_wall_seconds": 0.00019123300444334745,
+          "worker_wait_wall_seconds": 1.0293006198480725e-05,
+          "inference_wall_seconds": 0.25761450300342403,
+          "policy_call_wall_seconds": 0.25187275401549414,
+          "available_tick": 48,
+          "release_tick": 48,
+          "effective_delay_steps": 8,
+          "release_lateness_steps": 0,
+          "queue_delay_steps": 8,
+          "dropped_prefix": 8,
+          "overlap": 8,
+          "enqueued": 24
+        },
+        {
+          "chunk_id": 3,
+          "request_tick": 56,
+          "t_observe": 1.8666666666666667,
+          "t_request": 1.8666666666666667,
+          "executed_at_submit": 48,
+          "latency_sim_seconds": 0.2581111959880218,
+          "rtc_conditioning_requested": false,
+          "rtc_conditioning_used": false,
+          "leftover_count": 16,
+          "status": "not_applied_episode_ended",
+          "clock_pacing_wall_seconds": 0.00021244000527076423,
+          "worker_wait_wall_seconds": 1.219799742102623e-05,
+          "inference_wall_seconds": 0.2581111959880218,
+          "policy_call_wall_seconds": 0.2525412539835088
+        }
+      ],
+      "hold_semantics": "finite_joint_drive_previous_target_no_state_writes",
+      "real_model_tested": false,
+      "policy": {
+        "kind": "timed_diagnostic_mock",
+        "worker_sleep_seconds": 0.25
+      },
+      "object_displacement": [
+        0.0639839619398117,
+        2.8889626264572144e-05,
+        0.0
+      ],
+      "cube_displacement": [
+        0.0639839619398117,
+        2.8889626264572144e-05,
+        0.0
+      ],
+      "case": "async_queue_normal",
+      "rollout_wall_seconds": 12.198665401985636,
+      "extra_wall_seconds_per_control_interval": 0.0,
+      "audit": {
+        "passed": true,
+        "released_requests": 3,
+        "physics_steps_during_worker": 78,
+        "old_queue_actions_during_pending": 16,
+        "belt_displacement_error_m": [
+          -1.603806018829479e-05,
+          2.8889626264572144e-05,
+          0.0
+        ],
+        "release_lateness_steps": [
+          0,
+          0,
+          0
+        ]
+      },
+      "schema_audit": {
+        "actions": 64,
+        "observations": 65,
+        "head_shape": [
+          65,
+          480,
+          640,
+          3
+        ],
+        "duration": 2.1333333333333333,
+        "success": false
+      }
+    },
+    {
+      "schema_version": "dynamicbench.eef10.eval.v2",
+      "test": "policy_evaluation",
+      "reference_commit": "b66cb6b6c3a4b52932cb96ca6ee66ab5fe5c51f4",
+      "success": false,
+      "failure_reason": "timeout",
+      "seed": 42,
+      "belt_speed": 0.03,
+      "control_actions": 64,
+      "recorded_transitions": 64,
+      "physics_steps": 640,
+      "sim_time": 2.1333333333333333,
+      "sync_latency_physics_steps": 0,
+      "underflow_steps": 8,
+      "executed_queue_actions": 56,
+      "latency_mode": "rtc",
+      "latency_source": "measured_wallclock",
+      "latency_requested_seconds": 0.25,
+      "action_horizon": 32,
+      "prefetch_threshold": 16,
+      "requests": [
+        {
+          "chunk_id": 0,
+          "request_tick": 0,
+          "t_observe": 0.0,
+          "t_request": 0.0,
+          "executed_at_submit": 0,
+          "latency_sim_seconds": 0.2545063150173519,
+          "rtc_conditioning_requested": true,
+          "rtc_conditioning_used": false,
+          "leftover_count": 0,
+          "status": "released",
+          "clock_pacing_wall_seconds": 2.1198007743805647e-05,
+          "worker_wait_wall_seconds": 2.286100061610341e-05,
+          "inference_wall_seconds": 0.2545063150173519,
+          "policy_call_wall_seconds": 0.2507273610099219,
+          "available_tick": 8,
+          "release_tick": 8,
+          "effective_delay_steps": 8,
+          "release_lateness_steps": 0,
+          "queue_delay_steps": 8,
+          "dropped_prefix": 8,
+          "overlap": 0,
+          "enqueued": 24
+        },
+        {
+          "chunk_id": 1,
+          "request_tick": 16,
+          "t_observe": 0.5333333333333333,
+          "t_request": 0.5333333333333333,
+          "executed_at_submit": 8,
+          "latency_sim_seconds": 0.25395784399006516,
+          "rtc_conditioning_requested": true,
+          "rtc_conditioning_used": false,
+          "leftover_count": 16,
+          "status": "released",
+          "clock_pacing_wall_seconds": 0.00020468397997319698,
+          "worker_wait_wall_seconds": 1.3804994523525238e-05,
+          "inference_wall_seconds": 0.25395784399006516,
+          "policy_call_wall_seconds": 0.2522077989997342,
+          "available_tick": 24,
+          "release_tick": 24,
+          "effective_delay_steps": 8,
+          "release_lateness_steps": 0,
+          "queue_delay_steps": 8,
+          "dropped_prefix": 8,
+          "overlap": 0,
+          "enqueued": 24
+        },
+        {
+          "chunk_id": 2,
+          "request_tick": 32,
+          "t_observe": 1.0666666666666667,
+          "t_request": 1.0666666666666667,
+          "executed_at_submit": 24,
+          "latency_sim_seconds": 0.25634449897916056,
+          "rtc_conditioning_requested": true,
+          "rtc_conditioning_used": false,
+          "leftover_count": 16,
+          "status": "released",
+          "clock_pacing_wall_seconds": 0.00027713197050616145,
+          "worker_wait_wall_seconds": 1.3376004062592983e-05,
+          "inference_wall_seconds": 0.25634449897916056,
+          "policy_call_wall_seconds": 0.25059073299053125,
+          "available_tick": 40,
+          "release_tick": 40,
+          "effective_delay_steps": 8,
+          "release_lateness_steps": 0,
+          "queue_delay_steps": 8,
+          "dropped_prefix": 8,
+          "overlap": 0,
+          "enqueued": 24
+        },
+        {
+          "chunk_id": 3,
+          "request_tick": 48,
+          "t_observe": 1.6,
+          "t_request": 1.6,
+          "executed_at_submit": 40,
+          "latency_sim_seconds": 0.25978427901281975,
+          "rtc_conditioning_requested": true,
+          "rtc_conditioning_used": false,
+          "leftover_count": 16,
+          "status": "released",
+          "clock_pacing_wall_seconds": 0.0005397690110839903,
+          "worker_wait_wall_seconds": 1.3445009244605899e-05,
+          "inference_wall_seconds": 0.25978427901281975,
+          "policy_call_wall_seconds": 0.25334782400750555,
+          "available_tick": 56,
+          "release_tick": 56,
+          "effective_delay_steps": 8,
+          "release_lateness_steps": 0,
+          "queue_delay_steps": 8,
+          "dropped_prefix": 8,
+          "overlap": 0,
+          "enqueued": 24
+        }
+      ],
+      "hold_semantics": "finite_joint_drive_previous_target_no_state_writes",
+      "real_model_tested": false,
+      "policy": {
+        "kind": "timed_diagnostic_mock",
+        "worker_sleep_seconds": 0.25
+      },
+      "object_displacement": [
+        0.0639839619398117,
+        2.8889626264572144e-05,
+        0.0
+      ],
+      "cube_displacement": [
+        0.0639839619398117,
+        2.8889626264572144e-05,
+        0.0
+      ],
+      "case": "rtc_normal",
+      "rollout_wall_seconds": 12.073633865016745,
+      "extra_wall_seconds_per_control_interval": 0.0,
+      "audit": {
+        "passed": true,
+        "released_requests": 4,
+        "physics_steps_during_worker": 78,
+        "old_queue_actions_during_pending": 24,
+        "belt_displacement_error_m": [
+          -1.603806018829479e-05,
+          2.8889626264572144e-05,
+          0.0
+        ],
+        "release_lateness_steps": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "schema_audit": {
+        "actions": 64,
+        "observations": 65,
+        "head_shape": [
+          65,
+          480,
+          640,
+          3
+        ],
+        "duration": 2.1333333333333333,
+        "success": false
+      }
+    },
+    {
+      "schema_version": "dynamicbench.eef10.eval.v2",
+      "test": "policy_evaluation",
+      "reference_commit": "b66cb6b6c3a4b52932cb96ca6ee66ab5fe5c51f4",
+      "success": false,
+      "failure_reason": "timeout",
+      "seed": 42,
+      "belt_speed": 0.03,
+      "control_actions": 64,
+      "recorded_transitions": 64,
+      "physics_steps": 640,
+      "sim_time": 2.1333333333333333,
+      "sync_latency_physics_steps": 0,
+      "underflow_steps": 8,
+      "executed_queue_actions": 56,
+      "latency_mode": "async_queue",
+      "latency_source": "measured_wallclock",
+      "latency_requested_seconds": 0.25,
+      "action_horizon": 32,
+      "prefetch_threshold": 16,
+      "requests": [
+        {
+          "chunk_id": 0,
+          "request_tick": 0,
+          "t_observe": 0.0,
+          "t_request": 0.0,
+          "executed_at_submit": 0,
+          "latency_sim_seconds": 0.2556274289963767,
+          "rtc_conditioning_requested": false,
+          "rtc_conditioning_used": false,
+          "leftover_count": 0,
+          "status": "released",
+          "clock_pacing_wall_seconds": 1.3299984857439995e-05,
+          "worker_wait_wall_seconds": 1.531100133433938e-05,
+          "inference_wall_seconds": 0.2556274289963767,
+          "policy_call_wall_seconds": 0.2505693529965356,
+          "available_tick": 8,
+          "release_tick": 8,
+          "effective_delay_steps": 8,
+          "release_lateness_steps": 0,
+          "queue_delay_steps": 8,
+          "dropped_prefix": 0,
+          "overlap": 0,
+          "enqueued": 32
+        },
+        {
+          "chunk_id": 1,
+          "request_tick": 24,
+          "t_observe": 0.8,
+          "t_request": 0.8,
+          "executed_at_submit": 16,
+          "latency_sim_seconds": 0.25557175299036317,
+          "rtc_conditioning_requested": false,
+          "rtc_conditioning_used": false,
+          "leftover_count": 16,
+          "status": "released",
+          "clock_pacing_wall_seconds": 0.00018432698561809957,
+          "worker_wait_wall_seconds": 1.861300552263856e-05,
+          "inference_wall_seconds": 0.25557175299036317,
+          "policy_call_wall_seconds": 0.25031874698470347,
+          "available_tick": 32,
+          "release_tick": 32,
+          "effective_delay_steps": 8,
+          "release_lateness_steps": 0,
+          "queue_delay_steps": 8,
+          "dropped_prefix": 8,
+          "overlap": 8,
+          "enqueued": 24
+        },
+        {
+          "chunk_id": 2,
+          "request_tick": 40,
+          "t_observe": 1.3333333333333333,
+          "t_request": 1.3333333333333333,
+          "executed_at_submit": 32,
+          "latency_sim_seconds": 0.25562068598810583,
+          "rtc_conditioning_requested": false,
+          "rtc_conditioning_used": false,
+          "leftover_count": 16,
+          "status": "released",
+          "clock_pacing_wall_seconds": 0.00022789501235820353,
+          "worker_wait_wall_seconds": 6.671994924545288e-06,
+          "inference_wall_seconds": 0.25562068598810583,
+          "policy_call_wall_seconds": 0.25049601201317273,
+          "available_tick": 48,
+          "release_tick": 48,
+          "effective_delay_steps": 8,
+          "release_lateness_steps": 0,
+          "queue_delay_steps": 8,
+          "dropped_prefix": 8,
+          "overlap": 8,
+          "enqueued": 24
+        },
+        {
+          "chunk_id": 3,
+          "request_tick": 56,
+          "t_observe": 1.8666666666666667,
+          "t_request": 1.8666666666666667,
+          "executed_at_submit": 48,
+          "latency_sim_seconds": 0.26295282001956366,
+          "rtc_conditioning_requested": false,
+          "rtc_conditioning_used": false,
+          "leftover_count": 16,
+          "status": "not_applied_episode_ended",
+          "clock_pacing_wall_seconds": 0.00019562398665584624,
+          "worker_wait_wall_seconds": 1.2737000361084938e-05,
+          "inference_wall_seconds": 0.26295282001956366,
+          "policy_call_wall_seconds": 0.25737566300085746
+        }
+      ],
+      "hold_semantics": "finite_joint_drive_previous_target_no_state_writes",
+      "real_model_tested": false,
+      "policy": {
+        "kind": "timed_diagnostic_mock",
+        "worker_sleep_seconds": 0.25
+      },
+      "object_displacement": [
+        0.0639839619398117,
+        2.8889626264572144e-05,
+        0.0
+      ],
+      "cube_displacement": [
+        0.0639839619398117,
+        2.8889626264572144e-05,
+        0.0
+      ],
+      "case": "async_queue_slow",
+      "rollout_wall_seconds": 15.361241249018349,
+      "extra_wall_seconds_per_control_interval": 0.05,
+      "audit": {
+        "passed": true,
+        "released_requests": 3,
+        "physics_steps_during_worker": 40,
+        "old_queue_actions_during_pending": 16,
+        "belt_displacement_error_m": [
+          -1.603806018829479e-05,
+          2.8889626264572144e-05,
+          0.0
+        ],
+        "release_lateness_steps": [
+          0,
+          0,
+          0
+        ]
+      },
+      "schema_audit": {
+        "actions": 64,
+        "observations": 65,
+        "head_shape": [
+          65,
+          480,
+          640,
+          3
+        ],
+        "duration": 2.1333333333333333,
+        "success": false
+      }
+    },
+    {
+      "schema_version": "dynamicbench.eef10.eval.v2",
+      "test": "policy_evaluation",
+      "reference_commit": "b66cb6b6c3a4b52932cb96ca6ee66ab5fe5c51f4",
+      "success": false,
+      "failure_reason": "timeout",
+      "seed": 42,
+      "belt_speed": 0.03,
+      "control_actions": 64,
+      "recorded_transitions": 64,
+      "physics_steps": 640,
+      "sim_time": 2.1333333333333333,
+      "sync_latency_physics_steps": 0,
+      "underflow_steps": 8,
+      "executed_queue_actions": 56,
+      "latency_mode": "rtc",
+      "latency_source": "measured_wallclock",
+      "latency_requested_seconds": 0.25,
+      "action_horizon": 32,
+      "prefetch_threshold": 16,
+      "requests": [
+        {
+          "chunk_id": 0,
+          "request_tick": 0,
+          "t_observe": 0.0,
+          "t_request": 0.0,
+          "executed_at_submit": 0,
+          "latency_sim_seconds": 0.2552185059757903,
+          "rtc_conditioning_requested": true,
+          "rtc_conditioning_used": false,
+          "leftover_count": 0,
+          "status": "released",
+          "clock_pacing_wall_seconds": 1.1258001904934645e-05,
+          "worker_wait_wall_seconds": 1.538300421088934e-05,
+          "inference_wall_seconds": 0.2552185059757903,
+          "policy_call_wall_seconds": 0.2525996959884651,
+          "available_tick": 8,
+          "release_tick": 8,
+          "effective_delay_steps": 8,
+          "release_lateness_steps": 0,
+          "queue_delay_steps": 8,
+          "dropped_prefix": 8,
+          "overlap": 0,
+          "enqueued": 24
+        },
+        {
+          "chunk_id": 1,
+          "request_tick": 16,
+          "t_observe": 0.5333333333333333,
+          "t_request": 0.5333333333333333,
+          "executed_at_submit": 8,
+          "latency_sim_seconds": 0.25711024799966253,
+          "rtc_conditioning_requested": true,
+          "rtc_conditioning_used": false,
+          "leftover_count": 16,
+          "status": "released",
+          "clock_pacing_wall_seconds": 0.00020695501007139683,
+          "worker_wait_wall_seconds": 5.212990799918771e-06,
+          "inference_wall_seconds": 0.25711024799966253,
+          "policy_call_wall_seconds": 0.2504203529970255,
+          "available_tick": 24,
+          "release_tick": 24,
+          "effective_delay_steps": 8,
+          "release_lateness_steps": 0,
+          "queue_delay_steps": 8,
+          "dropped_prefix": 8,
+          "overlap": 0,
+          "enqueued": 24
+        },
+        {
+          "chunk_id": 2,
+          "request_tick": 32,
+          "t_observe": 1.0666666666666667,
+          "t_request": 1.0666666666666667,
+          "executed_at_submit": 24,
+          "latency_sim_seconds": 0.25643228500848636,
+          "rtc_conditioning_requested": true,
+          "rtc_conditioning_used": false,
+          "leftover_count": 16,
+          "status": "released",
+          "clock_pacing_wall_seconds": 0.00019866600632667542,
+          "worker_wait_wall_seconds": 3.1117990147322416e-05,
+          "inference_wall_seconds": 0.25643228500848636,
+          "policy_call_wall_seconds": 0.250743351993151,
+          "available_tick": 40,
+          "release_tick": 40,
+          "effective_delay_steps": 8,
+          "release_lateness_steps": 0,
+          "queue_delay_steps": 8,
+          "dropped_prefix": 8,
+          "overlap": 0,
+          "enqueued": 24
+        },
+        {
+          "chunk_id": 3,
+          "request_tick": 48,
+          "t_observe": 1.6,
+          "t_request": 1.6,
+          "executed_at_submit": 40,
+          "latency_sim_seconds": 0.25221578299533576,
+          "rtc_conditioning_requested": true,
+          "rtc_conditioning_used": false,
+          "leftover_count": 16,
+          "status": "released",
+          "clock_pacing_wall_seconds": 0.00019931700080633163,
+          "worker_wait_wall_seconds": 2.2168998839333653e-05,
+          "inference_wall_seconds": 0.25221578299533576,
+          "policy_call_wall_seconds": 0.2503028970095329,
+          "available_tick": 56,
+          "release_tick": 56,
+          "effective_delay_steps": 8,
+          "release_lateness_steps": 0,
+          "queue_delay_steps": 8,
+          "dropped_prefix": 8,
+          "overlap": 0,
+          "enqueued": 24
+        }
+      ],
+      "hold_semantics": "finite_joint_drive_previous_target_no_state_writes",
+      "real_model_tested": false,
+      "policy": {
+        "kind": "timed_diagnostic_mock",
+        "worker_sleep_seconds": 0.25
+      },
+      "object_displacement": [
+        0.0639839619398117,
+        2.8889626264572144e-05,
+        0.0
+      ],
+      "cube_displacement": [
+        0.0639839619398117,
+        2.8889626264572144e-05,
+        0.0
+      ],
+      "case": "rtc_slow",
+      "rollout_wall_seconds": 15.689943492994644,
+      "extra_wall_seconds_per_control_interval": 0.05,
+      "audit": {
+        "passed": true,
+        "released_requests": 4,
+        "physics_steps_during_worker": 44,
+        "old_queue_actions_during_pending": 24,
+        "belt_displacement_error_m": [
+          -1.603806018829479e-05,
+          2.8889626264572144e-05,
+          0.0
+        ],
+        "release_lateness_steps": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "schema_audit": {
+        "actions": 64,
+        "observations": 65,
+        "head_shape": [
+          65,
+          480,
+          640,
+          3
+        ],
+        "duration": 2.1333333333333333,
+        "success": false
+      }
+    }
+  ],
+  "expert_metrics": {
+    "test": "expert",
+    "success": true,
+    "failure_reason": null,
+    "seed": 42,
+    "belt_speed": 0.03,
+    "control_ticks": 112,
+    "physics_steps": 1120,
+    "sim_time": 3.7333333333333334,
+    "object_displacement": [
+      0.0983361005783081,
+      0.0007575768977403641,
+      0.11252850294113159
+    ],
+    "cube_displacement": [
+      0.0983361005783081,
+      0.0007575768977403641,
+      0.11252850294113159
+    ],
+    "max_cube_z": 0.8925089240074158,
+    "mean_cube_speed": 0.026340026408433914,
+    "latency_mode": "no_latency",
+    "latency_requested_seconds": 0.25,
+    "latency_quantized_seconds": 0.0,
+    "real_model_tested": false,
+    "requests": [],
+    "lift_xy_mode": "contact_anchor",
+    "lift_tcp_frame": "latched_world_eef",
+    "lift_motion": {
+      "start_tick": 92,
+      "end_observation_tick": 112,
+      "duration_seconds": 0.6666666666666666,
+      "cube_world_delta_m": [
+        -0.0005613863468170166,
+        1.6437843441963196e-05,
+        0.11156898736953735
+      ],
+      "cube_in_eef_final_delta_m": [
+        -5.08568646551133e-06,
+        0.0005669935228499474,
+        -2.3997293047134513e-06
+      ],
+      "cube_in_eef_peak_change_m": 0.002432108208651293,
+      "min_finger_contact_N": [
+        14.96843147277832,
+        14.986172676086426
+      ],
+      "belt_surface_velocity_min_m_s": [
+        0.029999999329447746,
+        0.0,
+        0.0
+      ],
+      "belt_surface_velocity_max_m_s": [
+        0.029999999329447746,
+        0.0,
+        0.0
+      ],
+      "cube_in_pinch_peak_change_m": 6.58879058482123e-06
+    },
+    "contact_motion": {
+      "first_contact_tick": 90,
+      "lift_start_tick": 92,
+      "contact_to_lift_seconds": 0.06666666666666667,
+      "cube_pre_lift_delta_m": [
+        0.0050029456615448,
+        -2.17389315366745e-05,
+        -5.08427619934082e-05
+      ],
+      "eef_pre_lift_delta_m": [
+        -7.450580596923828e-08,
+        -2.60770320892334e-06,
+        -5.0008296966552734e-05
+      ],
+      "cube_contact_xy_peak_m": 0.0075532905757427216,
+      "eef_contact_xy_peak_m": 0.0004680773307926589,
+      "command_contact_xy_peak_m": 0.0,
+      "cube_contact_world_delta_m": [
+        0.004441559314727783,
+        -5.301088094711304e-06,
+        0.11151814460754395
+      ],
+      "eef_contact_world_delta_m": [
+        2.5331974029541016e-07,
+        7.828697562217712e-06,
+        0.11151361465454102
+      ]
+    },
+    "contact_motion_passed": true,
+    "passed": true
+  },
+  "artifact_sha256": {
+    "async_queue_normal": {
+      "head.mp4": "78267d9072609efe2978c85bcb6d1de30c4e833c4f2ef164bfcecabb415b8cdd",
+      "metadata.json": "579dd0ae7035ef72473e4ba1f1c510ed6b77d7cf13032c906b5c2cba566f2bef",
+      "trace.jsonl": "0b06fc3d084c7a9b9460909e1c17303474909de74e96775d23cb00d830c99ea0",
+      "trajectory.npz": "3a19215abf1b5c9e9b816dbc04488395b2344c9e5d1f0e10c15d6c4987ae775e"
+    },
+    "async_queue_slow": {
+      "head.mp4": "1d297b6a5a8100a488990b926c43a322717dcc6f72c54044ec8bd1836e235b09",
+      "metadata.json": "ae4bd2194e7406ddf0eed459fcb9b260ad898a8feae429c84d3e707da80ea2e6",
+      "trace.jsonl": "0b06fc3d084c7a9b9460909e1c17303474909de74e96775d23cb00d830c99ea0",
+      "trajectory.npz": "03bf0139baa78207a22a06a5fdd6f67c7ba00b6c34466dbc3b0a6c81ab949dff"
+    },
+    "expert_regression": {
+      "head.mp4": "802ac0aff07ca436899b4e1b43868586cc51442d19aa209ed1524a4264a3f64e",
+      "metadata.json": "017052723836f58a705b627de2bc501506e4b6ef544e1b713d3390b5cef004c0",
+      "trace.jsonl": "17ed0b584e019b64cf7006f04f564384a55d108e8d2fabc1520ad22916253a9c",
+      "trajectory.npz": "8ca3f1354e71ab5ed6fdd097827202856ca61ddca08f5519bc2f7cb4962bce22"
+    },
+    "no_latency_normal": {
+      "head.mp4": "9e4797ece4b33eebd8c6f68343386cf3b8b0f8f9384c6f1d8e8fd910c7e2633f",
+      "metadata.json": "0355db012bd747d862a91512916b71d889ed7fe279d8db9bb783970930613b4b",
+      "trace.jsonl": "d09d1a8c4b53a0412328cbbfbb25195a88312709272dadfa5e09e12a3fa86b52",
+      "trajectory.npz": "25924dff9956ec7e5930b2cfd2f339679366a9f80ab7cfc2a8f9e0abf5a7f5ec"
+    },
+    "rtc_normal": {
+      "head.mp4": "b5744488b8757502c22869ca0297de74a50593e69dd2aadbc36615eec06a7e00",
+      "metadata.json": "b8c1177c79c6c6ca7f1a9ba395ee1b2bab85098317237fee3764bf0c63b02a9e",
+      "trace.jsonl": "0f1ec390b3476491e0abc40e827424b539015104e228f861e8275509f48a9a62",
+      "trajectory.npz": "835fa3797e1e12cc630997b2fd622a6803c09cad20fe4e90c4e7c5c9726579d2"
+    },
+    "rtc_slow": {
+      "head.mp4": "0bd23c9082acaa4f81c70139f2645a884efae0bd652ad68beddc92b11d72046f",
+      "metadata.json": "8da53bd44b4ce9087eed470ec433b6d3438d5113ace5b7b5970369ee4b67435e",
+      "trace.jsonl": "0f1ec390b3476491e0abc40e827424b539015104e228f861e8275509f48a9a62",
+      "trajectory.npz": "ef5849b9bbfbcb624abe8aa216e35429e6c1979e3a21d4c58f02a8fa3afde19c"
+    },
+    "sync_hold_normal": {
+      "head.mp4": "06b22be68031ce5fdde89ba28d5a6146fd1361b3c9e215d84c72967c26ff4b7c",
+      "metadata.json": "795dfff63458482270033f55c14189c543c90581301f373064acfbc4ae406ac8",
+      "trace.jsonl": "4bff1f33334cc30b6f8846971c766e8949e697bfe50b012e62c00d5368e94827",
+      "trajectory.npz": "a493eb6817e4f1268944e203c9bcc2a9cd7d1a384b4f588ca3efc361634eb2e1"
+    }
+  }
+}
