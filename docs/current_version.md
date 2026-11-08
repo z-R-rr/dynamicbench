@@ -165,9 +165,11 @@ policy.predict_rtc(
 | `async_queue` | 按阈值预取，丢弃请求后实际执行动作数对应的前缀（欠载不计）；重叠段按旧/新 0.3/0.7 融合，替换队列 |
 | `rtc` | 按阈值预取，按响应到达延迟的控制步数丢弃前缀（包含欠载），直接替换队列、不融合 |
 
-`fixed/empirical` 使用配置或采样延迟，`measured_wallclock` 使用 worker 内测得的单次 `predict` / `predict_rtc` 调用耗时，不是包含提交、排队和主线程等待的端到端耗时。
+`fixed/empirical` 使用配置或采样延迟。`measured_wallclock` 测量 worker 从调用策略到 CPU 动作转换、校验完成的实际耗时；单独保留 `policy_call_wall_seconds`，不包含观测拷贝、worker 启动和外部排队时间。异步推理未结束时，控制边界受该请求的墙钟进度约束，防止仿真跑过结果可用时刻；仿真较慢时按测得耗时推进到相应控制边界，不再额外等待墙钟。RTC 使用实际 `release_tick - request_tick` 裁剪前缀，并同时记录理论可用时刻、实际生效时刻和晚到步数；普通异步仍按已执行队列动作数裁剪。
 
 普通动作包含 10 个物理步；同步等待按 300 Hz 向上量化，尾段可有 1–9 个物理步。只有 `evaluation_timing=True` 且 `hold=True` 允许这种短转移。新版数据的 `control_tick` 是记录转移序号，调度动作序号在 trace 的 `control_step`；不得用两者互相替代。
+
+`validate_measured_clock` 是独立诊断入口：用真实墙钟睡眠的 mock worker 验证四种调度模式，并在额外减慢物理执行时复测异步/RTC；保存逐请求时间、物理并发步数、队列裁剪、严格数据校验与专家回归证据，不标记为真实模型测试。
 
 `run_evaluation()` 返回 recorder 和指标，不自行保存文件；入口脚本负责保存。指标包括任务结果、`control_actions`、`recorded_transitions`、`physics_steps`、`sim_time`、同步等待步数、欠载、请求记录和策略来源。
 

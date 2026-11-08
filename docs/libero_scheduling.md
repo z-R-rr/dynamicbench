@@ -16,15 +16,33 @@ Expert collection remains the uniform 30 Hz v1 format.
   is ceil(latency * 30) ticks. Drop only the number of queue actions actually
   executed since submission (underflow holds do not count). Replace future
   queue, blending overlap as 0.3 old + 0.7 new.
-* RTC: same request/arrival gates, but drop the delay prefix and replace the
-  future queue without client-side blending. Pass unconsumed original actions
+* RTC: same request/arrival gates, but drop the prefix through the actual
+  release tick and replace the future queue without client-side blending.
+  Nominal availability and actual release are recorded separately, so a late
+  response cannot replay stale actions. Pass unconsumed original actions
   and delay steps to `predict_rtc` only when the adapter advertises support.
   Unsupported conditioning is recorded as false, never claimed as full RTC.
 * One worker receives copied RGB (including wrist) and actual robot state only.
   It never receives the scene or privileged cube/contact data. Fixed/empirical
   latency can block wall time at the availability gate if inference is slow;
-  that wait does not add another simulated delay. Measured latency is also
-  supported, but depends on hardware contention and simulator throughput.
+  that wait does not add another simulated delay.
+* `--latency-source measured_wallclock` uses the worker's actual response-ready
+  duration: policy call plus CPU output materialization/validation. The call-only
+  duration is also logged as `policy_call_wall_seconds`. Adapters must return
+  completed CPU actions; GPU submission alone is not a completed inference.
+  While an async/RTC request is unfinished, each control boundary waits until
+  its corresponding inference wall time or until the result completes. Fast
+  simulation therefore cannot race ahead of the measured inference clock.
+  Slow simulation continues queued actions until it reaches the calculated
+  availability tick, without another wall-time sleep. Availability remains
+  ceil(measured duration * 30): less than one control period of quantization.
+  This aligns simulated latency; it does not guarantee real-time rendering.
+  Worker startup, snapshot copying and external communication outside the
+  policy call are not charged as model inference time. Fixed/empirical and
+  synchronous/no-latency protocols do not use this asynchronous pacing.
+  Requests log `clock_pacing_wall_seconds`, nominal `queue_delay_steps`, actual
+  `effective_delay_steps`, and `release_lateness_steps`. RTC expires the actual
+  age, whereas ordinary async still expires only executed queue actions.
 
 Physical differences retained deliberately: finite joint drives instead of
 idealized robot state freezing; 300 Hz PhysX instead of MuJoCo; absolute EEF10

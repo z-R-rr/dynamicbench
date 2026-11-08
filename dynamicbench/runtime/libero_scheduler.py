@@ -5,9 +5,10 @@ availability uses control ticks. Underflow counts for RTC delay, but NOT for
 the ordinary async executed-action prefix. Native Isaac drives remain finite.
 """
 
-from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import ThreadPoolExecutor, wait
 from copy import deepcopy
 import math
+from threading import Event
 import time
 
 import numpy as np
@@ -105,10 +106,16 @@ class LiberoScheduler:
             rtc_conditioning_used=rtc_used,
             leftover_count=len(leftover),
             status="pending",
+            clock_pacing_wall_seconds=0.0,
         )
+
+        timing = {}
+        clock_started = Event()
 
         def infer():
             started = time.perf_counter()
+            timing["started_wall"] = started
+            clock_started.set()
             if rtc_used:
                 result = self.policy.predict_rtc(
                     snapshot,
@@ -119,14 +126,43 @@ class LiberoScheduler:
                 )
             else:
                 result = self.policy.predict(snapshot, k, self.horizon)
-            elapsed = time.perf_counter() - started
+            timing["policy_call_wall_seconds"] = time.perf_counter() - started
             actions = np.asarray(result, dtype=float)
             if actions.shape != (self.horizon, 10):
                 raise ValueError("policy must return exactly [horizon,10] absolute EEF10")
-            return np.asarray([validate_eef10(row) for row in actions]), elapsed
+            actions = np.asarray([validate_eef10(row) for row in actions])
+            # The response is usable only after CPU materialization/validation.
+            # Adapters must return completed outputs, not asynchronous GPU handles.
+            return actions, time.perf_counter() - started
 
         self.requests.append(request)
-        self.pending = dict(record=request, future=self.executor.submit(infer), result=None)
+        self.pending = dict(
+            record=request,
+            future=self.executor.submit(infer),
+            result=None,
+            timing=timing,
+            clock_started=clock_started,
+        )
+
+    def _pace_measured_request(self, k, pending):
+        """Do not outrun an unfinished measured inference in simulation time.
+
+        A control interval may cross the completion instant by less than one
+        tick. Slow simulation catches up after the future completes without an
+        additional wall-clock sleep. Fixed/empirical and sync waits bypass this.
+        """
+        future, record = pending["future"], pending["record"]
+        if future.done():
+            return
+        started_wait = time.perf_counter()
+        if not pending["clock_started"].wait(self.worker_timeout):
+            raise TimeoutError("policy worker did not start its measured clock")
+        deadline = pending["timing"]["started_wall"] + (k - record["request_tick"]) / self.hz
+        remaining = deadline - time.perf_counter()
+        if remaining > 0:
+            # Wake either when this control boundary is due or inference ends.
+            wait([future], timeout=remaining)
+        record["clock_pacing_wall_seconds"] += max(0.0, time.perf_counter() - started_wait)
 
     def _collect(self, k, *, force=False):
         p = self.pending
@@ -134,6 +170,8 @@ class LiberoScheduler:
             return False
         r = p["record"]
         latency = r["latency_sim_seconds"]
+        if latency is None and not force:
+            self._pace_measured_request(k, p)
         available = None if latency is None else r["request_tick"] + math.ceil(latency * self.hz)
         should_wait = force or (available is not None and k >= available)
         if p["result"] is None:
@@ -143,6 +181,7 @@ class LiberoScheduler:
             p["result"], wall = p["future"].result(timeout=self.worker_timeout)
             r["worker_wait_wall_seconds"] = time.perf_counter() - started
             r["inference_wall_seconds"] = wall
+            r["policy_call_wall_seconds"] = p["timing"]["policy_call_wall_seconds"]
             if latency is None:
                 latency = wall
                 r["latency_sim_seconds"] = latency
@@ -151,6 +190,8 @@ class LiberoScheduler:
             return False
         r["available_tick"] = k if self.mode in {"sync_hold", "no_latency"} else available
         r["release_tick"] = k
+        r["effective_delay_steps"] = 0 if self.mode in {"sync_hold", "no_latency"} else k - r["request_tick"]
+        r["release_lateness_steps"] = 0 if self.mode in {"sync_hold", "no_latency"} else max(0, k - available)
         r["queue_delay_steps"] = 0 if self.mode in {"sync_hold", "no_latency"} else available - r["request_tick"]
         self._merge(p["result"], r)
         r["status"] = "released"
@@ -161,7 +202,7 @@ class LiberoScheduler:
         drop = (
             self.executed - r["executed_at_submit"]
             if self.mode == "async_queue"
-            else r["queue_delay_steps"]
+            else r["effective_delay_steps"]
             if self.mode == "rtc"
             else 0
         )
