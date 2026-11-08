@@ -2,7 +2,8 @@
 
 Select `--embodiment x5|franka|piper` on `run_mvp`, `collect_expert`, or
 `evaluate_policy`. The default remains X5. Belt, cube, room, lights and head
-camera stay the same; robot-specific root placement and pregrasp IK change.
+camera stay the same. All embodiments inherit the front installation pose from
+the layout resolver; robot-specific joints and pregrasp IK change.
 
 | Adapter | Assets | Arm / fingers | Action reference | TCP direction |
 |---|---|---|---|---|
@@ -22,11 +23,17 @@ Franka's link8 and hand transform. Every simulator reset checks this FK against
 the USD articulation before accepting an episode. No robot state writes occur
 outside reset; actions go through bounded IK and finite joint drives.
 
-Franka and Piper task roots are [-0.65,-0.02,0.765] with identity orientation.
-Pregrasp joints are solved deterministically from each URDF. Franka approaches
-vertically. Piper uses a 30-degree inclined approach because its joint5 limit
-prevents the selected vertical pregrasp; the jaw yaw avoids the joint6 wrap seam.
-These are task placements, not claims of an official RoboDojo conveyor layout.
+Franka and Piper inherit the same front mounting slot as X5, resolved from
+RoboDojo `env_cfg/robot/dual_x5.yml` (robot index 0): position
+[-0.3,-0.45,0.765], WXYZ quaternion [sqrt(0.5),0,0,sqrt(0.5)]. There is no
+separate hardcoded root for the new adapters. `installation_pose_source` records
+the source config. This reuses the X5 installation slot; it is not an official
+Piper/Franka conveyor configuration.
+
+Pregrasp joints are solved deterministically from each URDF using the inherited
+root rotation. The grasp orientation also rotates with that mounting frame.
+Franka approaches vertically. Piper retains its 30-degree inclined approach
+because of its joint5 limit; the jaw yaw avoids the joint6 wrap seam.
 
 New-adapter arm drives use task-specific stiffness 2000 and damping 40, with
 the source effort limits retained. The first Franka diagnostic using its
@@ -37,6 +44,9 @@ are recorded in `settings.robot`; X5 gains are unchanged. Finger effort remains
 X5 keeps its official asset camera mount. Franka and Piper use an explicitly
 task-mounted D435 at the declared EEF, local position [.05,0,.025], WXYZ
 [0,1,0,0]. This is not presented as an official wrist-camera calibration.
+The front-layout change preserves these local mounts and the D435 lens. Wrist
+world poses naturally follow the robot; the head-camera world pose, conveyor,
+cube, room, lights and renderer settings are unchanged by this change.
 
 Piper assets are discovered in the sibling RoboTwin checkout or supplied via
 `--piper-asset-root /absolute/path/to/piper`. Conversion uses Isaac Lab's native

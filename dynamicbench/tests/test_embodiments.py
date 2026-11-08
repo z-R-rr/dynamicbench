@@ -8,6 +8,7 @@ from dynamicbench.envs.kinematics import URDFArmIK
 def test_new_embodiments_inherit_installation_without_moving_scene(tmp_path, monkeypatch, name):
     import copy
 
+    from scipy.spatial.transform import Rotation
     import yaml
 
     from dynamicbench.embodiments import resolve_embodiment
@@ -47,6 +48,7 @@ def test_new_embodiments_inherit_installation_without_moving_scene(tmp_path, mon
             seen.update(position=position, rotation=rotation)
 
         def solve(self, position, rotation, seed):
+            seen["target_rotation"] = rotation
             return np.zeros(1)
 
     monkeypatch.setattr("dynamicbench.embodiments.URDFArmIK", IK)
@@ -55,6 +57,12 @@ def test_new_embodiments_inherit_installation_without_moving_scene(tmp_path, mon
     assert result["robot"]["base_position"] == before["robot"]["base_position"] == seen["position"]
     assert result["robot"]["base_quaternion_wxyz"] == before["robot"]["base_quaternion_wxyz"]
     np.testing.assert_allclose(seen["rotation"], quat_wxyz_matrix(before["robot"]["base_quaternion_wxyz"]))
+    local_grasp = np.diag([1.0, -1.0, -1.0])
+    if name == "piper":
+        local_grasp = Rotation.from_euler("y", -30, degrees=True).as_matrix() @ local_grasp @ np.diag([-1.0, -1.0, 1.0])
+    expected_grasp = seen["rotation"] @ local_grasp
+    np.testing.assert_allclose(result["robot"]["grasp_rotation_world"], expected_grasp)
+    np.testing.assert_allclose(seen["target_rotation"], expected_grasp)
     assert result["belt"] == before["belt"] and result["cube"] == before["cube"]
     for key, value in before["camera"].items():
         assert result["camera"][key] == value
