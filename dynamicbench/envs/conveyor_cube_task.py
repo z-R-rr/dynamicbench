@@ -13,6 +13,8 @@ from pxr import Gf, PhysxSchema, Usd, UsdGeom, UsdPhysics
 import torch
 
 from dynamicbench.embodiments import articulation_config
+from dynamicbench.envs.object_asset import object_spawn_config
+from dynamicbench.objects import grasp_position, spawn_position, vertical_bounds
 from env.camera_manager.capture.render_sync import wait_for_latest_cameras
 
 from .kinematics import URDFArmIK
@@ -118,9 +120,11 @@ class ConveyorCubeTask(BaseEnv):
             key = f"passive_robot{i}"
             setattr(scene, key, config.replace(prim_path="{ENV_REGEX_NS}/" + key))
             self.passive_robot_names.append(key)
-        bc, cc = settings["belt"], settings["cube"]
+        bc, cc = settings["belt"], settings["object"]
+        object_spawn = object_spawn_config(cc)
+        self.asset_audit["object"] = cc
         self.belt_top = bc["center"][2] + bc["size"][2] / 2
-        self.cube_start = np.r_[cc["initial_xy"], self.belt_top + cc["size"] / 2 + 0.002]
+        self.cube_start = spawn_position(cc, self.belt_top)
         material = sim_utils.RigidBodyMaterialCfg(
             static_friction=bc["friction"], dynamic_friction=bc["friction"], restitution=0, friction_combine_mode="max"
         )
@@ -143,25 +147,12 @@ class ConveyorCubeTask(BaseEnv):
             # original USD's nested demo Cube during prim-deletion callbacks,
             # which would unsubscribe OUR cube before the first PLAY event.
             prim_path=CUBE_PRIM_PATH,
-            spawn=sim_utils.CuboidCfg(
-                size=(cc["size"],) * 3,
-                rigid_props=sim_utils.RigidBodyPropertiesCfg(
-                    disable_gravity=False,
-                    # Surface-speed changes do not wake a box resting on an
-                    # otherwise stationary kinematic actor. Keep this task's
-                    # one dynamic box awake; do not drive its pose or velocity.
-                    sleep_threshold=0.0,
-                    solver_position_iteration_count=16,
-                    solver_velocity_iteration_count=4,
-                    max_depenetration_velocity=1,
-                ),
-                mass_props=sim_utils.MassPropertiesCfg(mass=cc["mass"]),
-                collision_props=sim_utils.CollisionPropertiesCfg(contact_offset=0.001, rest_offset=0),
-                physics_material=material.replace(static_friction=cc["friction"], dynamic_friction=cc["friction"]),
-                visual_material=sim_utils.PreviewSurfaceCfg(diffuse_color=(1, 0.55, 0.02)),
+            spawn=object_spawn,
+            init_state=RigidObjectCfg.InitialStateCfg(
+                pos=tuple(self.cube_start), rot=lab_quaternion(cc["initial_quaternion_wxyz"])
             ),
-            init_state=RigidObjectCfg.InitialStateCfg(pos=tuple(self.cube_start)),
         )
+
         cam = settings["camera"]
         lens = cam["head_lens"]
         scene.head = CameraCfg(
@@ -367,7 +358,7 @@ class ConveyorCubeTask(BaseEnv):
         if "root_transform" in bc:
             minimum, maximum = np.asarray(box.GetMin()), np.asarray(box.GetMax())
             self.belt_top = float(maximum[2])
-            self.cube_start[2] = self.belt_top + self.settings["cube"]["size"] / 2 + 0.002
+            self.cube_start = spawn_position(self.settings["object"], self.belt_top)
             bc["center"] = ((minimum + maximum) / 2).tolist()
             bc["size"] = (maximum - minimum).tolist()
             bc["measured_surface_height"] = self.belt_top
@@ -427,9 +418,10 @@ class ConveyorCubeTask(BaseEnv):
         state[0, :3] = torch.tensor(
             self.cube_start
             + np.r_[
-                rng.uniform(-self.settings["cube"]["initial_jitter"], self.settings["cube"]["initial_jitter"], 2), 0
+                rng.uniform(-self.settings["object"]["initial_jitter"], self.settings["object"]["initial_jitter"], 2), 0
             ]
         )
+        state[0, 3:7] = torch.tensor(lab_quaternion(self.settings["object"]["initial_quaternion_wxyz"]))
         state[0, 7:] = 0
         root_state(self.cube, state)  # reset only, never during grasp
         self.surface.GetSurfaceVelocityAttr().Set(Gf.Vec3f(0, 0, 0))
@@ -529,6 +521,12 @@ class ConveyorCubeTask(BaseEnv):
             head=image,
             wrist=wrist_image,
             oracle_debug=dict(
+                object_pose=cube[:7],
+                object_velocity=cube[7:10],
+                object_bottom_z=vertical_bounds(self.settings["object"]["geometry"], cube[:7])[0],
+                object_top_z=vertical_bounds(self.settings["object"]["geometry"], cube[:7])[1],
+                object_grasp_position=grasp_position(self.settings["object"], cube[:7]),
+                # Compatibility aliases for existing diagnostics, not shape assertions.
                 cube_pose=cube[:7],
                 cube_velocity=cube[7:10],
                 finger_contact_forces=np.asarray(forces),
@@ -552,7 +550,7 @@ class ConveyorCubeTask(BaseEnv):
             return False, "out_of_reach"
         # Bottom of the same dynamic cube must clear the belt by the threshold,
         # with physical contact from BOTH fingers at each successful control tick.
-        lifted = cube[2] - self.settings["cube"]["size"] / 2 > self.belt_top + self.settings["expert"]["success_height"]
+        lifted = dbg["object_bottom_z"] > self.belt_top + self.settings["expert"]["success_height"]
         contacts = np.all(dbg["finger_contact_forces"] > 0.01)
         self.success_count = self.success_count + 1 if lifted and contacts else 0
         if self.success_count >= self.settings["expert"]["success_hold_ticks"]:

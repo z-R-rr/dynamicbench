@@ -1,0 +1,12 @@
+object:
+  id: robodojo_block_00020
+  source: usd
+  usd_path: Assets/Object/RoboDojo/Rigid/block/00020/object.usdz
+  scale: [1, 1, 1]
+  mass: 0.05
+  friction: 1.5
+  initial_xy: [-0.25, -0.02]
+  initial_jitter: 0.005
+  grasp:
+    position: [0, 0, 0.0015]
+    opening: 1.0

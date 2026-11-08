@@ -75,6 +75,7 @@ def run_episode(env, *, test="expert", ticks=600, mode="no_latency", latency=0.2
         control_ticks=len(recorder.actions),
         physics_steps=controller.clock.physics_step,
         sim_time=controller.clock.sim_time,
+        object_displacement=displacement.tolist(),
         cube_displacement=displacement.tolist(),
         max_cube_z=env.max_cube_z,
         mean_cube_speed=float(displacement[0] / controller.clock.sim_time),
@@ -137,7 +138,12 @@ def metadata(env, metrics, commit):
         source_commit=commit,
         settings=env.settings,
         belt_top=env.belt_top,
-        cube_size=env.settings["cube"]["size"],
+        object=env.settings["object"],
+        **(
+            {"cube_size": env.settings["object"]["size"][0]}
+            if env.settings["object"].get("shape") == "box" and len(set(env.settings["object"]["size"])) == 1
+            else {}
+        ),
         success_height=cfg["success_height"],
         success_hold_ticks=cfg["success_hold_ticks"],
         gripper_convention="-1 closed +1 open; measured joint7/8",

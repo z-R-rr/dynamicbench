@@ -2,7 +2,7 @@
 
 import numpy as np
 
-from dynamicbench.envs.poses import decode_eef10, encode_eef10
+from dynamicbench.envs.poses import decode_eef10, encode_eef10, quat_wxyz_matrix
 
 
 class ConveyorCubeExpert:
@@ -15,6 +15,7 @@ class ConveyorCubeExpert:
         self.rotation = np.asarray(
             settings["robot"].get("grasp_rotation_world", np.column_stack([[0, 0, -1], [-1, 0, 0], [0, 1, 0]]))
         )
+        self.object_cfg = settings.get("object")
         self.offset = np.asarray(settings["robot"]["tcp_offset_link6"])
         self.grasp_xy = None
         self.lift_xy_mode = self.cfg.get("lift_xy_mode", "track_cube")
@@ -47,7 +48,13 @@ class ConveyorCubeExpert:
             if self.bilateral_ticks >= self.cfg.get("stable_contact_ticks", 3):
                 cube = dbg["cube_pose"][:3]
                 self.grasp_xy = cube[:2].copy()
-                self.lift_goal_z = self.contact_anchor[2] + max(0.0, self.belt_top + self.cfg["lift_height"] - cube[2])
+                self.lift_goal_z = self.contact_anchor[2] + max(
+                    0.0,
+                    self.belt_top + self.cfg["lift_height"] - cube[2],
+                    self.belt_top + self.cfg["success_height"] + 0.03 - dbg["object_bottom_z"]
+                    if self.object_cfg
+                    else 0.0,
+                )
                 self.change("lift")
             elif self.phase_tick >= self.cfg.get("contact_timeout_ticks", 30):
                 self.failure = "no_stable_bilateral_grasp"
@@ -78,18 +85,27 @@ class ConveyorCubeExpert:
                 self.contact_command_z = float(pos[2])
                 self.change("grasp_settle")
                 return self._contact_action(dbg)
-        intercept = cube[:2] + np.clip(velocity[:2], -0.1, 0.1) * self.cfg["intercept_seconds"]
+        point = dbg.get("object_grasp_position", cube)
+        if self.object_cfg and "quaternion_wxyz" in self.object_cfg["grasp"]:
+            self.rotation = quat_wxyz_matrix(dbg["object_pose"][3:7]) @ quat_wxyz_matrix(
+                self.object_cfg["grasp"]["quaternion_wxyz"]
+            )
+        intercept = point[:2] + np.clip(velocity[:2], -0.1, 0.1) * self.cfg["intercept_seconds"]
         target = np.r_[intercept, self.belt_top + self.cfg["approach_height"]]
-        opening = 1.0
+        if self.object_cfg:
+            target[2] = max(target[2], dbg["object_top_z"] + 0.04)
+        opening = self.object_cfg["grasp"]["opening"] if self.object_cfg else 1.0
         if self.phase == "observe_motion":
             if self.phase_tick >= self.cfg["observe_ticks"]:
                 self.change("pregrasp")
-            return obs["eef10"].copy()[:9].tolist() + [1.0]
+            return obs["eef10"].copy()[:9].tolist() + [opening]
         if self.phase == "pregrasp":
             if np.linalg.norm(tcp - target) < 0.012 and np.linalg.norm(rot - self.rotation) < 0.08:
                 self.change("descend")
         if self.phase in ("descend", "close_gripper"):
-            target = np.r_[intercept, self.belt_top + self.settings["cube"]["size"] * 0.55]
+            target = np.r_[
+                intercept, point[2] if self.object_cfg else self.belt_top + self.settings["cube"]["size"] * 0.55
+            ]
             if self.phase == "descend" and np.linalg.norm(tcp - target) < 0.008:
                 self.change("close_gripper")
             if self.phase == "close_gripper":
@@ -111,7 +127,12 @@ class ConveyorCubeExpert:
                 offset = dbg["finger_midpoint_in_eef"] + self.grasp_relative_offset
                 tcp = pos + rot @ offset
             xy = cube[:2] if self.lift_xy_mode == "track_cube" else self.grasp_xy
-            target = np.r_[xy, self.belt_top + self.cfg["lift_height"]]
+            height = self.belt_top + self.cfg["lift_height"]
+            if self.object_cfg:
+                height = max(
+                    height, cube[2] + self.belt_top + self.cfg["success_height"] + 0.03 - dbg["object_bottom_z"]
+                )
+            target = np.r_[xy, height]
         speed = self.cfg["descend_speed"] if self.phase == "descend" else self.cfg["max_tcp_speed"]
         delta = target - tcp
         delta *= min(1.0, speed / 30 / max(np.linalg.norm(delta), 1e-9))

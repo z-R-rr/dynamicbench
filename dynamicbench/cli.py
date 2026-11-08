@@ -29,6 +29,7 @@ def parser(collect=False, compare_lift=False, evaluation=False):
     p.add_argument("--ticks", type=int, default=600)
     p.add_argument("--output", type=Path, default=ROOT / ("datasets/conveyor_cube_v0" if collect else "outputs/mvp"))
     p.add_argument("--config", type=Path, default=ROOT / "dynamicbench/configs/pick_cube_from_conveyor.yaml")
+    p.add_argument("--object-config", type=Path, help="YAML with one object mapping; overrides task object/cube")
     p.add_argument("--latency-mode", choices=["no_latency", "sync_hold", "rtc_async"], default="no_latency")
     p.add_argument("--latency", type=float, default=0.25)
     p.add_argument("--no-video", action="store_true")
@@ -118,7 +119,9 @@ def launch(p):
 def load_settings(args):
     import yaml
 
-    settings = yaml.safe_load(args.config.read_text())
+    from dynamicbench.objects import resolve_object_settings
+
+    settings = resolve_object_settings(yaml.safe_load(args.config.read_text()), ROOT, args.object_config)
     if "layout" in settings:
         from dynamicbench.layout import resolve_robodojo_layout
 

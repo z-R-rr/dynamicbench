@@ -87,7 +87,7 @@ def test_cli_official_pregrasp_ignores_compact_height(tmp_path, monkeypatch, nam
 
     settings = fixture(tmp_path)
     settings["robot"]["gripper_effort"] = 15
-    settings["cube"] = dict(initial_xy=[-0.25, -0.02])
+    settings["cube"] = dict(initial_xy=[-0.25, -0.02], size=0.035, mass=0.05, friction=1.5, initial_jitter=0.005)
     settings["layout"].update(camera_config="cameras.yml", head_camera="cam_head")
     (tmp_path / "robots.yml").write_text(
         "robots: [{default_root_pos: [-0.3, -0.45, 0.765], default_root_rot: [0.707, 0, 0, 0.707]}]"
@@ -129,6 +129,7 @@ def test_cli_official_pregrasp_ignores_compact_height(tmp_path, monkeypatch, nam
     monkeypatch.setattr("dynamicbench.rendering.resolve_render_settings", lambda root: {})
     monkeypatch.setattr("dynamicbench.scene.resolve_scene", lambda settings, root: settings)
     args = SimpleNamespace(
+        object_config=None,
         config=tmp_path / "task.yml",
         embodiment=name,
         piper_asset_root=directory,

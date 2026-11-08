@@ -117,7 +117,11 @@ def resolve_initial_pose(settings):
         end_link=rc["eef_link"],
     )
     tcp = np.array(
-        [result["cube"]["initial_xy"][0], -0.12, result["belt"]["center"][2] + result["belt"]["size"][2] / 2 + 0.185]
+        [
+            result.get("object", result.get("cube"))["initial_xy"][0],
+            -0.12,
+            result["belt"]["center"][2] + result["belt"]["size"][2] / 2 + 0.185,
+        ]
     )
     position = tcp - rotation @ np.asarray(rc["tcp_offset_eef"])
     rng = np.random.default_rng(42)

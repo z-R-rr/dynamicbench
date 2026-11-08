@@ -118,6 +118,7 @@ def run_evaluation(
         hold_semantics="finite_joint_drive_previous_target_no_state_writes",
         real_model_tested=bool(getattr(policy, "is_real_model", False)),
         policy=getattr(policy, "provenance", {"kind": "mock"}),
+        object_displacement=(end["oracle_debug"]["cube_pose"][:3] - start["oracle_debug"]["cube_pose"][:3]).tolist(),
         cube_displacement=(end["oracle_debug"]["cube_pose"][:3] - start["oracle_debug"]["cube_pose"][:3]).tolist(),
     )
     return recorder, metrics

@@ -1,0 +1,13 @@
+object:
+  id: sphere_35mm
+  source: primitive
+  shape: sphere
+  radius: 0.0175
+  mass: 0.05
+  friction: 1.5
+  color: [0.75, 0.15, 0.15]
+  initial_xy: [-0.25, -0.02]
+  initial_jitter: 0.005
+  grasp:
+    position: [0, 0, 0]
+    opening: 1.0

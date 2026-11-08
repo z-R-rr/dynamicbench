@@ -86,3 +86,22 @@ def test_rgb_video_frame_count_matches_npz_tail(tmp_path):
     export_video(arrays, video)
     with imageio.get_reader(video) as reader:
         assert sum(1 for _ in reader) == summary["observations"]
+
+
+def test_generic_object_success_uses_geometry_and_rejects_forged_bottom(tmp_path):
+    a, m, _ = read_episode(fixture(tmp_path))
+    m.update(
+        success=True,
+        failure_reason=None,
+        success_hold_ticks=2,
+        belt_top=0.65,
+        success_height=0.05,
+        object=dict(id="sphere", schema_version="dynamicbench.object.v1", geometry=dict(kind="sphere", radius=0.02)),
+    )
+    a["oracle_debug.object_pose"] = a["oracle_debug.cube_pose"].copy()
+    a["oracle_debug.object_bottom_z"] = np.full(4, 0.78)
+    a["oracle_debug.finger_contact_forces"][:] = 15
+    assert validate(a, m)["success"]  # no legacy cube_size in metadata
+    a["oracle_debug.object_bottom_z"][:] = 0.9
+    with pytest.raises(ValueError, match="bottom disagrees"):
+        validate(a, m)
