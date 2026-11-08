@@ -14,7 +14,7 @@ from dynamicbench.envs.poses import quat_wxyz_matrix
 from dynamicbench.robot_sources import resolve_robot_asset_config
 
 
-def resolve_embodiment(settings, root, name="x5", piper_asset_root=None):
+def resolve_embodiment(settings, root, name="x5", piper_asset_root=None, *, prepare_initial_pose=True):
     if name == "x5":
         result = resolve_robot_asset_config(settings, root)
         result["robot"].update(
@@ -84,28 +84,11 @@ def resolve_embodiment(settings, root, name="x5", piper_asset_root=None):
         installation_pose_source=result["layout"]["robot_config"],
         gripper_actuator="panda_hand" if name == "franka" else "gripper",
         grasp_rotation_world=rotation.tolist(),
-        initial_pose_source="task pregrasp URDF IK",
         arm_drive_stiffness=2000.0,
         arm_drive_damping=40.0,
         asset_source="RoboDojo Franka" if name == "franka" else "RoboTwin Piper",
         gripper_effort=min(rc["gripper_effort"], 10.0) if name == "piper" else rc["gripper_effort"],
     )
-    # Preserve the belt/cube, head camera and shared base pose. Re-solve only
-    # embodiment-specific joints and the grasp orientation in the mounting frame.
-    ik = URDFArmIK(urdf, rc["base_position"], base_rotation, arm, end_link=eef)
-    tcp = np.array(
-        [result["cube"]["initial_xy"][0], -0.12, result["belt"]["center"][2] + result["belt"]["size"][2] / 2 + 0.185]
-    )
-    position = tcp - rotation @ np.asarray(offset)
-    rng = np.random.default_rng(42)
-    seeds = [(ik.lower + ik.upper) / 2] + [rng.uniform(ik.lower + 0.01, ik.upper - 0.01) for _ in range(24)]
-    for seed in seeds:
-        q = ik.solve(position, rotation, seed)
-        if q is not None:
-            rc["initial_q"] = q.tolist()
-            break
-    else:
-        raise ValueError(f"{name}: pregrasp pose unreachable")
     result["camera"]["wrist"] = dict(
         name="task_wrist",
         mount_link=eef,
@@ -116,6 +99,37 @@ def resolve_embodiment(settings, root, name="x5", piper_asset_root=None):
         source="DynamicBench task-mounted D435; not an official robot camera mount",
     )
     result["layout"]["source_sha256"].update({str(p): hashlib.sha256(p.read_bytes()).hexdigest() for p in (path, urdf)})
+    return resolve_initial_pose(result) if prepare_initial_pose else result
+
+
+def resolve_initial_pose(settings):
+    """Solve adapter pregrasp joints after the selected belt geometry is resolved."""
+    result = copy.deepcopy(settings)
+    rc = result["robot"]
+    if rc.get("embodiment", "x5") == "x5":
+        return result
+    rotation = np.asarray(rc["grasp_rotation_world"])
+    ik = URDFArmIK(
+        Path(rc["urdf_path"]),
+        rc["base_position"],
+        quat_wxyz_matrix(rc["base_quaternion_wxyz"]),
+        rc["arm_joint_names"],
+        end_link=rc["eef_link"],
+    )
+    tcp = np.array(
+        [result["cube"]["initial_xy"][0], -0.12, result["belt"]["center"][2] + result["belt"]["size"][2] / 2 + 0.185]
+    )
+    position = tcp - rotation @ np.asarray(rc["tcp_offset_eef"])
+    rng = np.random.default_rng(42)
+    seeds = [(ik.lower + ik.upper) / 2] + [rng.uniform(ik.lower + 0.01, ik.upper - 0.01) for _ in range(24)]
+    for seed in seeds:
+        q = ik.solve(position, rotation, seed)
+        if q is not None:
+            rc["initial_q"] = q.tolist()
+            rc["initial_pose_source"] = "task pregrasp URDF IK"
+            break
+    else:
+        raise ValueError(f"{rc['embodiment']}: pregrasp pose unreachable")
     return result
 
 

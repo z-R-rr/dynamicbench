@@ -125,7 +125,9 @@ def load_settings(args):
         settings = resolve_robodojo_layout(settings, ROOT)
         from dynamicbench.embodiments import resolve_embodiment
 
-        settings = resolve_embodiment(settings, ROOT, args.embodiment, args.piper_asset_root)
+        settings = resolve_embodiment(
+            settings, ROOT, args.embodiment, args.piper_asset_root, prepare_initial_pose=False
+        )
     from dynamicbench.rendering import resolve_render_settings
 
     settings["render"] = resolve_render_settings(ROOT)
@@ -139,9 +141,11 @@ def load_settings(args):
         settings.setdefault("scene", {})["source"] = args.scene_source
     if args.layout_profile is not None:
         settings["layout"]["profile"] = args.layout_profile
+    from dynamicbench.embodiments import resolve_initial_pose
     from dynamicbench.production_layout import resolve_production_layout
 
     settings = resolve_production_layout(settings, ROOT)
+    settings = resolve_initial_pose(settings)
     if settings.get("scene", {}).get("source") == "robodojo":
         from dynamicbench.scene import resolve_scene
 
