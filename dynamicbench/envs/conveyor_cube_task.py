@@ -97,6 +97,11 @@ class ConveyorCubeTask(BaseEnv):
         scene = InteractiveSceneCfg(num_envs=1, env_spacing=7, replicate_physics=False)
         rc = settings["robot"]
         robot_cfg = articulation_config(rc, ROOT)
+        if "arm_drive_stiffness" in rc:
+            for key, actuator in robot_cfg.actuators.items():
+                if key != rc["gripper_actuator"]:
+                    actuator.stiffness = rc["arm_drive_stiffness"]
+                    actuator.damping = rc["arm_drive_damping"]
         robot_cfg.spawn.activate_contact_sensors = True
         robot_cfg.actuators[rc.get("gripper_actuator", "gripper")].effort_limit_sim = rc["gripper_effort"]
         robot_cfg.init_state.pos = tuple(rc["base_position"])

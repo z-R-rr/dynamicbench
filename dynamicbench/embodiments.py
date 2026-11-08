@@ -81,6 +81,8 @@ def resolve_embodiment(settings, root, name="x5", piper_asset_root=None):
         gripper_actuator="panda_hand" if name == "franka" else "gripper",
         grasp_rotation_world=rotation.tolist(),
         initial_pose_source="task pregrasp URDF IK",
+        arm_drive_stiffness=2000.0,
+        arm_drive_damping=40.0,
         asset_source="RoboDojo Franka" if name == "franka" else "RoboTwin Piper",
         gripper_effort=min(rc["gripper_effort"], 10.0) if name == "piper" else rc["gripper_effort"],
     )
