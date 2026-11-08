@@ -1,0 +1,106 @@
+{
+  "current": {
+    "overall_size_m": [
+      0.7000086213726472,
+      0.28000882855745424,
+      0.18487593211048736
+    ],
+    "overall_center_m": [
+      -0.12000409304725974,
+      -0.02000619714591867,
+      0.7138379647200996
+    ],
+    "bottom_z_m": 0.621399998664856,
+    "belt_surface_top_z_m": 0.7638423897444068,
+    "actual_qpos": [
+      -0.14888040721416473,
+      1.8515000343322754,
+      1.919600009918213,
+      -1.6389000415802002,
+      0.0,
+      -0.1488714963197708,
+      0.04399999976158142,
+      0.04399999976158142
+    ],
+    "source_commit": "d95caa6e85cc7ce13756ac46d3a2082b5cc9d1b9"
+  },
+  "official_belt": {
+    "overall_size_m": [
+      3.962948815536606,
+      1.1768370866775517,
+      0.9243796467781067
+    ],
+    "overall_center_m": [
+      -0.09852680072789788,
+      0.18792604207992525,
+      0.5121898233890534
+    ],
+    "bottom_z_m": 0.05000000000000006,
+    "belt_surface_top_z_m": 0.7622119447849692,
+    "actual_qpos": [
+      -0.14888040721416473,
+      1.8515000343322754,
+      1.919600009918213,
+      -1.6389000415802002,
+      0.0,
+      -0.1488714963197708,
+      0.04399999976158142,
+      0.04399999976158142
+    ],
+    "source_commit": "d95caa6e85cc7ce13756ac46d3a2082b5cc9d1b9"
+  },
+  "official_belt_home": {
+    "overall_size_m": [
+      3.962948815536606,
+      1.1768370866775517,
+      0.9243796467781067
+    ],
+    "overall_center_m": [
+      -0.09852680072789788,
+      0.18792604207992525,
+      0.5121898233890534
+    ],
+    "bottom_z_m": 0.05000000000000006,
+    "belt_surface_top_z_m": 0.7622119447849692,
+    "actual_qpos": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.04399999976158142,
+      0.04399999976158142
+    ],
+    "source_commit": "d95caa6e85cc7ce13756ac46d3a2082b5cc9d1b9"
+  },
+  "controls": {
+    "same_camera_world_transform": true,
+    "same_camera_lens_and_reported_K": true,
+    "same_runtime": true,
+    "same_room_lighting_settings": true,
+    "single_arm": true,
+    "no_physics_steps_during_capture": true
+  },
+  "reference_task": "pick_from_conveyor_by_image",
+  "reference_layout": "Assets/Eval_Layout/RoboDojo/arx_x5/0/pick_from_conveyor_by_image_0.json",
+  "reference_scope": "Pinned upstream source and downloaded evaluation layout; screenshot frame/seed/version unknown",
+  "production_settings_changed": false,
+  "render_gpu": 2,
+  "light_source_check": {
+    "type": "RectLight",
+    "intensity": 15000,
+    "exposure": 0,
+    "normalize": false,
+    "effective_world_width": 2.5,
+    "effective_world_height": 0.25
+  },
+  "conclusions": [
+    "robot base reuses upstream left X5 pose; only one arm instantiated",
+    "head camera position/orientation and nominal lens config reuse upstream",
+    "belt is nonuniformly rescaled and relocated by _spawn_original_belt",
+    "task arm joint initialization overrides upstream defaults",
+    "same-runtime fixed-camera ablations reproduce the dominant framing differences",
+    "ground and props are not a full upstream scene replay; no screenshot-pixel equivalence established"
+  ]
+}

@@ -1,0 +1,248 @@
+{
+  "date": "2026-11-08",
+  "cases": [
+    {
+      "embodiment": "x5",
+      "source_commit": "f0ae4f116261950176d415ab72989702e9cebcb4",
+      "runtime": {
+        "isaacsim": "6.1.0.0",
+        "physics_backend": "PhysX",
+        "physics_device": "cpu",
+        "isaaclab": "17.0.2",
+        "isaaclab-physx": "6.0.0",
+        "torch": "2.11.0+cu128",
+        "warp-lang": "1.16.0",
+        "lab_quaternion_order": "xyzw",
+        "dataset_quaternion_order": "wxyz"
+      },
+      "seed": 42,
+      "belt_speed": 0.03,
+      "success": true,
+      "passed": true,
+      "control_ticks": 82,
+      "contact_motion": {
+        "first_contact_tick": 60,
+        "lift_start_tick": 62,
+        "contact_to_lift_seconds": 0.06666666666666667,
+        "cube_pre_lift_delta_m": [
+          0.005070552229881287,
+          -1.741945743560791e-05,
+          -4.011392593383789e-05
+        ],
+        "eef_pre_lift_delta_m": [
+          -2.2351741790771484e-07,
+          -2.1010637283325195e-06,
+          -3.838539123535156e-05
+        ],
+        "cube_contact_xy_peak_m": 0.007731722667813301,
+        "eef_contact_xy_peak_m": 0.0003421207358775028,
+        "command_contact_xy_peak_m": 0.0,
+        "cube_contact_world_delta_m": [
+          0.006966263055801392,
+          -6.197020411491394e-06,
+          0.11296480894088745
+        ],
+        "eef_contact_world_delta_m": [
+          -1.296401023864746e-06,
+          8.48621129989624e-06,
+          0.11296230554580688
+        ]
+      },
+      "eef_link": "link6",
+      "arm_joint_names": [
+        "joint1",
+        "joint2",
+        "joint3",
+        "joint4",
+        "joint5",
+        "joint6"
+      ],
+      "gripper_joint_names": [
+        "joint7",
+        "joint8"
+      ],
+      "tcp_offset": [
+        0.145,
+        0.0,
+        0.0
+      ],
+      "base_position": [
+        -0.3,
+        -0.45,
+        0.765
+      ],
+      "source_sha256": {
+        "env_cfg/robot/dual_x5.yml": "4eefaccc75c5f83443b7bb85ef1de68ee7a3772e27af2b04a5e8d8769ab9baa1",
+        "env_cfg/camera/camera_config.yml": "c1752170da855e735beba27fddbf78dad16f2395e4ef8b24e9827a768e616a62",
+        "env_cfg/camera/template.py": "68287ed1daec3b8ed7f053bf97a4d48bbddeb8b5757b53e438ac3c4240a9e61b",
+        "Assets/Robots/x5/robot_config.yml": "9de4f63b84c0f730623c09af7a2d530d84973981397280b6e4b626b50ba6f1c9",
+        "Assets/Robots/x5/X5A.urdf": "7aaa308a1a5b6a213d914db86ba09ddd6252f25cb498ac9a148bfa6c7166a423"
+      },
+      "trajectory_sha256": "a93f0cf8f1d7588a53f81c2e9574a32095af07f46690c53d2eceed541d103f1f",
+      "strict_readback_passed": true
+    },
+    {
+      "embodiment": "franka",
+      "source_commit": "24e1e94a1b499b1819145a0cda9a8655ae4fa27f",
+      "runtime": {
+        "isaacsim": "6.1.0.0",
+        "physics_backend": "PhysX",
+        "physics_device": "cpu",
+        "isaaclab": "17.0.2",
+        "isaaclab-physx": "6.0.0",
+        "torch": "2.11.0+cu128",
+        "warp-lang": "1.16.0",
+        "lab_quaternion_order": "xyzw",
+        "dataset_quaternion_order": "wxyz"
+      },
+      "seed": 42,
+      "belt_speed": 0.03,
+      "success": true,
+      "passed": true,
+      "control_ticks": 104,
+      "contact_motion": {
+        "first_contact_tick": 81,
+        "lift_start_tick": 83,
+        "contact_to_lift_seconds": 0.06666666666666667,
+        "cube_pre_lift_delta_m": [
+          9.641051292419434e-05,
+          -0.00020047463476657867,
+          9.697675704956055e-05
+        ],
+        "eef_pre_lift_delta_m": [
+          7.386505603790283e-05,
+          1.4234334230422974e-05,
+          9.715557098388672e-05
+        ],
+        "cube_contact_xy_peak_m": 0.0036397373769432306,
+        "eef_contact_xy_peak_m": 0.0026638500970997477,
+        "command_contact_xy_peak_m": 0.0,
+        "cube_contact_world_delta_m": [
+          0.0002884715795516968,
+          0.0008922219276428223,
+          0.11377471685409546
+        ],
+        "eef_contact_world_delta_m": [
+          0.00019419193267822266,
+          7.895752787590027e-06,
+          0.11377561092376709
+        ]
+      },
+      "eef_link": "panda_hand",
+      "arm_joint_names": [
+        "panda_joint1",
+        "panda_joint2",
+        "panda_joint3",
+        "panda_joint4",
+        "panda_joint5",
+        "panda_joint6",
+        "panda_joint7"
+      ],
+      "gripper_joint_names": [
+        "panda_finger_joint1",
+        "panda_finger_joint2"
+      ],
+      "tcp_offset": [
+        0.0,
+        0.0,
+        0.102
+      ],
+      "base_position": [
+        -0.65,
+        -0.02,
+        0.765
+      ],
+      "source_sha256": {
+        "env_cfg/robot/dual_x5.yml": "4eefaccc75c5f83443b7bb85ef1de68ee7a3772e27af2b04a5e8d8769ab9baa1",
+        "env_cfg/camera/camera_config.yml": "c1752170da855e735beba27fddbf78dad16f2395e4ef8b24e9827a768e616a62",
+        "env_cfg/camera/template.py": "68287ed1daec3b8ed7f053bf97a4d48bbddeb8b5757b53e438ac3c4240a9e61b",
+        "/home/ubuntu/Workspace/dynamicbench/Assets/Robots/franka/robot_config.yml": "49c858dfd376f28e5a3f1bef85578fda16a453ff578ae46bf9e9dcb1cb22c8ac",
+        "/home/ubuntu/Workspace/RoboDojo/.cache/robodojo_assets_repo/Assets/Robots/franka/panda.urdf": "be80276223ca90363197d4316230173815b5ea45b1733ac514eb572ff1db786f"
+      },
+      "trajectory_sha256": "032b21bc9a3d4f36095c38acf16dd0ab349c60417d871061fbe9ba212433decd",
+      "strict_readback_passed": true
+    },
+    {
+      "embodiment": "piper",
+      "source_commit": "6d4eac23fbbc67b223f9ced547fc92842118178e",
+      "runtime": {
+        "isaacsim": "6.1.0.0",
+        "physics_backend": "PhysX",
+        "physics_device": "cpu",
+        "isaaclab": "17.0.2",
+        "isaaclab-physx": "6.0.0",
+        "torch": "2.11.0+cu128",
+        "warp-lang": "1.16.0",
+        "lab_quaternion_order": "xyzw",
+        "dataset_quaternion_order": "wxyz"
+      },
+      "seed": 42,
+      "belt_speed": 0.03,
+      "success": true,
+      "passed": true,
+      "control_ticks": 105,
+      "contact_motion": {
+        "first_contact_tick": 82,
+        "lift_start_tick": 84,
+        "contact_to_lift_seconds": 0.06666666666666667,
+        "cube_pre_lift_delta_m": [
+          1.7523765563964844e-05,
+          -0.0002735555171966553,
+          4.464387893676758e-05
+        ],
+        "eef_pre_lift_delta_m": [
+          9.5367431640625e-06,
+          -0.0005544424057006836,
+          4.0471553802490234e-05
+        ],
+        "cube_contact_xy_peak_m": 0.0011433967156335711,
+        "eef_contact_xy_peak_m": 0.0009531528964440037,
+        "command_contact_xy_peak_m": 0.0,
+        "cube_contact_world_delta_m": [
+          5.030632019042969e-05,
+          -0.000656619668006897,
+          0.11419212818145752
+        ],
+        "eef_contact_world_delta_m": [
+          -9.15229320526123e-05,
+          2.004764974117279e-05,
+          0.11411750316619873
+        ]
+      },
+      "eef_link": "link6",
+      "arm_joint_names": [
+        "joint1",
+        "joint2",
+        "joint3",
+        "joint4",
+        "joint5",
+        "joint6"
+      ],
+      "gripper_joint_names": [
+        "joint7",
+        "joint8"
+      ],
+      "tcp_offset": [
+        0.0,
+        0.0,
+        0.12
+      ],
+      "base_position": [
+        -0.65,
+        -0.02,
+        0.765
+      ],
+      "source_sha256": {
+        "env_cfg/robot/dual_x5.yml": "4eefaccc75c5f83443b7bb85ef1de68ee7a3772e27af2b04a5e8d8769ab9baa1",
+        "env_cfg/camera/camera_config.yml": "c1752170da855e735beba27fddbf78dad16f2395e4ef8b24e9827a768e616a62",
+        "env_cfg/camera/template.py": "68287ed1daec3b8ed7f053bf97a4d48bbddeb8b5757b53e438ac3c4240a9e61b",
+        "/home/ubuntu/Workspace/RoboTwin/assets/embodiments/piper/config.yml": "9eaacf85af9b99c5cf4d907f84087d628644afd5d9f52a6c65f7ef94e3a500b9",
+        "/home/ubuntu/Workspace/RoboTwin/assets/embodiments/piper/piper.urdf": "fa27856fc91f085877c4d022790372fe8d38f27000e7bc0c8bd091cc986c02c2"
+      },
+      "trajectory_sha256": "abe59ebc5fd32c99a6edb5feee3882cd7d7ef47560825cfe9d8fc2c883365f79",
+      "strict_readback_passed": true
+    }
+  ],
+  "real_model_tested": false,
+  "scope": "one physical expert grasp per embodiment; not a robustness estimate"
+}

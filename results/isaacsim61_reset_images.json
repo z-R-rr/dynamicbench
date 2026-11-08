@@ -1,0 +1,175 @@
+{
+  "passed": true,
+  "episodes": [
+    {
+      "episode": "belt_03",
+      "source_commit": "b238ca5aabcbfaff08aa3f1cbc4ff7add37a71be",
+      "passed": true,
+      "projected_cube_center_px": [
+        210.53007480990053,
+        207.28279548254505
+      ],
+      "orange_centroid_px": [
+        211.15873015873015,
+        212.36111111111111
+      ],
+      "orange_pixels": 252,
+      "center_error_px": 5.117078968606053,
+      "tolerance_px": 10.0,
+      "scope": "unoccluded reset pose; detects cross-reset stale RGB, not sub-tick lag"
+    },
+    {
+      "episode": "belt_06",
+      "source_commit": "b238ca5aabcbfaff08aa3f1cbc4ff7add37a71be",
+      "passed": true,
+      "projected_cube_center_px": [
+        210.53007480990053,
+        207.28279548254505
+      ],
+      "orange_centroid_px": [
+        210.82706766917292,
+        211.7406015037594
+      ],
+      "orange_pixels": 266,
+      "center_error_px": 4.467688359905333,
+      "tolerance_px": 10.0,
+      "scope": "unoccluded reset pose; detects cross-reset stale RGB, not sub-tick lag"
+    },
+    {
+      "episode": "belt_static",
+      "source_commit": "b238ca5aabcbfaff08aa3f1cbc4ff7add37a71be",
+      "passed": true,
+      "projected_cube_center_px": [
+        210.53007480990053,
+        207.28279548254505
+      ],
+      "orange_centroid_px": [
+        211.34901960784313,
+        211.24313725490197
+      ],
+      "orange_pixels": 255,
+      "center_error_px": 4.044128773413669,
+      "tolerance_px": 10.0,
+      "scope": "unoccluded reset pose; detects cross-reset stale RGB, not sub-tick lag"
+    },
+    {
+      "episode": "moving_seed42",
+      "source_commit": "b238ca5aabcbfaff08aa3f1cbc4ff7add37a71be",
+      "passed": true,
+      "projected_cube_center_px": [
+        210.53007480990053,
+        207.28279548254505
+      ],
+      "orange_centroid_px": [
+        210.95219123505976,
+        212.21912350597609
+      ],
+      "orange_pixels": 251,
+      "center_error_px": 4.9543432088723645,
+      "tolerance_px": 10.0,
+      "scope": "unoccluded reset pose; detects cross-reset stale RGB, not sub-tick lag"
+    },
+    {
+      "episode": "moving_seed43",
+      "source_commit": "b238ca5aabcbfaff08aa3f1cbc4ff7add37a71be",
+      "passed": true,
+      "projected_cube_center_px": [
+        209.65649856789946,
+        208.7027068720348
+      ],
+      "orange_centroid_px": [
+        209.9025270758123,
+        213.4765342960289
+      ],
+      "orange_pixels": 277,
+      "center_error_px": 4.780162999394868,
+      "tolerance_px": 10.0,
+      "scope": "unoccluded reset pose; detects cross-reset stale RGB, not sub-tick lag"
+    },
+    {
+      "episode": "moving_seed44",
+      "source_commit": "b238ca5aabcbfaff08aa3f1cbc4ff7add37a71be",
+      "passed": true,
+      "projected_cube_center_px": [
+        207.48800108390483,
+        207.93135396152576
+      ],
+      "orange_centroid_px": [
+        208.48387096774192,
+        212.6451612903226
+      ],
+      "orange_pixels": 248,
+      "center_error_px": 4.817855991886061,
+      "tolerance_px": 10.0,
+      "scope": "unoccluded reset pose; detects cross-reset stale RGB, not sub-tick lag"
+    },
+    {
+      "episode": "schedule_no_latency",
+      "source_commit": "b238ca5aabcbfaff08aa3f1cbc4ff7add37a71be",
+      "passed": true,
+      "projected_cube_center_px": [
+        210.53007480990053,
+        207.28279548254505
+      ],
+      "orange_centroid_px": [
+        211.15151515151516,
+        212.52272727272728
+      ],
+      "orange_pixels": 264,
+      "center_error_px": 5.276653604695727,
+      "tolerance_px": 10.0,
+      "scope": "unoccluded reset pose; detects cross-reset stale RGB, not sub-tick lag"
+    },
+    {
+      "episode": "schedule_rtc_async",
+      "source_commit": "b238ca5aabcbfaff08aa3f1cbc4ff7add37a71be",
+      "passed": true,
+      "projected_cube_center_px": [
+        210.53007480990053,
+        207.28279548254505
+      ],
+      "orange_centroid_px": [
+        211.36507936507937,
+        212.12698412698413
+      ],
+      "orange_pixels": 252,
+      "center_error_px": 4.915627755443029,
+      "tolerance_px": 10.0,
+      "scope": "unoccluded reset pose; detects cross-reset stale RGB, not sub-tick lag"
+    },
+    {
+      "episode": "schedule_sync_hold",
+      "source_commit": "b238ca5aabcbfaff08aa3f1cbc4ff7add37a71be",
+      "passed": true,
+      "projected_cube_center_px": [
+        210.53007480990053,
+        207.28279548254505
+      ],
+      "orange_centroid_px": [
+        210.22121212121212,
+        209.21515151515152
+      ],
+      "orange_pixels": 330,
+      "center_error_px": 1.9568842574905714,
+      "tolerance_px": 10.0,
+      "scope": "unoccluded reset pose; detects cross-reset stale RGB, not sub-tick lag"
+    },
+    {
+      "episode": "static_grasp",
+      "source_commit": "b238ca5aabcbfaff08aa3f1cbc4ff7add37a71be",
+      "passed": true,
+      "projected_cube_center_px": [
+        210.53014689265865,
+        207.28276945549732
+      ],
+      "orange_centroid_px": [
+        209.57673267326732,
+        209.07920792079207
+      ],
+      "orange_pixels": 404,
+      "center_error_px": 2.033762482033771,
+      "tolerance_px": 10.0,
+      "scope": "unoccluded reset pose; detects cross-reset stale RGB, not sub-tick lag"
+    }
+  ]
+}

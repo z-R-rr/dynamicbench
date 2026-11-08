@@ -1,0 +1,499 @@
+{
+  "delivery_status": "CORE_MVP_PHYSICALLY_VALIDATED",
+  "date": "2026-10-25",
+  "timezone": "Asia/Shanghai",
+  "fork": "https://github.com/z-R-rr/dynamicbench",
+  "fork_parent": "RoboDojo-Benchmark/RoboDojo",
+  "branch": "feat/conveyor-rtc-expert-mvp",
+  "upstream_sha": "f57e1633ffed59761bc8e568cfe7530c4b33381c",
+  "code_commit": "c1e4faf2afc400ca91b03af3c1abe220fc0fbb7e",
+  "initial_acceptance_commit": "4f60d8c670d569dc3a964d8e43a280ef1cea7f38",
+  "independent_collection_commit": "82734179907a686c31f603f87223e103b5e118b2",
+  "draft_pr": "https://github.com/z-R-rr/dynamicbench/pull/1",
+  "tests": {
+    "local_contracts": {
+      "status": "PASS",
+      "passed": 36,
+      "source_commit": "6ba165c86e0e05f552bc3764e39398ff7f871564"
+    },
+    "server_contracts": {
+      "status": "PASS",
+      "passed": 36,
+      "source_commit": "6ba165c86e0e05f552bc3764e39398ff7f871564"
+    },
+    "github_ci": {
+      "status": "PASS",
+      "url": "https://github.com/z-R-rr/dynamicbench/actions/runs/40138312143",
+      "source_commit": "6ba165c86e0e05f552bc3764e39398ff7f871564"
+    },
+    "lint_compile_shell_diff": {
+      "status": "PASS"
+    },
+    "unchanged_upstream_sources": {
+      "status": "PASS"
+    },
+    "live_acceptance": {
+      "status": "PASS",
+      "cases": 10
+    },
+    "strict_readback_and_head_video_decode": {
+      "status": "PASS",
+      "episodes": 10
+    },
+    "original_conveyor_live_motion": {
+      "status": "PASS",
+      "cases": 10,
+      "source_commit": "1a0163ae0f60848849fa2eb153d0c83d6abb9951",
+      "evidence": "physical_acceptance_original_usd.json"
+    },
+    "legacy_42_task_runtime": {
+      "status": "NOT RUN"
+    },
+    "lift_tracking_and_scene": {
+      "status": "PASS",
+      "cases": 13,
+      "source_commit": "5706912201ed933092a53db16931321a2be2faa8"
+    },
+    "contact_anchor": {
+      "status": "PASS",
+      "cases": 10,
+      "source_commit": "6ba165c86e0e05f552bc3764e39398ff7f871564",
+      "motion_gate": "whole interval after first finger contact",
+      "primitive_smoke": "PASS: seed42"
+    }
+  },
+  "grasp_statistics": {
+    "static": {
+      "attempts": 1,
+      "successes": 1
+    },
+    "moving": {
+      "speed_m_s": 0.03,
+      "seeds": [
+        42,
+        43,
+        44
+      ],
+      "attempts": 3,
+      "successes": 3,
+      "success_rate": 1.0
+    },
+    "independent_collector": {
+      "attempts": 3,
+      "successes": 3,
+      "mean_success_sim_seconds": 3.1777777777777776
+    },
+    "pool_repeated_seeds": false
+  },
+  "latency": {
+    "type": "fixed_simulated_delay",
+    "real_model_tested": false,
+    "requested_seconds": 0.25,
+    "quantized_ticks": 8,
+    "quantized_seconds": 0.26666666666666666,
+    "robot_trajectory_separation_m": [
+      0.01313956906337558,
+      0.0068129011238422
+    ]
+  },
+  "scene": {
+    "belt_source": "primitive",
+    "transport_validated_m_s": [
+      0,
+      0.03,
+      0.06
+    ],
+    "grasp_validated_m_s": [
+      0,
+      0.03
+    ],
+    "negative_speed_supported": false,
+    "head_layout": "env_cfg/camera/camera_config.yml:cam_head",
+    "robot_layout": "env_cfg/robot/dual_x5.yml:robots[0]",
+    "lens": "env_cfg/camera/template.py:GEMINI_345LG",
+    "wrist_status": "actual camera; clear after x=.10 z=.08 placement",
+    "physics": "CPU PhysX",
+    "render_gpu_physical": 2,
+    "cuda_visible_devices": "2,1",
+    "cuda_device": "cuda:0",
+    "validated_belt_sources": [
+      "primitive",
+      "robodojo"
+    ],
+    "default_visual_source": "robodojo",
+    "default_lift_xy_mode": "contact_anchor",
+    "default_lift_tcp_frame": "latched_world_eef"
+  },
+  "server": {
+    "root": "/home/ubuntu/Workspace/dynamicbench",
+    "python": "/home/ubuntu/miniconda3/envs/RoboDojo/bin/python",
+    "python_version": "3.11.16",
+    "isaacsim": "5.1.0.0",
+    "isaaclab_package": "0.54.3",
+    "isaaclab_checkout": "afca7b09",
+    "torch": "2.7.0+cu128",
+    "numpy": "1.26.0",
+    "assets": "/home/ubuntu/Workspace/RoboDojo/Assets",
+    "asset_commit": "cfb06d1dadcdf03ccc923102b0e3f3b0a68dfc43"
+  },
+  "verified_episode_paths": [
+    "/Users/riri/Documents/Codex/2026-10-23/files-mentioned-by-the-user-dynamicbench/outputs/acceptance_robodojo_view/moving_seed42",
+    "/Users/riri/Documents/Codex/2026-10-23/files-mentioned-by-the-user-dynamicbench/outputs/acceptance_robodojo_view/moving_seed43",
+    "/Users/riri/Documents/Codex/2026-10-23/files-mentioned-by-the-user-dynamicbench/outputs/acceptance_robodojo_view/moving_seed44"
+  ],
+  "verified_video_paths": [
+    "/Users/riri/Documents/Codex/2026-10-23/files-mentioned-by-the-user-dynamicbench/outputs/acceptance_robodojo_view/moving_seed42/head.mp4",
+    "/Users/riri/Documents/Codex/2026-10-23/files-mentioned-by-the-user-dynamicbench/outputs/acceptance_robodojo_view/moving_seed43/head.mp4",
+    "/Users/riri/Documents/Codex/2026-10-23/files-mentioned-by-the-user-dynamicbench/outputs/acceptance_robodojo_view/moving_seed44/head.mp4"
+  ],
+  "remaining": [
+    "full 42-task GPU runtime regression",
+    "real model asynchronous GPU inference",
+    ".06 m/s grasp"
+  ],
+  "training_dataset": {
+    "server_root": "/home/ubuntu/Workspace/dynamicbench/datasets/conveyor_cube_v0_robodojo_view",
+    "local_root": "/Users/riri/Documents/Codex/2026-10-23/files-mentioned-by-the-user-dynamicbench/outputs/dataset_conveyor_cube_v0",
+    "episodes": 3,
+    "origin": "export of successful moving episodes from final live acceptance; labels and source SHA preserved"
+  },
+  "primitive_acceptance_date": "2026-10-24",
+  "latest_code_commit": "6ba165c86e0e05f552bc3764e39398ff7f871564",
+  "original_usd_fix": {
+    "date": "2026-10-25",
+    "status": "PASS",
+    "source_commit": "1a0163ae0f60848849fa2eb153d0c83d6abb9951",
+    "root_cause": "AssetBase deletion regex env_.*/Cube matches the nested USD demo Cube and clears task-cube PLAY callbacks",
+    "old_prim_expression": "/World/envs/env_.*/Cube",
+    "foreign_deleted_prim": "/World/envs/env_0/OriginalConveyor/Cube",
+    "fixed_prim_path": "/World/envs/env_0/Cube",
+    "production_uses_standard_RigidObject": true,
+    "server_output": "/home/ubuntu/Workspace/dynamicbench/outputs/acceptance_original_usd_20261025",
+    "physical_acceptance_passed": 10,
+    "strict_readback_and_head_video_decode_passed": 10,
+    "moving_attempts": 3,
+    "moving_successes": 3,
+    "static_grasp_success": true,
+    "transport_speeds_validated": [
+      0,
+      0.03,
+      0.06
+    ],
+    "grasp_speeds_validated": [
+      0,
+      0.03
+    ],
+    "local_tests_passed": 30,
+    "server_tests_passed": 30,
+    "ci_url": "https://github.com/z-R-rr/dynamicbench/actions/runs/40115342234",
+    "render_gpu": 3,
+    "physics": "CPU PhysX",
+    "default_belt_source": "primitive",
+    "default_unchanged": true
+  },
+  "lift_tracking_scene": {
+    "date": "2026-10-25",
+    "source_commit": "5706912201ed933092a53db16931321a2be2faa8",
+    "status": "PASS",
+    "physics": "CPU PhysX 300 Hz",
+    "control": "30 Hz ZOH",
+    "render_gpu": 1,
+    "tests_passed": 33,
+    "ci_url": "https://github.com/z-R-rr/dynamicbench/actions/runs/40119373281",
+    "acceptance_cases": 13,
+    "moving_attempts": 3,
+    "moving_successes": 3,
+    "default_lift_xy_mode": "track_cube",
+    "default_lift_tcp_frame": "actual_pinch",
+    "default_scene_source": "robodojo",
+    "legacy_seed44_net_x_m": 0.006309516727924347,
+    "legacy_seed44_x_path_m": 0.0396642,
+    "legacy_seed44_pinch_peak_reconstructed_m": 6.693636567789892e-06,
+    "nominal_source_commit": "28331bc59c55ea33f92016c95c9b7c5c8f97431f",
+    "nominal_attempts": 5,
+    "nominal_successes": 3,
+    "nominal_failed_seeds": [
+      42,
+      45
+    ],
+    "pinch_position_peak_m": {
+      "42": 1.265754488674227e-05,
+      "43": 9.177444990396326e-06,
+      "44": 7.580255301973737e-06
+    },
+    "scene_components": [
+      "Room",
+      "Background",
+      "Light"
+    ],
+    "server_output": "/home/ubuntu/Workspace/dynamicbench/outputs/lift_pinch_room_20261025",
+    "limits": [
+      "three paired seeds only",
+      "no demonstrated reduction in frictional slip; fixed baseline already has micron-scale pinch-relative position changes",
+      "not physical-robot metrology",
+      "no real GPU model inference"
+    ],
+    "later_audit": "Legacy close_gripper has ~12 cm self-chasing before lift; historical pass did not cover this motion gate."
+  },
+  "contact_anchor": {
+    "date": "2026-10-25",
+    "source_commit": "6ba165c86e0e05f552bc3764e39398ff7f871564",
+    "status": "PASS",
+    "render_gpu": 0,
+    "physics": "CPU PhysX 300 Hz",
+    "control": "30 Hz ZOH",
+    "expert": "contact_anchor",
+    "acceptance_cases": 10,
+    "static_grasp_success": true,
+    "moving_attempts": 3,
+    "moving_successes": 3,
+    "unit_tests_passed": 36,
+    "ci_url": "https://github.com/z-R-rr/dynamicbench/actions/runs/40138312143",
+    "strict_readback_episodes": 10,
+    "moving_comparisons": [
+      {
+        "group": "previous_track_cube",
+        "seed": 42,
+        "source_commit": "5706912201ed933092a53db16931321a2be2faa8",
+        "success": true,
+        "control_ticks": 101,
+        "first_contact_tick": 60,
+        "lift_start_tick": 76,
+        "contact_to_lift_seconds": 0.5333333333333333,
+        "cube_pre_lift_delta_m": [
+          0.12232169508934021,
+          -0.015352129936218262,
+          -0.0002167224884033203
+        ],
+        "eef_pre_lift_delta_m": [
+          0.12749634683132172,
+          -0.015281103551387787,
+          -0.00021708011627197266
+        ],
+        "cube_contact_xy_peak_m": 0.1356421858072281,
+        "eef_contact_xy_peak_m": 0.1291377701889413,
+        "command_contact_xy_peak_m": 0.12095540325136914,
+        "cube_contact_world_delta_m": [
+          0.13158339262008667,
+          -0.014274120330810547,
+          0.06633830070495605
+        ],
+        "eef_contact_world_delta_m": [
+          0.12629692256450653,
+          -0.01706903800368309,
+          0.06622689962387085
+        ]
+      },
+      {
+        "group": "previous_track_cube",
+        "seed": 43,
+        "source_commit": "5706912201ed933092a53db16931321a2be2faa8",
+        "success": true,
+        "control_ticks": 95,
+        "first_contact_tick": 59,
+        "lift_start_tick": 75,
+        "contact_to_lift_seconds": 0.5333333333333333,
+        "cube_pre_lift_delta_m": [
+          0.12224752455949783,
+          -0.027790617197752,
+          -0.000202178955078125
+        ],
+        "eef_pre_lift_delta_m": [
+          0.12732475250959396,
+          -0.027717577293515205,
+          -0.00020134449005126953
+        ],
+        "cube_contact_xy_peak_m": 0.13832354545593262,
+        "eef_contact_xy_peak_m": 0.13120252972760382,
+        "command_contact_xy_peak_m": 0.12326784521647416,
+        "cube_contact_world_delta_m": [
+          0.13124674558639526,
+          -0.028117161244153976,
+          0.08572077751159668
+        ],
+        "eef_contact_world_delta_m": [
+          0.12588237971067429,
+          -0.02991623617708683,
+          0.08564907312393188
+        ]
+      },
+      {
+        "group": "previous_track_cube",
+        "seed": 44,
+        "source_commit": "5706912201ed933092a53db16931321a2be2faa8",
+        "success": true,
+        "control_ticks": 95,
+        "first_contact_tick": 59,
+        "lift_start_tick": 75,
+        "contact_to_lift_seconds": 0.5333333333333333,
+        "cube_pre_lift_delta_m": [
+          0.12176907807588577,
+          -0.02830592729151249,
+          -0.0002034306526184082
+        ],
+        "eef_pre_lift_delta_m": [
+          0.1268622726202011,
+          -0.02823161706328392,
+          -0.000202178955078125
+        ],
+        "cube_contact_xy_peak_m": 0.13797053694725037,
+        "eef_contact_xy_peak_m": 0.13084884590597062,
+        "command_contact_xy_peak_m": 0.12289728177596282,
+        "cube_contact_world_delta_m": [
+          0.1303061842918396,
+          -0.02976146526634693,
+          0.08956372737884521
+        ],
+        "eef_contact_world_delta_m": [
+          0.12482284754514694,
+          -0.03156334534287453,
+          0.08949285745620728
+        ]
+      },
+      {
+        "group": "contact_anchor",
+        "seed": 42,
+        "source_commit": "6ba165c86e0e05f552bc3764e39398ff7f871564",
+        "success": true,
+        "control_ticks": 82,
+        "first_contact_tick": 60,
+        "lift_start_tick": 62,
+        "contact_to_lift_seconds": 0.06666666666666667,
+        "cube_pre_lift_delta_m": [
+          0.005408391356468201,
+          -1.6773119568824768e-05,
+          -3.844499588012695e-05
+        ],
+        "eef_pre_lift_delta_m": [
+          1.4901161193847656e-08,
+          -2.0079314708709717e-06,
+          -3.820657730102539e-05
+        ],
+        "cube_contact_xy_peak_m": 0.007612740155309439,
+        "eef_contact_xy_peak_m": 0.00034214007640639006,
+        "command_contact_xy_peak_m": 0.0,
+        "cube_contact_world_delta_m": [
+          0.006812632083892822,
+          -6.021931767463684e-06,
+          0.11309444904327393
+        ],
+        "eef_contact_world_delta_m": [
+          -1.341104507446289e-06,
+          8.394941687583923e-06,
+          0.11309200525283813
+        ]
+      },
+      {
+        "group": "contact_anchor",
+        "seed": 43,
+        "source_commit": "6ba165c86e0e05f552bc3764e39398ff7f871564",
+        "success": true,
+        "control_ticks": 81,
+        "first_contact_tick": 59,
+        "lift_start_tick": 61,
+        "contact_to_lift_seconds": 0.06666666666666667,
+        "cube_pre_lift_delta_m": [
+          0.004886895418167114,
+          -1.909397542476654e-05,
+          -4.124641418457031e-05
+        ],
+        "eef_pre_lift_delta_m": [
+          -2.980232238769531e-07,
+          -2.289190888404846e-06,
+          -4.0411949157714844e-05
+        ],
+        "cube_contact_xy_peak_m": 0.00773107772693038,
+        "eef_contact_xy_peak_m": 0.00035295854733696346,
+        "command_contact_xy_peak_m": 0.0,
+        "cube_contact_world_delta_m": [
+          0.007552221417427063,
+          -7.059425115585327e-06,
+          0.11284005641937256
+        ],
+        "eef_contact_world_delta_m": [
+          -1.519918441772461e-06,
+          7.722526788711548e-06,
+          0.11284059286117554
+        ]
+      },
+      {
+        "group": "contact_anchor",
+        "seed": 44,
+        "source_commit": "6ba165c86e0e05f552bc3764e39398ff7f871564",
+        "success": true,
+        "control_ticks": 81,
+        "first_contact_tick": 59,
+        "lift_start_tick": 61,
+        "contact_to_lift_seconds": 0.06666666666666667,
+        "cube_pre_lift_delta_m": [
+          0.004793792963027954,
+          -1.9084662199020386e-05,
+          -4.184246063232422e-05
+        ],
+        "eef_pre_lift_delta_m": [
+          -3.725290298461914e-07,
+          -2.0992010831832886e-06,
+          -4.112720489501953e-05
+        ],
+        "cube_contact_xy_peak_m": 0.007846537977457047,
+        "eef_contact_xy_peak_m": 0.00034871467945823883,
+        "command_contact_xy_peak_m": 0.0,
+        "cube_contact_world_delta_m": [
+          0.007692545652389526,
+          -3.606081008911133e-06,
+          0.11279767751693726
+        ],
+        "eef_contact_world_delta_m": [
+          -1.6242265701293945e-06,
+          7.977709174156189e-06,
+          0.11279863119125366
+        ]
+      }
+    ],
+    "server_output": "/home/ubuntu/Workspace/dynamicbench/outputs/contact_anchor_20261025",
+    "upgrade_assessment": "6.1 feasible with separate Python 3.12 + Isaac Lab 3.0 migration; not installed or run; user selected assessment only",
+    "limits": [
+      "three specified moving seeds only",
+      "no physical robot validation",
+      "no real model inference",
+      ".06 m/s grasp not run",
+      "full42 regression not run"
+    ],
+    "primitive_smoke": {
+      "status": "PASS",
+      "seed": 42,
+      "attempts": 1,
+      "successes": 1,
+      "control_ticks": 82,
+      "contact_motion": {
+        "first_contact_tick": 60,
+        "lift_start_tick": 62,
+        "contact_to_lift_seconds": 0.06666666666666667,
+        "cube_pre_lift_delta_m": [
+          0.005395635962486267,
+          -1.7628073692321777e-05,
+          -3.8683414459228516e-05
+        ],
+        "eef_pre_lift_delta_m": [
+          3.427267074584961e-07,
+          -2.1420419216156006e-06,
+          -3.8564205169677734e-05
+        ],
+        "cube_contact_xy_peak_m": 0.007743814494460821,
+        "eef_contact_xy_peak_m": 0.00034230585131909345,
+        "command_contact_xy_peak_m": 0.0,
+        "cube_contact_world_delta_m": [
+          0.0072064995765686035,
+          -4.513189196586609e-06,
+          0.11193317174911499
+        ],
+        "eef_contact_world_delta_m": [
+          -1.3709068298339844e-06,
+          8.104369044303894e-06,
+          0.11193466186523438
+        ]
+      },
+      "source_commit": "6ba165c86e0e05f552bc3764e39398ff7f871564"
+    }
+  }
+}

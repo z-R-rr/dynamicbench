@@ -1,0 +1,1062 @@
+{
+  "date": "2026-11-08",
+  "passed": true,
+  "official_layout_merge": "0b047bd8ee7c6f5e1b40e121f998d281393692b7",
+  "runtime_source": "f47141dbddb257963bda2cfa92e97c50a75f9431",
+  "local_tests": 63,
+  "real_model_tested": false,
+  "scene_baseline": "183866278f3e7eecda9c22e119293a4f9b383fec",
+  "remote_root": "/home/ubuntu/Workspace/dynamicbench-front-layout-20261108",
+  "local_artifacts": "/Users/riri/Documents/Codex/2026-10-23/files-mentioned-by-the-user-dynamicbench/outputs/front_layout_official_20261108",
+  "grasps": {
+    "date": "2026-11-08",
+    "source_commits": [
+      "f47141dbddb257963bda2cfa92e97c50a75f9431"
+    ],
+    "cases": [
+      {
+        "embodiment": "franka",
+        "seed": 42,
+        "source_commit": "f47141dbddb257963bda2cfa92e97c50a75f9431",
+        "runtime": {
+          "isaacsim": "6.1.0.0",
+          "physics_backend": "PhysX",
+          "physics_device": "cpu",
+          "isaaclab": "17.0.2",
+          "isaaclab-physx": "6.0.0",
+          "torch": "2.11.0+cu128",
+          "warp-lang": "1.16.0",
+          "lab_quaternion_order": "xyzw",
+          "dataset_quaternion_order": "wxyz"
+        },
+        "camera_baseline_source_commit": "24e1e94a1b499b1819145a0cda9a8655ae4fa27f",
+        "official_scene_baseline_source_commit": "183866278f3e7eecda9c22e119293a4f9b383fec",
+        "success": true,
+        "passed": true,
+        "failure_reason": null,
+        "control_ticks": 102,
+        "belt_speed": 0.03,
+        "base_position": [
+          -0.3,
+          -0.45,
+          0.765
+        ],
+        "base_quaternion_wxyz": [
+          0.7071067811865476,
+          0.0,
+          0.0,
+          0.7071067811865476
+        ],
+        "scene_invariants": {
+          "camera": true,
+          "cube": true,
+          "render": true,
+          "expert": true,
+          "official_belt_after_checkout_path_normalization": true,
+          "official_scene_after_checkout_path_normalization": true,
+          "base_position": true,
+          "base_quaternion_wxyz": true,
+          "official_render_runtime_audit": true,
+          "room_collisions_preserved": true
+        },
+        "contact_motion": {
+          "first_contact_tick": 79,
+          "lift_start_tick": 81,
+          "contact_to_lift_seconds": 0.06666666666666667,
+          "cube_pre_lift_delta_m": [
+            0.004605501890182495,
+            -0.0004234500229358673,
+            0.00037604570388793945
+          ],
+          "eef_pre_lift_delta_m": [
+            0.0026001930236816406,
+            -0.0004949737340211868,
+            0.0003756284713745117
+          ],
+          "cube_contact_xy_peak_m": 0.004624927882105112,
+          "eef_contact_xy_peak_m": 0.003248168234493878,
+          "command_contact_xy_peak_m": 0.0,
+          "cube_contact_world_delta_m": [
+            -0.0022827088832855225,
+            0.00023704394698143005,
+            0.11222600936889648
+          ],
+          "eef_contact_world_delta_m": [
+            6.215274333953857e-05,
+            0.0001666005700826645,
+            0.11222684383392334
+          ]
+        },
+        "strict_readback": {
+          "actions": 102,
+          "observations": 103,
+          "head_shape": [
+            103,
+            480,
+            640,
+            3
+          ],
+          "duration": 3.4,
+          "success": true
+        },
+        "decoded_video_frames": 103,
+        "trajectory_sha256": "d2036e16932d75c457fdbed12734dc3162923d1fbe347dc72e705a9c2f596105"
+      },
+      {
+        "embodiment": "franka",
+        "seed": 43,
+        "source_commit": "f47141dbddb257963bda2cfa92e97c50a75f9431",
+        "runtime": {
+          "isaacsim": "6.1.0.0",
+          "physics_backend": "PhysX",
+          "physics_device": "cpu",
+          "isaaclab": "17.0.2",
+          "isaaclab-physx": "6.0.0",
+          "torch": "2.11.0+cu128",
+          "warp-lang": "1.16.0",
+          "lab_quaternion_order": "xyzw",
+          "dataset_quaternion_order": "wxyz"
+        },
+        "camera_baseline_source_commit": "24e1e94a1b499b1819145a0cda9a8655ae4fa27f",
+        "official_scene_baseline_source_commit": "183866278f3e7eecda9c22e119293a4f9b383fec",
+        "success": true,
+        "passed": true,
+        "failure_reason": null,
+        "control_ticks": 101,
+        "belt_speed": 0.03,
+        "base_position": [
+          -0.3,
+          -0.45,
+          0.765
+        ],
+        "base_quaternion_wxyz": [
+          0.7071067811865476,
+          0.0,
+          0.0,
+          0.7071067811865476
+        ],
+        "scene_invariants": {
+          "camera": true,
+          "cube": true,
+          "render": true,
+          "expert": true,
+          "official_belt_after_checkout_path_normalization": true,
+          "official_scene_after_checkout_path_normalization": true,
+          "base_position": true,
+          "base_quaternion_wxyz": true,
+          "official_render_runtime_audit": true,
+          "room_collisions_preserved": true
+        },
+        "contact_motion": {
+          "first_contact_tick": 78,
+          "lift_start_tick": 80,
+          "contact_to_lift_seconds": 0.06666666666666667,
+          "cube_pre_lift_delta_m": [
+            0.004675880074501038,
+            -0.000447247177362442,
+            0.0003237724304199219
+          ],
+          "eef_pre_lift_delta_m": [
+            0.0025681108236312866,
+            -0.0005063600838184357,
+            0.0003229379653930664
+          ],
+          "cube_contact_xy_peak_m": 0.004697220865637064,
+          "eef_contact_xy_peak_m": 0.00326205839199661,
+          "command_contact_xy_peak_m": 0.0,
+          "cube_contact_world_delta_m": [
+            -0.0021334588527679443,
+            0.00023550726473331451,
+            0.11232399940490723
+          ],
+          "eef_contact_world_delta_m": [
+            4.634261131286621e-05,
+            0.00016651302576065063,
+            0.11232304573059082
+          ]
+        },
+        "strict_readback": {
+          "actions": 101,
+          "observations": 102,
+          "head_shape": [
+            102,
+            480,
+            640,
+            3
+          ],
+          "duration": 3.3666666666666667,
+          "success": true
+        },
+        "decoded_video_frames": 102,
+        "trajectory_sha256": "6cb16c9a669b5b80fef20ff69b15c1bcf9be55eda2bc46c37e2509b1d26a83ff"
+      },
+      {
+        "embodiment": "franka",
+        "seed": 44,
+        "source_commit": "f47141dbddb257963bda2cfa92e97c50a75f9431",
+        "runtime": {
+          "isaacsim": "6.1.0.0",
+          "physics_backend": "PhysX",
+          "physics_device": "cpu",
+          "isaaclab": "17.0.2",
+          "isaaclab-physx": "6.0.0",
+          "torch": "2.11.0+cu128",
+          "warp-lang": "1.16.0",
+          "lab_quaternion_order": "xyzw",
+          "dataset_quaternion_order": "wxyz"
+        },
+        "camera_baseline_source_commit": "24e1e94a1b499b1819145a0cda9a8655ae4fa27f",
+        "official_scene_baseline_source_commit": "183866278f3e7eecda9c22e119293a4f9b383fec",
+        "success": true,
+        "passed": true,
+        "failure_reason": null,
+        "control_ticks": 101,
+        "belt_speed": 0.03,
+        "base_position": [
+          -0.3,
+          -0.45,
+          0.765
+        ],
+        "base_quaternion_wxyz": [
+          0.7071067811865476,
+          0.0,
+          0.0,
+          0.7071067811865476
+        ],
+        "scene_invariants": {
+          "camera": true,
+          "cube": true,
+          "render": true,
+          "expert": true,
+          "official_belt_after_checkout_path_normalization": true,
+          "official_scene_after_checkout_path_normalization": true,
+          "base_position": true,
+          "base_quaternion_wxyz": true,
+          "official_render_runtime_audit": true,
+          "room_collisions_preserved": true
+        },
+        "contact_motion": {
+          "first_contact_tick": 78,
+          "lift_start_tick": 80,
+          "contact_to_lift_seconds": 0.06666666666666667,
+          "cube_pre_lift_delta_m": [
+            0.004994213581085205,
+            -0.00039128027856349945,
+            0.000364840030670166
+          ],
+          "eef_pre_lift_delta_m": [
+            0.0026252567768096924,
+            -0.0004655495285987854,
+            0.0003662705421447754
+          ],
+          "cube_contact_xy_peak_m": 0.005009518004953861,
+          "eef_contact_xy_peak_m": 0.0033089821448970737,
+          "command_contact_xy_peak_m": 0.0,
+          "cube_contact_world_delta_m": [
+            -0.002212628722190857,
+            0.00023045390844345093,
+            0.11224937438964844
+          ],
+          "eef_contact_world_delta_m": [
+            5.932152271270752e-05,
+            0.0001627746969461441,
+            0.11224770545959473
+          ]
+        },
+        "strict_readback": {
+          "actions": 101,
+          "observations": 102,
+          "head_shape": [
+            102,
+            480,
+            640,
+            3
+          ],
+          "duration": 3.3666666666666667,
+          "success": true
+        },
+        "decoded_video_frames": 102,
+        "trajectory_sha256": "0a9112b33c6803ced1b0452a81466440c86958e5adc791413dcc04e1622e7eb0"
+      },
+      {
+        "embodiment": "piper",
+        "seed": 42,
+        "source_commit": "f47141dbddb257963bda2cfa92e97c50a75f9431",
+        "runtime": {
+          "isaacsim": "6.1.0.0",
+          "physics_backend": "PhysX",
+          "physics_device": "cpu",
+          "isaaclab": "17.0.2",
+          "isaaclab-physx": "6.0.0",
+          "torch": "2.11.0+cu128",
+          "warp-lang": "1.16.0",
+          "lab_quaternion_order": "xyzw",
+          "dataset_quaternion_order": "wxyz"
+        },
+        "camera_baseline_source_commit": "6d4eac23fbbc67b223f9ced547fc92842118178e",
+        "official_scene_baseline_source_commit": "183866278f3e7eecda9c22e119293a4f9b383fec",
+        "success": true,
+        "passed": true,
+        "failure_reason": null,
+        "control_ticks": 105,
+        "belt_speed": 0.03,
+        "base_position": [
+          -0.3,
+          -0.45,
+          0.765
+        ],
+        "base_quaternion_wxyz": [
+          0.7071067811865476,
+          0.0,
+          0.0,
+          0.7071067811865476
+        ],
+        "scene_invariants": {
+          "camera": true,
+          "cube": true,
+          "render": true,
+          "expert": true,
+          "official_belt_after_checkout_path_normalization": true,
+          "official_scene_after_checkout_path_normalization": true,
+          "base_position": true,
+          "base_quaternion_wxyz": true,
+          "official_render_runtime_audit": true,
+          "room_collisions_preserved": true
+        },
+        "contact_motion": {
+          "first_contact_tick": 82,
+          "lift_start_tick": 85,
+          "contact_to_lift_seconds": 0.1,
+          "cube_pre_lift_delta_m": [
+            0.003880798816680908,
+            -0.0006507132202386856,
+            -0.00015366077423095703
+          ],
+          "eef_pre_lift_delta_m": [
+            0.0013396739959716797,
+            -0.000372469425201416,
+            6.99162483215332e-05
+          ],
+          "cube_contact_xy_peak_m": 0.008684254251420498,
+          "eef_contact_xy_peak_m": 0.0021568075273447227,
+          "command_contact_xy_peak_m": 0.0,
+          "cube_contact_world_delta_m": [
+            0.007812216877937317,
+            -0.00018223747611045837,
+            0.11129754781723022
+          ],
+          "eef_contact_world_delta_m": [
+            -0.0005496591329574585,
+            0.00010916590690612793,
+            0.1114797592163086
+          ]
+        },
+        "strict_readback": {
+          "actions": 105,
+          "observations": 106,
+          "head_shape": [
+            106,
+            480,
+            640,
+            3
+          ],
+          "duration": 3.5,
+          "success": true
+        },
+        "decoded_video_frames": 106,
+        "trajectory_sha256": "7b324e2b05151cfd155075d39d7a057e579cf2afb948b168d2b0e8b28dbe97a0"
+      },
+      {
+        "embodiment": "piper",
+        "seed": 43,
+        "source_commit": "f47141dbddb257963bda2cfa92e97c50a75f9431",
+        "runtime": {
+          "isaacsim": "6.1.0.0",
+          "physics_backend": "PhysX",
+          "physics_device": "cpu",
+          "isaaclab": "17.0.2",
+          "isaaclab-physx": "6.0.0",
+          "torch": "2.11.0+cu128",
+          "warp-lang": "1.16.0",
+          "lab_quaternion_order": "xyzw",
+          "dataset_quaternion_order": "wxyz"
+        },
+        "camera_baseline_source_commit": "6d4eac23fbbc67b223f9ced547fc92842118178e",
+        "official_scene_baseline_source_commit": "183866278f3e7eecda9c22e119293a4f9b383fec",
+        "success": true,
+        "passed": true,
+        "failure_reason": null,
+        "control_ticks": 105,
+        "belt_speed": 0.03,
+        "base_position": [
+          -0.3,
+          -0.45,
+          0.765
+        ],
+        "base_quaternion_wxyz": [
+          0.7071067811865476,
+          0.0,
+          0.0,
+          0.7071067811865476
+        ],
+        "scene_invariants": {
+          "camera": true,
+          "cube": true,
+          "render": true,
+          "expert": true,
+          "official_belt_after_checkout_path_normalization": true,
+          "official_scene_after_checkout_path_normalization": true,
+          "base_position": true,
+          "base_quaternion_wxyz": true,
+          "official_render_runtime_audit": true,
+          "room_collisions_preserved": true
+        },
+        "contact_motion": {
+          "first_contact_tick": 82,
+          "lift_start_tick": 84,
+          "contact_to_lift_seconds": 0.06666666666666667,
+          "cube_pre_lift_delta_m": [
+            0.0022614747285842896,
+            7.525086402893066e-06,
+            5.0127506256103516e-05
+          ],
+          "eef_pre_lift_delta_m": [
+            -0.0003005713224411011,
+            5.5029988288879395e-05,
+            3.349781036376953e-05
+          ],
+          "cube_contact_xy_peak_m": 0.007258408237248659,
+          "eef_contact_xy_peak_m": 0.0023446127256435004,
+          "command_contact_xy_peak_m": 0.0,
+          "cube_contact_world_delta_m": [
+            0.006737500429153442,
+            2.481415867805481e-05,
+            0.11247426271438599
+          ],
+          "eef_contact_world_delta_m": [
+            -0.00012333691120147705,
+            1.884251832962036e-05,
+            0.11242657899856567
+          ]
+        },
+        "strict_readback": {
+          "actions": 105,
+          "observations": 106,
+          "head_shape": [
+            106,
+            480,
+            640,
+            3
+          ],
+          "duration": 3.5,
+          "success": true
+        },
+        "decoded_video_frames": 106,
+        "trajectory_sha256": "4fce6322948243fca22581eec10e5d72bfabecf081261016eed1a1d787c0493a"
+      },
+      {
+        "embodiment": "piper",
+        "seed": 44,
+        "source_commit": "f47141dbddb257963bda2cfa92e97c50a75f9431",
+        "runtime": {
+          "isaacsim": "6.1.0.0",
+          "physics_backend": "PhysX",
+          "physics_device": "cpu",
+          "isaaclab": "17.0.2",
+          "isaaclab-physx": "6.0.0",
+          "torch": "2.11.0+cu128",
+          "warp-lang": "1.16.0",
+          "lab_quaternion_order": "xyzw",
+          "dataset_quaternion_order": "wxyz"
+        },
+        "camera_baseline_source_commit": "6d4eac23fbbc67b223f9ced547fc92842118178e",
+        "official_scene_baseline_source_commit": "183866278f3e7eecda9c22e119293a4f9b383fec",
+        "success": true,
+        "passed": true,
+        "failure_reason": null,
+        "control_ticks": 105,
+        "belt_speed": 0.03,
+        "base_position": [
+          -0.3,
+          -0.45,
+          0.765
+        ],
+        "base_quaternion_wxyz": [
+          0.7071067811865476,
+          0.0,
+          0.0,
+          0.7071067811865476
+        ],
+        "scene_invariants": {
+          "camera": true,
+          "cube": true,
+          "render": true,
+          "expert": true,
+          "official_belt_after_checkout_path_normalization": true,
+          "official_scene_after_checkout_path_normalization": true,
+          "base_position": true,
+          "base_quaternion_wxyz": true,
+          "official_render_runtime_audit": true,
+          "room_collisions_preserved": true
+        },
+        "contact_motion": {
+          "first_contact_tick": 78,
+          "lift_start_tick": 84,
+          "contact_to_lift_seconds": 0.2,
+          "cube_pre_lift_delta_m": [
+            -0.00466465950012207,
+            -0.0006282888352870941,
+            -3.337860107421875e-06
+          ],
+          "eef_pre_lift_delta_m": [
+            2.86102294921875e-06,
+            2.0347535610198975e-05,
+            0.00012683868408203125
+          ],
+          "cube_contact_xy_peak_m": 0.0070091611705720425,
+          "eef_contact_xy_peak_m": 0.001225785686173052,
+          "command_contact_xy_peak_m": 0.0,
+          "cube_contact_world_delta_m": [
+            0.0022242367267608643,
+            -0.00047916173934936523,
+            0.11254572868347168
+          ],
+          "eef_contact_world_delta_m": [
+            -0.0003832578659057617,
+            8.66129994392395e-05,
+            0.1126716136932373
+          ]
+        },
+        "strict_readback": {
+          "actions": 105,
+          "observations": 106,
+          "head_shape": [
+            106,
+            480,
+            640,
+            3
+          ],
+          "duration": 3.5,
+          "success": true
+        },
+        "decoded_video_frames": 106,
+        "trajectory_sha256": "d7510b98b7ed69bfdaad9fd06c90c0a45ab8c212f70f9fcba8e99cd8aa9ea4b0"
+      }
+    ],
+    "real_model_tested": false,
+    "scope": "Three expert seeds per changed embodiment on the integrated official scene; unchanged cameras and success gates."
+  },
+  "scheduling": {
+    "date": "2026-11-08",
+    "passed": true,
+    "cases": [
+      {
+        "embodiment": "franka",
+        "mode": "no_latency",
+        "source_commit": "f47141dbddb257963bda2cfa92e97c50a75f9431",
+        "actions": 64,
+        "recorded_transitions": 64,
+        "observations": 65,
+        "physics_steps": 640,
+        "sim_time": 2.1333333333333333,
+        "cube_displacement": [
+          0.0639839619398117,
+          2.8889626264572144e-05,
+          0.0
+        ],
+        "underflow_steps": 0,
+        "old_queue_actions_during_inference": 0,
+        "head_video_frames": 65,
+        "strict_readback_passed": true,
+        "trace_clock_passed": true,
+        "finite_hold_passed": true,
+        "trajectory_sha256": "a1c51736676d956ed00f2cd520f3efdbcd3aed8334a48c52b6ffee1b333b9b34",
+        "local_episode": "/Users/riri/Documents/Codex/2026-10-23/files-mentioned-by-the-user-dynamicbench/outputs/front_layout_official_20261108/franka_schedule/no_latency_seed42"
+      },
+      {
+        "embodiment": "franka",
+        "mode": "sync_hold",
+        "source_commit": "f47141dbddb257963bda2cfa92e97c50a75f9431",
+        "actions": 64,
+        "recorded_transitions": 80,
+        "observations": 81,
+        "physics_steps": 790,
+        "sim_time": 2.6333333333333333,
+        "cube_displacement": [
+          0.07898421585559845,
+          3.6228448152542114e-05,
+          0.0
+        ],
+        "underflow_steps": 0,
+        "old_queue_actions_during_inference": 0,
+        "head_video_frames": 80,
+        "strict_readback_passed": true,
+        "trace_clock_passed": true,
+        "finite_hold_passed": true,
+        "trajectory_sha256": "f46f6919083906399759c1d6df9c29143b1fa6d52626b2348857c2d1f4a75bea",
+        "local_episode": "/Users/riri/Documents/Codex/2026-10-23/files-mentioned-by-the-user-dynamicbench/outputs/front_layout_official_20261108/franka_schedule/sync_hold_seed42"
+      },
+      {
+        "embodiment": "franka",
+        "mode": "async_queue",
+        "source_commit": "f47141dbddb257963bda2cfa92e97c50a75f9431",
+        "actions": 64,
+        "recorded_transitions": 64,
+        "observations": 65,
+        "physics_steps": 640,
+        "sim_time": 2.1333333333333333,
+        "cube_displacement": [
+          0.0639839619398117,
+          2.8889626264572144e-05,
+          0.0
+        ],
+        "underflow_steps": 8,
+        "old_queue_actions_during_inference": 24,
+        "head_video_frames": 65,
+        "strict_readback_passed": true,
+        "trace_clock_passed": true,
+        "finite_hold_passed": true,
+        "trajectory_sha256": "debfb772789cb018b80649702b7b84888b2ceebd59dbe4ad00001f7701946505",
+        "local_episode": "/Users/riri/Documents/Codex/2026-10-23/files-mentioned-by-the-user-dynamicbench/outputs/front_layout_official_20261108/franka_schedule/async_queue_seed42"
+      },
+      {
+        "embodiment": "franka",
+        "mode": "rtc",
+        "source_commit": "f47141dbddb257963bda2cfa92e97c50a75f9431",
+        "actions": 64,
+        "recorded_transitions": 64,
+        "observations": 65,
+        "physics_steps": 640,
+        "sim_time": 2.1333333333333333,
+        "cube_displacement": [
+          0.0639839619398117,
+          2.8889626264572144e-05,
+          0.0
+        ],
+        "underflow_steps": 8,
+        "old_queue_actions_during_inference": 24,
+        "head_video_frames": 65,
+        "strict_readback_passed": true,
+        "trace_clock_passed": true,
+        "finite_hold_passed": true,
+        "trajectory_sha256": "1e9797acdff2014551b4090575dd8397a3cd894faa8499809dd7f2f66e791c28",
+        "local_episode": "/Users/riri/Documents/Codex/2026-10-23/files-mentioned-by-the-user-dynamicbench/outputs/front_layout_official_20261108/franka_schedule/rtc_seed42"
+      },
+      {
+        "embodiment": "piper",
+        "mode": "no_latency",
+        "source_commit": "f47141dbddb257963bda2cfa92e97c50a75f9431",
+        "actions": 64,
+        "recorded_transitions": 64,
+        "observations": 65,
+        "physics_steps": 640,
+        "sim_time": 2.1333333333333333,
+        "cube_displacement": [
+          0.0639839619398117,
+          2.8889626264572144e-05,
+          0.0
+        ],
+        "underflow_steps": 0,
+        "old_queue_actions_during_inference": 0,
+        "head_video_frames": 65,
+        "strict_readback_passed": true,
+        "trace_clock_passed": true,
+        "finite_hold_passed": true,
+        "trajectory_sha256": "8dfcf29bb6f1bcc67c0e294b2b6cfdcc323dc30d540511246a53e51f7672306e",
+        "local_episode": "/Users/riri/Documents/Codex/2026-10-23/files-mentioned-by-the-user-dynamicbench/outputs/front_layout_official_20261108/piper_schedule/no_latency_seed42"
+      },
+      {
+        "embodiment": "piper",
+        "mode": "sync_hold",
+        "source_commit": "f47141dbddb257963bda2cfa92e97c50a75f9431",
+        "actions": 64,
+        "recorded_transitions": 80,
+        "observations": 81,
+        "physics_steps": 790,
+        "sim_time": 2.6333333333333333,
+        "cube_displacement": [
+          0.07898421585559845,
+          3.6228448152542114e-05,
+          0.0
+        ],
+        "underflow_steps": 0,
+        "old_queue_actions_during_inference": 0,
+        "head_video_frames": 80,
+        "strict_readback_passed": true,
+        "trace_clock_passed": true,
+        "finite_hold_passed": true,
+        "trajectory_sha256": "a331904d8b8dcc61eb1eafddf47055c130eb4f84e4b8d8ba7a2d65c95de5b874",
+        "local_episode": "/Users/riri/Documents/Codex/2026-10-23/files-mentioned-by-the-user-dynamicbench/outputs/front_layout_official_20261108/piper_schedule/sync_hold_seed42"
+      },
+      {
+        "embodiment": "piper",
+        "mode": "async_queue",
+        "source_commit": "f47141dbddb257963bda2cfa92e97c50a75f9431",
+        "actions": 64,
+        "recorded_transitions": 64,
+        "observations": 65,
+        "physics_steps": 640,
+        "sim_time": 2.1333333333333333,
+        "cube_displacement": [
+          0.0639839619398117,
+          2.8889626264572144e-05,
+          0.0
+        ],
+        "underflow_steps": 8,
+        "old_queue_actions_during_inference": 24,
+        "head_video_frames": 65,
+        "strict_readback_passed": true,
+        "trace_clock_passed": true,
+        "finite_hold_passed": true,
+        "trajectory_sha256": "e26d7dd14b574f955d90154abed5c92db5bd46d3f6a774ea596b4a860090ffec",
+        "local_episode": "/Users/riri/Documents/Codex/2026-10-23/files-mentioned-by-the-user-dynamicbench/outputs/front_layout_official_20261108/piper_schedule/async_queue_seed42"
+      },
+      {
+        "embodiment": "piper",
+        "mode": "rtc",
+        "source_commit": "f47141dbddb257963bda2cfa92e97c50a75f9431",
+        "actions": 64,
+        "recorded_transitions": 64,
+        "observations": 65,
+        "physics_steps": 640,
+        "sim_time": 2.1333333333333333,
+        "cube_displacement": [
+          0.0639839619398117,
+          2.8889626264572144e-05,
+          0.0
+        ],
+        "underflow_steps": 8,
+        "old_queue_actions_during_inference": 24,
+        "head_video_frames": 65,
+        "strict_readback_passed": true,
+        "trace_clock_passed": true,
+        "finite_hold_passed": true,
+        "trajectory_sha256": "e1923d4c993a827e1a04ef32cd879664376fd2602d43c4f5bae35699ea9347ad",
+        "local_episode": "/Users/riri/Documents/Codex/2026-10-23/files-mentioned-by-the-user-dynamicbench/outputs/front_layout_official_20261108/piper_schedule/rtc_seed42"
+      }
+    ],
+    "real_model_tested": false
+  },
+  "artifacts": [
+    {
+      "path": "franka/asset_audit.json",
+      "sha256": "5f4bc7089a8a9614f9f6c73a84832870cc57aff7bb71e7460a01dfee85281d3e"
+    },
+    {
+      "path": "franka/collection_metrics.json",
+      "sha256": "bf673063d524829a7d784554a6cd104dee170111a147648fd7df2cc734a3a8c6"
+    },
+    {
+      "path": "franka/episode_seed42/head.mp4",
+      "sha256": "71cde6dcbc016b811712424da877b8f057cf5e8ca543436cb842bbd1d0565ba0"
+    },
+    {
+      "path": "franka/episode_seed42/metadata.json",
+      "sha256": "00c0469f01877cc6dc88f61aec9c9cdf7d37f5e540dabab2984b6a7644ab2ace"
+    },
+    {
+      "path": "franka/episode_seed42/trace.jsonl",
+      "sha256": "01961b1b28f1c8fbc8448d5c4913fecf33134afd847e772162a103cec69a12c6"
+    },
+    {
+      "path": "franka/episode_seed42/trajectory.npz",
+      "sha256": "d2036e16932d75c457fdbed12734dc3162923d1fbe347dc72e705a9c2f596105"
+    },
+    {
+      "path": "franka/episode_seed43/head.mp4",
+      "sha256": "61a58138b0d0adcf7dd2bb21da8a67c16e7c91d16c16e345ce9813f3c9f4d86e"
+    },
+    {
+      "path": "franka/episode_seed43/metadata.json",
+      "sha256": "579ef8f4677aefe99798db8a895d3625c44ba96f1f01b50a2aace6a2a8af6802"
+    },
+    {
+      "path": "franka/episode_seed43/trace.jsonl",
+      "sha256": "fe579681e43d4733114fa74f415827dde74c328ced8a648cf30a6fd31784ca82"
+    },
+    {
+      "path": "franka/episode_seed43/trajectory.npz",
+      "sha256": "6cb16c9a669b5b80fef20ff69b15c1bcf9be55eda2bc46c37e2509b1d26a83ff"
+    },
+    {
+      "path": "franka/episode_seed44/head.mp4",
+      "sha256": "4a64ad5cc9f50e24f2b5c182a804415d9fdb73ab8fed3ef37ae180cb675b70ba"
+    },
+    {
+      "path": "franka/episode_seed44/metadata.json",
+      "sha256": "9d6fd5cc2b8a29889839627840b7ed82a5ea5bb1cd153e34b05b611f144cdb32"
+    },
+    {
+      "path": "franka/episode_seed44/trace.jsonl",
+      "sha256": "3fcc8060f9dc9b3982de14854bc932a345c39cac96f4e5b981ea12361b8c834b"
+    },
+    {
+      "path": "franka/episode_seed44/trajectory.npz",
+      "sha256": "0a9112b33c6803ced1b0452a81466440c86958e5adc791413dcc04e1622e7eb0"
+    },
+    {
+      "path": "franka/exit_status.json",
+      "sha256": "124fd50cb6d223cdd18fedc166d00af7254199b6e6dedf9be82f71db87af6d01"
+    },
+    {
+      "path": "franka/manifest.jsonl",
+      "sha256": "102b35ba2337481b5229a226f00d8d47acc37d18b38891c379e3bb581d546dee"
+    },
+    {
+      "path": "franka_front_initial.png",
+      "sha256": "2ee3512a2923848a38ddfea19cc57b7636386e4148e04ba98427e6f50570649c"
+    },
+    {
+      "path": "franka_front_preview.jpg",
+      "sha256": "47dbdf633aadb268a65a3e62c5f3296bdd343d3fb3de738029f3acaad9dfab33"
+    },
+    {
+      "path": "franka_schedule/acceptance.json",
+      "sha256": "62da3cb03e74bb2614071855bce936e07bc91e0d717997e78dccab8cf6d973fd"
+    },
+    {
+      "path": "franka_schedule/asset_audit.json",
+      "sha256": "5f4bc7089a8a9614f9f6c73a84832870cc57aff7bb71e7460a01dfee85281d3e"
+    },
+    {
+      "path": "franka_schedule/async_queue_seed42/head.mp4",
+      "sha256": "ab472a4db59d53cde132a12f654c5c3b7b385a26e395887eac8d02ee6d636a0d"
+    },
+    {
+      "path": "franka_schedule/async_queue_seed42/metadata.json",
+      "sha256": "78c399dc0b4b3a5123f965c157f3eb11ceb66642ac38e3a2902ae090429cb1c6"
+    },
+    {
+      "path": "franka_schedule/async_queue_seed42/trace.jsonl",
+      "sha256": "3b99b60f7a946d1a9267e22402fc6cb791d11cfe576c614df68ce36bab036ddc"
+    },
+    {
+      "path": "franka_schedule/async_queue_seed42/trajectory.npz",
+      "sha256": "debfb772789cb018b80649702b7b84888b2ceebd59dbe4ad00001f7701946505"
+    },
+    {
+      "path": "franka_schedule/exit_status.json",
+      "sha256": "124fd50cb6d223cdd18fedc166d00af7254199b6e6dedf9be82f71db87af6d01"
+    },
+    {
+      "path": "franka_schedule/manifest.jsonl",
+      "sha256": "21f249d6aa26fc125f3e5105a0d7a2d8bae11a2dbf462ed5e9b8dad78a73a12a"
+    },
+    {
+      "path": "franka_schedule/metrics.json",
+      "sha256": "029515b75ddb800dcbaa33dbb87ec0b289040cc1f4e1ff269d313922343937de"
+    },
+    {
+      "path": "franka_schedule/no_latency_seed42/head.mp4",
+      "sha256": "8b63aa91a95c0947641527a5cf68a7d8bcc6d202862059697f2262ae6eb2a492"
+    },
+    {
+      "path": "franka_schedule/no_latency_seed42/metadata.json",
+      "sha256": "674f6d28e10bb0414514d1c4822a558c2282f2b4dc0118e4449f6ac80819662f"
+    },
+    {
+      "path": "franka_schedule/no_latency_seed42/trace.jsonl",
+      "sha256": "4d9c62aeb0d2e550d9b1d67d6202bbe34a3713cb9f24d8add5e6415d15547201"
+    },
+    {
+      "path": "franka_schedule/no_latency_seed42/trajectory.npz",
+      "sha256": "a1c51736676d956ed00f2cd520f3efdbcd3aed8334a48c52b6ffee1b333b9b34"
+    },
+    {
+      "path": "franka_schedule/rtc_seed42/head.mp4",
+      "sha256": "703e9cf2f915cbead2de8c621e5ffeb2007cdf969d664a264bac80db296417d2"
+    },
+    {
+      "path": "franka_schedule/rtc_seed42/metadata.json",
+      "sha256": "f81875a3df90d3454df16895e586c088f00d80229751ea229622791a95bfc90a"
+    },
+    {
+      "path": "franka_schedule/rtc_seed42/trace.jsonl",
+      "sha256": "a947ac424ce5d2f6d9e11c3788a2c0c8695a159c073c4b9336b483b7f4170dad"
+    },
+    {
+      "path": "franka_schedule/rtc_seed42/trajectory.npz",
+      "sha256": "1e9797acdff2014551b4090575dd8397a3cd894faa8499809dd7f2f66e791c28"
+    },
+    {
+      "path": "franka_schedule/sync_hold_seed42/head.mp4",
+      "sha256": "1067c2c4b0584f11df38f144c77e08e109bed22218baa42e717ee5be6c3b81e6"
+    },
+    {
+      "path": "franka_schedule/sync_hold_seed42/metadata.json",
+      "sha256": "3dbb9a2a30d2b1e0e4b480ca0dfb3b026d4566dcb58e10775ea231dcd69bf6a7"
+    },
+    {
+      "path": "franka_schedule/sync_hold_seed42/trace.jsonl",
+      "sha256": "09a71a769264b3cb77954b90a94aa0f0764349ae7f0700331bd223e41ad7fc9d"
+    },
+    {
+      "path": "franka_schedule/sync_hold_seed42/trajectory.npz",
+      "sha256": "f46f6919083906399759c1d6df9c29143b1fa6d52626b2348857c2d1f4a75bea"
+    },
+    {
+      "path": "front_layout_audit.json",
+      "sha256": "fa798cf23e4ca4ad58d7d14a1efd07de9fa711ef0d142e96a26dd25d6c9419b9"
+    },
+    {
+      "path": "piper/asset_audit.json",
+      "sha256": "4be9658b75b75cd41f7fab4f78661e080cce01880971f322439cf53cc7c971a8"
+    },
+    {
+      "path": "piper/collection_metrics.json",
+      "sha256": "3a1552265795fd216152c67a03b956c16211ad5d7fd4c0b5d9daeb1ec8036929"
+    },
+    {
+      "path": "piper/episode_seed42/head.mp4",
+      "sha256": "58c98f7846f70198d9b890f7b76d0aefa57625afd2b6fbeda98f25bd80b0be01"
+    },
+    {
+      "path": "piper/episode_seed42/metadata.json",
+      "sha256": "8281539b77d6e6a03870995b3fef067f4e6eabdcd616d19e6e5a8adb17baa5eb"
+    },
+    {
+      "path": "piper/episode_seed42/trace.jsonl",
+      "sha256": "107d4660e6308238fb924ec1b612859508306f95cbc2b1a9b688129a2fa73ad7"
+    },
+    {
+      "path": "piper/episode_seed42/trajectory.npz",
+      "sha256": "7b324e2b05151cfd155075d39d7a057e579cf2afb948b168d2b0e8b28dbe97a0"
+    },
+    {
+      "path": "piper/episode_seed43/head.mp4",
+      "sha256": "307a24feff85f53294745f16978ad59696472e53a32ac49a4975adb30c801cfb"
+    },
+    {
+      "path": "piper/episode_seed43/metadata.json",
+      "sha256": "5f3e6320dc74e844dd5b4f066580c4cb653b9292b256833d33cc78ae41db7023"
+    },
+    {
+      "path": "piper/episode_seed43/trace.jsonl",
+      "sha256": "b7ca71b2b417f00b4bbe30d59364308955d4fdd7e8b26650b8fef5140595bda9"
+    },
+    {
+      "path": "piper/episode_seed43/trajectory.npz",
+      "sha256": "4fce6322948243fca22581eec10e5d72bfabecf081261016eed1a1d787c0493a"
+    },
+    {
+      "path": "piper/episode_seed44/head.mp4",
+      "sha256": "373e982a8f5222a2b3288382c68971a782224792a3020adaa82f5d73b42e9f72"
+    },
+    {
+      "path": "piper/episode_seed44/metadata.json",
+      "sha256": "abbd31293622f63522c16f1a737eb058a9036d3fd07a185689a595044b3cc214"
+    },
+    {
+      "path": "piper/episode_seed44/trace.jsonl",
+      "sha256": "cc93a1070bbcb0aded6b46fb002f7cc5af231fa6e11ac99c06e8e7aace38378c"
+    },
+    {
+      "path": "piper/episode_seed44/trajectory.npz",
+      "sha256": "d7510b98b7ed69bfdaad9fd06c90c0a45ab8c212f70f9fcba8e99cd8aa9ea4b0"
+    },
+    {
+      "path": "piper/exit_status.json",
+      "sha256": "124fd50cb6d223cdd18fedc166d00af7254199b6e6dedf9be82f71db87af6d01"
+    },
+    {
+      "path": "piper/manifest.jsonl",
+      "sha256": "4a75213ed9ea82c18622f91590b2ff4c6c92d16266b1cca932c8b900254d3134"
+    },
+    {
+      "path": "piper_front_initial.png",
+      "sha256": "988078dfb561257d623a9ddf9b904e5df1c177d1bc01fa9c9b8a1bdad5595016"
+    },
+    {
+      "path": "piper_front_preview.jpg",
+      "sha256": "ff82fb93ba648da3d60c966a8830e2c890694d352ebe1465b726e0a24e951f45"
+    },
+    {
+      "path": "piper_schedule/acceptance.json",
+      "sha256": "62da3cb03e74bb2614071855bce936e07bc91e0d717997e78dccab8cf6d973fd"
+    },
+    {
+      "path": "piper_schedule/asset_audit.json",
+      "sha256": "4be9658b75b75cd41f7fab4f78661e080cce01880971f322439cf53cc7c971a8"
+    },
+    {
+      "path": "piper_schedule/async_queue_seed42/head.mp4",
+      "sha256": "9d95437f94337df13f9afc40dbef8038775ab20efe45df6d6219129fad50d5ba"
+    },
+    {
+      "path": "piper_schedule/async_queue_seed42/metadata.json",
+      "sha256": "0edf29aaaba1c8196d288b7e48364f6d7545fd800efa91a9eddeb54305a86751"
+    },
+    {
+      "path": "piper_schedule/async_queue_seed42/trace.jsonl",
+      "sha256": "ca1d5c79efaeb6b647d25a4896a3c8d73b9603d1b7ebc36199423d6700c7de9e"
+    },
+    {
+      "path": "piper_schedule/async_queue_seed42/trajectory.npz",
+      "sha256": "e26d7dd14b574f955d90154abed5c92db5bd46d3f6a774ea596b4a860090ffec"
+    },
+    {
+      "path": "piper_schedule/exit_status.json",
+      "sha256": "124fd50cb6d223cdd18fedc166d00af7254199b6e6dedf9be82f71db87af6d01"
+    },
+    {
+      "path": "piper_schedule/manifest.jsonl",
+      "sha256": "21f249d6aa26fc125f3e5105a0d7a2d8bae11a2dbf462ed5e9b8dad78a73a12a"
+    },
+    {
+      "path": "piper_schedule/metrics.json",
+      "sha256": "222965c8c20891563284f521832945b27e3164802d0795837c3462040de8b559"
+    },
+    {
+      "path": "piper_schedule/no_latency_seed42/head.mp4",
+      "sha256": "25c66ff1ff7d2d4bba202582142a47808d9a55bb427736faab6b8c33d95bed93"
+    },
+    {
+      "path": "piper_schedule/no_latency_seed42/metadata.json",
+      "sha256": "bbc1ec50f597fc5b5705d2de660775afdcd477836501f2161f29c960935ca44f"
+    },
+    {
+      "path": "piper_schedule/no_latency_seed42/trace.jsonl",
+      "sha256": "18a488023403bc842603505d6a0b0962e4a89a2226c24a7ca734047d7ab29ff7"
+    },
+    {
+      "path": "piper_schedule/no_latency_seed42/trajectory.npz",
+      "sha256": "8dfcf29bb6f1bcc67c0e294b2b6cfdcc323dc30d540511246a53e51f7672306e"
+    },
+    {
+      "path": "piper_schedule/rtc_seed42/head.mp4",
+      "sha256": "caca6ef3668028a895c500b0edfc0f52a4e6fb03cb84152490f3c18721071e1d"
+    },
+    {
+      "path": "piper_schedule/rtc_seed42/metadata.json",
+      "sha256": "9ca725734aca2eea764b2a5026300a286fb82ad93e6d46afcc4efad45fd68cc1"
+    },
+    {
+      "path": "piper_schedule/rtc_seed42/trace.jsonl",
+      "sha256": "f636efd0c257da335c0157fc950e804e80227aeb3d1ee1eb017683d430121381"
+    },
+    {
+      "path": "piper_schedule/rtc_seed42/trajectory.npz",
+      "sha256": "e1923d4c993a827e1a04ef32cd879664376fd2602d43c4f5bae35699ea9347ad"
+    },
+    {
+      "path": "piper_schedule/sync_hold_seed42/head.mp4",
+      "sha256": "6097ed39dcb88bc6580ae1b6a95cd839cbcc96b97da443146c1f22dea56f3b1c"
+    },
+    {
+      "path": "piper_schedule/sync_hold_seed42/metadata.json",
+      "sha256": "507ab03e139a47f125fd51f97f6b90a5b52e9071ca21c98faf89883aeb0d5ee0"
+    },
+    {
+      "path": "piper_schedule/sync_hold_seed42/trace.jsonl",
+      "sha256": "cec6ba04370b246dbfd614ecf7c01bc8be6eed11e54a89537fa67d52102af37f"
+    },
+    {
+      "path": "piper_schedule/sync_hold_seed42/trajectory.npz",
+      "sha256": "a331904d8b8dcc61eb1eafddf47055c130eb4f84e4b8d8ba7a2d65c95de5b874"
+    },
+    {
+      "path": "scheduling_audit.json",
+      "sha256": "ad43de96dd3a124fc207b88d2ee36e5231361660b530abfc35c881f803e6f9de"
+    }
+  ]
+}

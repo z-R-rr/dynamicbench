@@ -1,0 +1,80 @@
+{
+  "source_commit": "82734179907a686c31f603f87223e103b5e118b2",
+  "successes": 3,
+  "attempts": 3,
+  "success_rate": 1.0,
+  "total_control_ticks": 286,
+  "mean_success_duration": 3.1777777777777776,
+  "failure_counts": {},
+  "episodes": [
+    {
+      "test": "expert",
+      "success": true,
+      "failure_reason": null,
+      "seed": 42,
+      "belt_speed": 0.03,
+      "control_ticks": 96,
+      "physics_steps": 960,
+      "sim_time": 3.2,
+      "cube_displacement": [
+        0.18910937011241913,
+        -0.022178038954734802,
+        0.060923755168914795
+      ],
+      "max_cube_z": 0.8599137663841248,
+      "mean_cube_speed": 0.05909667816013098,
+      "latency_mode": "no_latency",
+      "latency_requested_seconds": 0.25,
+      "latency_quantized_seconds": 0.0,
+      "real_model_tested": false,
+      "requests": [],
+      "episode": "episode_seed42"
+    },
+    {
+      "test": "expert",
+      "success": true,
+      "failure_reason": null,
+      "seed": 43,
+      "belt_speed": 0.03,
+      "control_ticks": 95,
+      "physics_steps": 950,
+      "sim_time": 3.1666666666666665,
+      "cube_displacement": [
+        0.1880313605070114,
+        -0.020572146400809288,
+        0.06326353549957275
+      ],
+      "max_cube_z": 0.8634231686592102,
+      "mean_cube_speed": 0.059378324370635185,
+      "latency_mode": "no_latency",
+      "latency_requested_seconds": 0.25,
+      "latency_quantized_seconds": 0.0,
+      "real_model_tested": false,
+      "requests": [],
+      "episode": "episode_seed43"
+    },
+    {
+      "test": "expert",
+      "success": true,
+      "failure_reason": null,
+      "seed": 44,
+      "belt_speed": 0.03,
+      "control_ticks": 95,
+      "physics_steps": 950,
+      "sim_time": 3.1666666666666665,
+      "cube_displacement": [
+        0.18869423866271973,
+        -0.016397440806031227,
+        0.06119978427886963
+      ],
+      "max_cube_z": 0.8601874709129333,
+      "mean_cube_speed": 0.059587654314543076,
+      "latency_mode": "no_latency",
+      "latency_requested_seconds": 0.25,
+      "latency_quantized_seconds": 0.0,
+      "real_model_tested": false,
+      "requests": [],
+      "episode": "episode_seed44"
+    }
+  ]
+}

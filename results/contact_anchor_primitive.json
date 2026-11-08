@@ -1,0 +1,85 @@
+{
+  "test": "expert",
+  "success": true,
+  "failure_reason": null,
+  "seed": 42,
+  "belt_speed": 0.03,
+  "control_ticks": 82,
+  "physics_steps": 820,
+  "sim_time": 2.7333333333333334,
+  "cube_displacement": [
+    0.07107138633728027,
+    0.0006502680480480194,
+    0.11250901222229004
+  ],
+  "max_cube_z": 0.8956823348999023,
+  "mean_cube_speed": 0.026001726708761073,
+  "latency_mode": "no_latency",
+  "latency_requested_seconds": 0.25,
+  "latency_quantized_seconds": 0.0,
+  "real_model_tested": false,
+  "requests": [],
+  "lift_xy_mode": "contact_anchor",
+  "lift_tcp_frame": "latched_world_eef",
+  "lift_motion": {
+    "start_tick": 62,
+    "end_observation_tick": 82,
+    "duration_seconds": 0.6666666666666666,
+    "cube_world_delta_m": [
+      0.0018108636140823364,
+      1.3114884495735168e-05,
+      0.11197185516357422
+    ],
+    "cube_in_eef_final_delta_m": [
+      1.3705914934381003e-06,
+      -0.0018114108924388974,
+      -7.80826885354597e-07
+    ],
+    "cube_in_eef_peak_change_m": 0.002244339667217171,
+    "min_finger_contact_N": [
+      14.974825859069824,
+      14.871476173400879
+    ],
+    "belt_surface_velocity_min_m_s": [
+      0.029999999329447746,
+      0.0,
+      0.0
+    ],
+    "belt_surface_velocity_max_m_s": [
+      0.029999999329447746,
+      0.0,
+      0.0
+    ],
+    "cube_in_pinch_peak_change_m": 5.807708334280083e-06
+  },
+  "contact_motion": {
+    "first_contact_tick": 60,
+    "lift_start_tick": 62,
+    "contact_to_lift_seconds": 0.06666666666666667,
+    "cube_pre_lift_delta_m": [
+      0.005395635962486267,
+      -1.7628073692321777e-05,
+      -3.8683414459228516e-05
+    ],
+    "eef_pre_lift_delta_m": [
+      3.427267074584961e-07,
+      -2.1420419216156006e-06,
+      -3.8564205169677734e-05
+    ],
+    "cube_contact_xy_peak_m": 0.007743814494460821,
+    "eef_contact_xy_peak_m": 0.00034230585131909345,
+    "command_contact_xy_peak_m": 0.0,
+    "cube_contact_world_delta_m": [
+      0.0072064995765686035,
+      -4.513189196586609e-06,
+      0.11193317174911499
+    ],
+    "eef_contact_world_delta_m": [
+      -1.3709068298339844e-06,
+      8.104369044303894e-06,
+      0.11193466186523438
+    ]
+  },
+  "contact_motion_passed": true,
+  "passed": true
+}

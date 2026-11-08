@@ -1,0 +1,3147 @@
+{
+  "passed": true,
+  "date": "2026-11-08",
+  "source_commit": "3c82e804aa436547c4008619c264c47bf217a60c",
+  "branch": "feat/conveyor-object-config",
+  "scope": "X5, official conveyor layout, one seed 42 per object, oracle grasps and mock scheduling; no learned-model or other-robot grasp acceptance",
+  "local_tests": 76,
+  "ruff": "passed",
+  "old_episodes_readback_passed": 3,
+  "local_artifacts": "/Users/riri/Documents/Codex/2026-10-23/files-mentioned-by-the-user-dynamicbench/outputs/object_config_20261108",
+  "remote_artifacts": "/home/ubuntu/Workspace/dynamicbench-object-config-20261108/outputs",
+  "grasp": {
+    "passed": true,
+    "profiles": [
+      {
+        "profile": "default_object",
+        "reader": {
+          "actions": 112,
+          "observations": 113,
+          "head_shape": [
+            113,
+            480,
+            640,
+            3
+          ],
+          "duration": 3.7333333333333334,
+          "success": true
+        },
+        "object": {
+          "id": "yellow_cube_35mm",
+          "source": "primitive",
+          "shape": "box",
+          "size": [
+            0.035,
+            0.035,
+            0.035
+          ],
+          "color": [
+            1.0,
+            0.55,
+            0.02
+          ],
+          "mass": 0.05,
+          "friction": 1.5,
+          "initial_xy": [
+            -0.25,
+            -0.02
+          ],
+          "initial_jitter": 0.005,
+          "spawn_clearance": 0.002,
+          "initial_quaternion_wxyz": [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "geometry": {
+            "kind": "box",
+            "center": [
+              0,
+              0,
+              0
+            ],
+            "half_extents": [
+              0.0175,
+              0.0175,
+              0.0175
+            ]
+          },
+          "grasp": {
+            "opening": 1.0
+          },
+          "config_source_sha256": {},
+          "schema_version": "dynamicbench.object.v1"
+        },
+        "runtime": {
+          "isaacsim": "6.1.0.0",
+          "physics_backend": "PhysX",
+          "physics_device": "cpu",
+          "isaaclab": "17.0.2",
+          "isaaclab-physx": "6.0.0",
+          "torch": "2.11.0+cu128",
+          "warp-lang": "1.16.0",
+          "lab_quaternion_order": "xyzw",
+          "dataset_quaternion_order": "wxyz"
+        },
+        "source_commit": "3c82e804aa436547c4008619c264c47bf217a60c",
+        "video_frames": 113,
+        "initial_bottom_error_m": -4.71346383479343e-07,
+        "contact": {
+          "first_contact_tick": 90,
+          "lift_start_tick": 92,
+          "contact_to_lift_seconds": 0.06666666666666667,
+          "cube_pre_lift_delta_m": [
+            0.0050029456615448,
+            -2.17389315366745e-05,
+            -5.08427619934082e-05
+          ],
+          "eef_pre_lift_delta_m": [
+            -7.450580596923828e-08,
+            -2.60770320892334e-06,
+            -5.0008296966552734e-05
+          ],
+          "cube_contact_xy_peak_m": 0.0075532905757427216,
+          "eef_contact_xy_peak_m": 0.0004680773307926589,
+          "command_contact_xy_peak_m": 0.0,
+          "cube_contact_world_delta_m": [
+            0.004441559314727783,
+            -5.301088094711304e-06,
+            0.11151814460754395
+          ],
+          "eef_contact_world_delta_m": [
+            2.5331974029541016e-07,
+            7.828697562217712e-06,
+            0.11151361465454102
+          ]
+        },
+        "lift": {
+          "start_tick": 92,
+          "end_observation_tick": 112,
+          "duration_seconds": 0.6666666666666666,
+          "cube_world_delta_m": [
+            -0.0005613863468170166,
+            1.6437843441963196e-05,
+            0.11156898736953735
+          ],
+          "cube_in_eef_final_delta_m": [
+            -5.08568646551133e-06,
+            0.0005669935228499474,
+            -2.3997293047134513e-06
+          ],
+          "cube_in_eef_peak_change_m": 0.002432108208651293,
+          "min_finger_contact_N": [
+            14.96843147277832,
+            14.986172676086426
+          ],
+          "belt_surface_velocity_min_m_s": [
+            0.029999999329447746,
+            0.0,
+            0.0
+          ],
+          "belt_surface_velocity_max_m_s": [
+            0.029999999329447746,
+            0.0,
+            0.0
+          ],
+          "cube_in_pinch_peak_change_m": 6.58879058482123e-06
+        }
+      },
+      {
+        "profile": "cylinder",
+        "reader": {
+          "actions": 117,
+          "observations": 118,
+          "head_shape": [
+            118,
+            480,
+            640,
+            3
+          ],
+          "duration": 3.9,
+          "success": true
+        },
+        "object": {
+          "id": "cylinder_35x40mm",
+          "source": "primitive",
+          "shape": "cylinder",
+          "radius": 0.0175,
+          "height": 0.04,
+          "mass": 0.05,
+          "friction": 1.5,
+          "color": [
+            0.15,
+            0.5,
+            0.9
+          ],
+          "initial_xy": [
+            -0.25,
+            -0.02
+          ],
+          "initial_jitter": 0.005,
+          "grasp": {
+            "position": [
+              0.0,
+              0.0,
+              0.002
+            ],
+            "opening": 1.0
+          },
+          "spawn_clearance": 0.002,
+          "initial_quaternion_wxyz": [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "geometry": {
+            "kind": "cylinder",
+            "radius": 0.0175,
+            "height": 0.04
+          },
+          "config_source_sha256": {
+            "/home/ubuntu/Workspace/dynamicbench-object-config-20261108/dynamicbench/configs/objects/cylinder.yaml": "8b6c94a4745c2d62dfb5fcafef1352aabb9bab7284aeea0b43d5a3332613ecc0"
+          },
+          "schema_version": "dynamicbench.object.v1"
+        },
+        "runtime": {
+          "isaacsim": "6.1.0.0",
+          "physics_backend": "PhysX",
+          "physics_device": "cpu",
+          "isaaclab": "17.0.2",
+          "isaaclab-physx": "6.0.0",
+          "torch": "2.11.0+cu128",
+          "warp-lang": "1.16.0",
+          "lab_quaternion_order": "xyzw",
+          "dataset_quaternion_order": "wxyz"
+        },
+        "source_commit": "3c82e804aa436547c4008619c264c47bf217a60c",
+        "video_frames": 118,
+        "initial_bottom_error_m": -0.0005030683177924544,
+        "contact": {
+          "first_contact_tick": 93,
+          "lift_start_tick": 96,
+          "contact_to_lift_seconds": 0.1,
+          "cube_pre_lift_delta_m": [
+            0.00919485092163086,
+            -0.0006769225001335144,
+            0.0008231401443481445
+          ],
+          "eef_pre_lift_delta_m": [
+            -4.380941390991211e-06,
+            6.51925802230835e-08,
+            -2.7835369110107422e-05
+          ],
+          "cube_contact_xy_peak_m": 0.01748277246952057,
+          "eef_contact_xy_peak_m": 0.004118145940541177,
+          "command_contact_xy_peak_m": 0.0,
+          "cube_contact_world_delta_m": [
+            0.011909663677215576,
+            -0.0006774924695491791,
+            0.11296164989471436
+          ],
+          "eef_contact_world_delta_m": [
+            -1.341104507446289e-07,
+            9.430572390556335e-06,
+            0.11211204528808594
+          ]
+        },
+        "lift": {
+          "start_tick": 96,
+          "end_observation_tick": 117,
+          "duration_seconds": 0.7,
+          "cube_world_delta_m": [
+            0.002714812755584717,
+            -5.699694156646729e-07,
+            0.11213850975036621
+          ],
+          "cube_in_eef_final_delta_m": [
+            2.9070445606294015e-08,
+            -0.002711950831635327,
+            9.175414565133246e-08
+          ],
+          "cube_in_eef_peak_change_m": 0.004163652016259512,
+          "min_finger_contact_N": [
+            14.880885124206543,
+            14.910513877868652
+          ],
+          "belt_surface_velocity_min_m_s": [
+            0.029999999329447746,
+            0.0,
+            0.0
+          ],
+          "belt_surface_velocity_max_m_s": [
+            0.029999999329447746,
+            0.0,
+            0.0
+          ],
+          "cube_in_pinch_peak_change_m": 3.620136155055886e-06
+        }
+      },
+      {
+        "profile": "robodojo_block",
+        "reader": {
+          "actions": 113,
+          "observations": 114,
+          "head_shape": [
+            114,
+            480,
+            640,
+            3
+          ],
+          "duration": 3.7666666666666666,
+          "success": true
+        },
+        "object": {
+          "id": "robodojo_block_00020",
+          "source": "usd",
+          "usd_path": "/home/ubuntu/Workspace/RoboDojo/.cache/robodojo_assets_repo/Assets/Object/RoboDojo/Rigid/block/00020/object.usdz",
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "mass": 0.05,
+          "friction": 1.5,
+          "initial_xy": [
+            -0.25,
+            -0.02
+          ],
+          "initial_jitter": 0.005,
+          "grasp": {
+            "position": [
+              0.0,
+              0.0,
+              0.0015
+            ],
+            "opening": 1.0
+          },
+          "spawn_clearance": 0.002,
+          "initial_quaternion_wxyz": [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "asset_sha256": "24fa4ccd438c2bbb8e9637f8952997af3607be6a8e66b3a189c4a465d25acc27",
+          "config_source_sha256": {
+            "/home/ubuntu/Workspace/dynamicbench-object-config-20261108/dynamicbench/configs/objects/robodojo_block.yaml": "a59ac75dc39f212464eed6d755bd9137bcaa5cb7bf836cfbc6102cfe99df89a0"
+          },
+          "schema_version": "dynamicbench.object.v1",
+          "dependency_sha256": {
+            "/home/ubuntu/Workspace/RoboDojo/.cache/robodojo_assets_repo/Assets/Object/RoboDojo/Rigid/block/00020/object.usdz": "24fa4ccd438c2bbb8e9637f8952997af3607be6a8e66b3a189c4a465d25acc27",
+            "/home/ubuntu/Workspace/dynamicbench/outputs/envs/dynamicbench61/lib/python3.12/site-packages/isaacsim/kit/mdl/core/mdl/gltf/pbr.mdl": "eeed10b53c18d789f94a24a3a6b996c49668ae2d5b6a909bae3420f2beb16fc8"
+          },
+          "geometry": {
+            "kind": "usd_local_bounds",
+            "center": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "half_extents": [
+              0.014999999664723873,
+              0.014999999664723873,
+              0.014999999664723873
+            ]
+          }
+        },
+        "runtime": {
+          "isaacsim": "6.1.0.0",
+          "physics_backend": "PhysX",
+          "physics_device": "cpu",
+          "isaaclab": "17.0.2",
+          "isaaclab-physx": "6.0.0",
+          "torch": "2.11.0+cu128",
+          "warp-lang": "1.16.0",
+          "lab_quaternion_order": "xyzw",
+          "dataset_quaternion_order": "wxyz"
+        },
+        "source_commit": "3c82e804aa436547c4008619c264c47bf217a60c",
+        "video_frames": 114,
+        "initial_bottom_error_m": -4.677750855552887e-07,
+        "contact": {
+          "first_contact_tick": 91,
+          "lift_start_tick": 93,
+          "contact_to_lift_seconds": 0.06666666666666667,
+          "cube_pre_lift_delta_m": [
+            0.00040200352668762207,
+            -1.8473714590072632e-05,
+            -4.3511390686035156e-05
+          ],
+          "eef_pre_lift_delta_m": [
+            8.344650268554688e-07,
+            -1.7099082469940186e-06,
+            -4.369020462036133e-05
+          ],
+          "cube_contact_xy_peak_m": 0.0036785013508051634,
+          "eef_contact_xy_peak_m": 0.0004245081264697927,
+          "command_contact_xy_peak_m": 0.0,
+          "cube_contact_world_delta_m": [
+            0.0012487024068832397,
+            -2.425163984298706e-06,
+            0.11411142349243164
+          ],
+          "eef_contact_world_delta_m": [
+            4.76837158203125e-07,
+            2.210959792137146e-06,
+            0.11411160230636597
+          ]
+        },
+        "lift": {
+          "start_tick": 93,
+          "end_observation_tick": 113,
+          "duration_seconds": 0.6666666666666666,
+          "cube_world_delta_m": [
+            0.0008466988801956177,
+            1.6048550605773926e-05,
+            0.11415493488311768
+          ],
+          "cube_in_eef_final_delta_m": [
+            4.708918171225651e-07,
+            -0.0008426092434360034,
+            -1.301014227447989e-06
+          ],
+          "cube_in_eef_peak_change_m": 0.0012551482443313982,
+          "min_finger_contact_N": [
+            14.742080688476562,
+            14.778963088989258
+          ],
+          "belt_surface_velocity_min_m_s": [
+            0.029999999329447746,
+            0.0,
+            0.0
+          ],
+          "belt_surface_velocity_max_m_s": [
+            0.029999999329447746,
+            0.0,
+            0.0
+          ],
+          "cube_in_pinch_peak_change_m": 9.924066966631173e-06
+        }
+      },
+      {
+        "profile": "sphere",
+        "reader": {
+          "actions": 109,
+          "observations": 110,
+          "head_shape": [
+            110,
+            480,
+            640,
+            3
+          ],
+          "duration": 3.6333333333333333,
+          "success": true
+        },
+        "object": {
+          "id": "sphere_35mm",
+          "source": "primitive",
+          "shape": "sphere",
+          "radius": 0.0175,
+          "mass": 0.05,
+          "friction": 1.5,
+          "color": [
+            0.75,
+            0.15,
+            0.15
+          ],
+          "initial_xy": [
+            -0.25,
+            -0.02
+          ],
+          "initial_jitter": 0.005,
+          "grasp": {
+            "position": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "opening": 1.0
+          },
+          "spawn_clearance": 0.002,
+          "initial_quaternion_wxyz": [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "geometry": {
+            "kind": "sphere",
+            "radius": 0.0175
+          },
+          "config_source_sha256": {
+            "/home/ubuntu/Workspace/dynamicbench-object-config-20261108/dynamicbench/configs/objects/sphere.yaml": "6ce155384ba06a091717ba28fb5ba77c87d6c488eb3bb95d0b4b6e302afbb751"
+          },
+          "schema_version": "dynamicbench.object.v1"
+        },
+        "runtime": {
+          "isaacsim": "6.1.0.0",
+          "physics_backend": "PhysX",
+          "physics_device": "cpu",
+          "isaaclab": "17.0.2",
+          "isaaclab-physx": "6.0.0",
+          "torch": "2.11.0+cu128",
+          "warp-lang": "1.16.0",
+          "lab_quaternion_order": "xyzw",
+          "dataset_quaternion_order": "wxyz"
+        },
+        "source_commit": "3c82e804aa436547c4008619c264c47bf217a60c",
+        "video_frames": 110,
+        "initial_bottom_error_m": -2.81061977247532e-07,
+        "contact": {
+          "first_contact_tick": 87,
+          "lift_start_tick": 89,
+          "contact_to_lift_seconds": 0.06666666666666667,
+          "cube_pre_lift_delta_m": [
+            0.0005405545234680176,
+            -2.427026629447937e-05,
+            -5.418062210083008e-05
+          ],
+          "eef_pre_lift_delta_m": [
+            1.341104507446289e-07,
+            -2.346932888031006e-06,
+            -5.364418029785156e-05
+          ],
+          "cube_contact_xy_peak_m": 0.0017229794757440686,
+          "eef_contact_xy_peak_m": 0.0003553617134681984,
+          "command_contact_xy_peak_m": 0.0,
+          "cube_contact_world_delta_m": [
+            0.0017161518335342407,
+            1.7695128917694092e-07,
+            0.11125391721725464
+          ],
+          "eef_contact_world_delta_m": [
+            1.475214958190918e-06,
+            7.5232237577438354e-06,
+            0.11126124858856201
+          ]
+        },
+        "lift": {
+          "start_tick": 89,
+          "end_observation_tick": 109,
+          "duration_seconds": 0.6666666666666666,
+          "cube_world_delta_m": [
+            0.0011755973100662231,
+            2.444721758365631e-05,
+            0.11130809783935547
+          ],
+          "cube_in_eef_final_delta_m": [
+            6.8880898330125895e-06,
+            -0.001172652051375879,
+            4.1571634145228745e-06
+          ],
+          "cube_in_eef_peak_change_m": 0.0011726796499407926,
+          "min_finger_contact_N": [
+            14.96246337890625,
+            14.945196151733398
+          ],
+          "belt_surface_velocity_min_m_s": [
+            0.029999999329447746,
+            0.0,
+            0.0
+          ],
+          "belt_surface_velocity_max_m_s": [
+            0.029999999329447746,
+            0.0,
+            0.0
+          ],
+          "cube_in_pinch_peak_change_m": 8.103115159899812e-06
+        }
+      }
+    ]
+  },
+  "scheduling": [
+    {
+      "mode": "no_latency",
+      "reader": {
+        "actions": 64,
+        "observations": 65,
+        "head_shape": [
+          65,
+          480,
+          640,
+          3
+        ],
+        "duration": 2.1333333333333333,
+        "success": false
+      },
+      "video_frames": 65,
+      "metrics": {
+        "runtime": {
+          "isaacsim": "6.1.0.0",
+          "physics_backend": "PhysX",
+          "physics_device": "cpu",
+          "isaaclab": "17.0.2",
+          "isaaclab-physx": "6.0.0",
+          "torch": "2.11.0+cu128",
+          "warp-lang": "1.16.0",
+          "lab_quaternion_order": "xyzw",
+          "dataset_quaternion_order": "wxyz"
+        },
+        "schema_version": "dynamicbench.eef10.eval.v2",
+        "test": "policy_evaluation",
+        "reference_commit": "b66cb6b6c3a4b52932cb96ca6ee66ab5fe5c51f4",
+        "success": false,
+        "failure_reason": "timeout",
+        "seed": 42,
+        "belt_speed": 0.03,
+        "control_actions": 64,
+        "recorded_transitions": 64,
+        "physics_steps": 640,
+        "sim_time": 2.1333333333333333,
+        "sync_latency_physics_steps": 0,
+        "underflow_steps": 0,
+        "executed_queue_actions": 64,
+        "latency_mode": "no_latency",
+        "latency_source": "fixed",
+        "latency_requested_seconds": 0.25,
+        "action_horizon": 32,
+        "prefetch_threshold": 16,
+        "requests": [
+          {
+            "chunk_id": 0,
+            "request_tick": 0,
+            "t_observe": 0.0,
+            "t_request": 0.0,
+            "executed_at_submit": 0,
+            "latency_sim_seconds": 0.0,
+            "rtc_conditioning_requested": false,
+            "rtc_conditioning_used": false,
+            "leftover_count": 0,
+            "status": "released",
+            "worker_wait_wall_seconds": 6.460992153733969e-06,
+            "inference_wall_seconds": 0.0003104619972873479,
+            "available_tick": 0,
+            "release_tick": 0,
+            "queue_delay_steps": 0,
+            "dropped_prefix": 0,
+            "overlap": 0,
+            "enqueued": 32
+          },
+          {
+            "chunk_id": 1,
+            "request_tick": 32,
+            "t_observe": 1.0666666666666667,
+            "t_request": 1.0666666666666667,
+            "executed_at_submit": 32,
+            "latency_sim_seconds": 0.0,
+            "rtc_conditioning_requested": false,
+            "rtc_conditioning_used": false,
+            "leftover_count": 0,
+            "status": "released",
+            "worker_wait_wall_seconds": 0.005834907002281398,
+            "inference_wall_seconds": 0.00025592700694687665,
+            "available_tick": 32,
+            "release_tick": 32,
+            "queue_delay_steps": 0,
+            "dropped_prefix": 0,
+            "overlap": 0,
+            "enqueued": 32
+          }
+        ],
+        "hold_semantics": "finite_joint_drive_previous_target_no_state_writes",
+        "real_model_tested": false,
+        "policy": {
+          "kind": "mock"
+        },
+        "object_displacement": [
+          0.0635836273431778,
+          -8.022971451282501e-05,
+          -4.172325134277344e-07
+        ],
+        "cube_displacement": [
+          0.0635836273431778,
+          -8.022971451282501e-05,
+          -4.172325134277344e-07
+        ],
+        "task": "pick_cube_from_conveyor",
+        "source_commit": "3c82e804aa436547c4008619c264c47bf217a60c",
+        "settings": {
+          "task": "pick_cube_from_conveyor",
+          "physics_hz": 300,
+          "control_hz": 30,
+          "scene": {
+            "source": "robodojo",
+            "config": "env_cfg/scene/conveyor.yml",
+            "light_intensity_scale": 1.0,
+            "official_ground": {
+              "geometry": "cube",
+              "thickness": 0.1,
+              "axis": "Z",
+              "default_pos": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "materials": {
+                "type": "mdl",
+                "default": "material_0564",
+                "random": false
+              },
+              "physics_material": {
+                "static_friction": 1.0,
+                "dynamic_friction": 1.0,
+                "restitution": 0.0,
+                "friction_combine_mode": "multiply",
+                "restitution_combine_mode": "multiply",
+                "compliant_contact_stiffness": 0.0,
+                "compliant_contact_damping": 0.0
+              },
+              "mdl_path": "/home/ubuntu/Workspace/dynamicbench-object-config-20261108/Assets/Material/material_0564/Wood_Tiles_Fineline.mdl",
+              "mdl_sha256": "60ca84bd62482b1f444f5fefab4ae74a2fa4e6b3304a08142accc50575d6be31"
+            },
+            "room": {
+              "random": false,
+              "default": "Simple_Room",
+              "default_pos": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "default_ori": [
+                1.0,
+                0.0,
+                0.0,
+                0.0
+              ],
+              "scale": [
+                0.5,
+                0.5,
+                0.5
+              ],
+              "usd_path": "/home/ubuntu/Workspace/dynamicbench-object-config-20261108/Assets/Room/Simple_Room/base0.usd"
+            },
+            "background": {
+              "intensity": 1000,
+              "default": "brown_photostudio_02_4k.hdr",
+              "texture_path": "/home/ubuntu/Workspace/dynamicbench-object-config-20261108/Assets/Background/brown_photostudio_02_4k.hdr"
+            },
+            "camera_stand": {
+              "usd_path": "/home/ubuntu/Workspace/dynamicbench-object-config-20261108/Assets/Object/RoboDojo/Geometry/camera_stand/00000/object.usd",
+              "position": [
+                0.0,
+                -0.47,
+                0.765
+              ],
+              "quaternion_wxyz": [
+                0.707,
+                -0.707,
+                0.0,
+                0.0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "collision": false,
+              "source": "conveyor.yml Geometry/camera_stand; official GeometryObject default",
+              "ground_reference_height": 0.05
+            },
+            "source_sha256": "c1dfd27faf978f90dfc4825cd83bd203823547c46793f4f9201ce9f4b43beee7"
+          },
+          "layout": {
+            "profile": "official",
+            "reference_layout": "Assets/Eval_Layout/RoboDojo/arx_x5/0/pick_from_conveyor_by_image_0.json",
+            "robot_config": "env_cfg/robot/dual_x5.yml",
+            "robot_index": 0,
+            "camera_config": "env_cfg/camera/camera_config.yml",
+            "head_camera": "cam_head",
+            "source_sha256": {
+              "env_cfg/robot/dual_x5.yml": "4eefaccc75c5f83443b7bb85ef1de68ee7a3772e27af2b04a5e8d8769ab9baa1",
+              "env_cfg/camera/camera_config.yml": "c1752170da855e735beba27fddbf78dad16f2395e4ef8b24e9827a768e616a62",
+              "env_cfg/camera/template.py": "68287ed1daec3b8ed7f053bf97a4d48bbddeb8b5757b53e438ac3c4240a9e61b",
+              "Assets/Robots/x5/robot_config.yml": "9de4f63b84c0f730623c09af7a2d530d84973981397280b6e4b626b50ba6f1c9",
+              "Assets/Robots/x5/X5A.urdf": "7aaa308a1a5b6a213d914db86ba09ddd6252f25cb498ac9a148bfa6c7166a423",
+              "env/robot_manager/robot_config/x5.py": "13d35630f833d1b0a1e3df0bea05f843e88aae1248b59af8aadfefa9cad29bbb",
+              "Assets/Eval_Layout/RoboDojo/arx_x5/0/pick_from_conveyor_by_image_0.json": "b35518107e88e78d3e001572a0662fe81c0f43e7cf9a19ef858055b1e5cf88d5",
+              "Assets/Object/RoboDojo/Dynamic/conveyor/00001/metadata.json": "cd12712dd7f58cd0137913ada13803c804e0b40b9679931c941629cf012188be"
+            },
+            "passive_robots": [
+              {
+                "robot_type": "arm",
+                "robot_name": "x5",
+                "coupled": false,
+                "default_root_pos": [
+                  0.3,
+                  -0.45,
+                  0.765
+                ],
+                "default_root_rot": [
+                  0.707,
+                  0,
+                  0,
+                  0.707
+                ],
+                "grasp_perfect_direction": "top_down_little_left"
+              }
+            ]
+          },
+          "robot": {
+            "initial_q": [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "max_joint_velocity": 2.0,
+            "gripper_effort": 15.0,
+            "base_position": [
+              -0.3,
+              -0.45,
+              0.765
+            ],
+            "base_quaternion_wxyz": [
+              0.7071067811865476,
+              0.0,
+              0.0,
+              0.7071067811865476
+            ],
+            "asset_config_path": "/home/ubuntu/Workspace/dynamicbench-object-config-20261108/Assets/Robots/x5/robot_config.yml",
+            "urdf_path": "/home/ubuntu/Workspace/dynamicbench-object-config-20261108/Assets/Robots/x5/X5A.urdf",
+            "eef_link": "link6",
+            "arm_joint_names": [
+              "joint1",
+              "joint2",
+              "joint3",
+              "joint4",
+              "joint5",
+              "joint6"
+            ],
+            "gripper_joint_names": [
+              "joint7",
+              "joint8"
+            ],
+            "finger_links": [
+              "link7",
+              "link8"
+            ],
+            "tcp_offset_link6": [
+              0.145,
+              0.0,
+              0.0
+            ],
+            "gripper_range": [
+              0.0,
+              0.044
+            ],
+            "official_gripper_command_scale": [
+              -0.01,
+              0.044
+            ],
+            "official_delta_matrix": [
+              [
+                1,
+                0,
+                0
+              ],
+              [
+                0,
+                1,
+                0
+              ],
+              [
+                0,
+                0,
+                1
+              ]
+            ],
+            "embodiment": "x5",
+            "usd_path": "/home/ubuntu/Workspace/dynamicbench-object-config-20261108/Assets/Robots/x5/ARX.usd",
+            "gripper_actuator": "gripper",
+            "initial_pose_source": "/home/ubuntu/Workspace/dynamicbench-object-config-20261108/env/robot_manager/robot_config/x5.py"
+          },
+          "belt": {
+            "source": "robodojo",
+            "center": [
+              -0.11439495861736215,
+              0.17500154722175618,
+              0.7544045107141139
+            ],
+            "size": [
+              3.9272968769073486,
+              0.8999993801116948,
+              0.015614868141710758
+            ],
+            "direction": [
+              1,
+              0,
+              0
+            ],
+            "speed": 0.03,
+            "friction": 1.0,
+            "asset_index": "00001",
+            "root_transform": {
+              "position": [
+                -2.08,
+                0.175,
+                0.05
+              ],
+              "quaternion_wxyz": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "scale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            "source_layout": "/home/ubuntu/Workspace/dynamicbench-object-config-20261108/Assets/Eval_Layout/RoboDojo/arx_x5/0/pick_from_conveyor_by_image_0.json",
+            "support_height_metadata": 0.768,
+            "measured_surface_height": 0.7622119447849692
+          },
+          "object": {
+            "id": "cylinder_35x40mm",
+            "source": "primitive",
+            "shape": "cylinder",
+            "radius": 0.0175,
+            "height": 0.04,
+            "mass": 0.05,
+            "friction": 1.5,
+            "color": [
+              0.15,
+              0.5,
+              0.9
+            ],
+            "initial_xy": [
+              -0.25,
+              -0.02
+            ],
+            "initial_jitter": 0.005,
+            "grasp": {
+              "position": [
+                0.0,
+                0.0,
+                0.002
+              ],
+              "opening": 1.0
+            },
+            "spawn_clearance": 0.002,
+            "initial_quaternion_wxyz": [
+              1.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "geometry": {
+              "kind": "cylinder",
+              "radius": 0.0175,
+              "height": 0.04
+            },
+            "config_source_sha256": {
+              "/home/ubuntu/Workspace/dynamicbench-object-config-20261108/dynamicbench/configs/objects/cylinder.yaml": "8b6c94a4745c2d62dfb5fcafef1352aabb9bab7284aeea0b43d5a3332613ecc0"
+            },
+            "schema_version": "dynamicbench.object.v1"
+          },
+          "expert": {
+            "lift_xy_mode": "contact_anchor",
+            "lift_tcp_frame": "actual_pinch",
+            "contact_force_threshold": 1.0,
+            "stable_contact_ticks": 3,
+            "contact_timeout_ticks": 30,
+            "max_contact_eef_xy_excursion": 0.01,
+            "max_contact_cube_xy_excursion": 0.02,
+            "approach_height": 0.12,
+            "lift_height": 0.13,
+            "max_tcp_speed": 0.25,
+            "descend_speed": 0.08,
+            "intercept_seconds": 0.1,
+            "observe_ticks": 10,
+            "close_ticks": 18,
+            "timeout_ticks": 600,
+            "success_height": 0.05,
+            "success_hold_ticks": 15
+          },
+          "camera": {
+            "head_position": [
+              0.0,
+              -0.41,
+              1.308
+            ],
+            "head_quaternion_wxyz": [
+              0.9659258262890683,
+              0.25881904510252074,
+              0.0,
+              0.0
+            ],
+            "width": 640,
+            "height": 480,
+            "head_lens": {
+              "resolution": [
+                640,
+                480
+              ],
+              "focal_length": 10.0,
+              "horizontal_aperture": 22.212,
+              "vertical_aperture": 14.266,
+              "clipping_range": [
+                0.005,
+                10.0
+              ]
+            },
+            "wrist": {
+              "name": "cam_wrist",
+              "mount_link": "camera",
+              "position": [
+                0,
+                0,
+                0.001
+              ],
+              "quaternion_wxyz": [
+                0.5416752204197018,
+                0.4545194776720436,
+                -0.45451947767204365,
+                -0.5416752204197018
+              ],
+              "euler_convention": "intrinsic XYZ, matching CameraManager/euler_angles_to_quat",
+              "lens": {
+                "resolution": [
+                  640,
+                  480
+                ],
+                "focal_length": 13.0,
+                "horizontal_aperture": 20.955,
+                "vertical_aperture": 15.71625,
+                "clipping_range": [
+                  0.0001,
+                  10.0
+                ]
+              },
+              "type": "d435",
+              "source": "/home/ubuntu/Workspace/dynamicbench-object-config-20261108/Assets/Robots/x5/robot_config.yml"
+            }
+          },
+          "render": {
+            "defaults": {
+              "enable_translucency": true,
+              "enable_reflections": true,
+              "enable_global_illumination": true,
+              "antialiasing_mode": "DLAA",
+              "enable_dlssg": null,
+              "enable_dl_denoiser": null,
+              "dlss_mode": 2,
+              "enable_direct_lighting": null,
+              "samples_per_pixel": null,
+              "enable_shadows": null,
+              "enable_ambient_occlusion": null,
+              "rendering_mode": "quality",
+              "carb_settings": null
+            },
+            "quality_settings": {
+              "/rtx/translucency/enabled": true,
+              "/rtx/reflections/enabled": true,
+              "/rtx/reflections/denoiser/enabled": true,
+              "/rtx/directLighting/sampledLighting/enabled": true,
+              "/rtx/sceneDb/ambientLightIntensity": 1.0,
+              "/rtx/shadows/enabled": true,
+              "/rtx/indirectDiffuse/enabled": true,
+              "/rtx/indirectDiffuse/denoiser/enabled": true,
+              "/rtx/ambientOcclusion/enabled": true,
+              "/rtx/ambientOcclusion/denoiserMode": 0,
+              "/rtx/raytracing/subpixel/mode": 1,
+              "/rtx/raytracing/cached/enabled": true,
+              "/rtx/post/dlss/execMode": 2,
+              "/rtx/pathtracing/maxSamplesPerLaunch": 1000000,
+              "/rtx/viewTile/limit": 1000000,
+              "/rtx-transient/dlssg/enabled": false,
+              "/rtx-transient/dldenoiser/enabled": true
+            },
+            "sources": {
+              "env/environment/base_env.py": "ade58ebc19c79bdbf720def30786a0c397b1c7d2141fb6a1bfd63c80f8a3db8e",
+              "dynamicbench/configs/robodojo_quality.kit": "76acd47070496ff6c3b13971d0e87ee1d1f718a3405634da46ea1fff98e304ac"
+            }
+          }
+        },
+        "belt_top": 0.7622119447849692,
+        "object": {
+          "id": "cylinder_35x40mm",
+          "source": "primitive",
+          "shape": "cylinder",
+          "radius": 0.0175,
+          "height": 0.04,
+          "mass": 0.05,
+          "friction": 1.5,
+          "color": [
+            0.15,
+            0.5,
+            0.9
+          ],
+          "initial_xy": [
+            -0.25,
+            -0.02
+          ],
+          "initial_jitter": 0.005,
+          "grasp": {
+            "position": [
+              0.0,
+              0.0,
+              0.002
+            ],
+            "opening": 1.0
+          },
+          "spawn_clearance": 0.002,
+          "initial_quaternion_wxyz": [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "geometry": {
+            "kind": "cylinder",
+            "radius": 0.0175,
+            "height": 0.04
+          },
+          "config_source_sha256": {
+            "/home/ubuntu/Workspace/dynamicbench-object-config-20261108/dynamicbench/configs/objects/cylinder.yaml": "8b6c94a4745c2d62dfb5fcafef1352aabb9bab7284aeea0b43d5a3332613ecc0"
+          },
+          "schema_version": "dynamicbench.object.v1"
+        },
+        "success_height": 0.05,
+        "success_hold_ticks": 15,
+        "gripper_convention": "-1 closed +1 open; measured joint7/8",
+        "frame": "right_handed_world_link6",
+        "embodiment": "x5",
+        "rotation_6d": "first_two_columns_concatenated",
+        "wrist_status": "available",
+        "control_hz": 30,
+        "physics_hz": 300
+      }
+    },
+    {
+      "mode": "sync_hold",
+      "reader": {
+        "actions": 80,
+        "observations": 81,
+        "head_shape": [
+          81,
+          480,
+          640,
+          3
+        ],
+        "duration": 2.6333333333333333,
+        "success": false
+      },
+      "video_frames": 80,
+      "metrics": {
+        "runtime": {
+          "isaacsim": "6.1.0.0",
+          "physics_backend": "PhysX",
+          "physics_device": "cpu",
+          "isaaclab": "17.0.2",
+          "isaaclab-physx": "6.0.0",
+          "torch": "2.11.0+cu128",
+          "warp-lang": "1.16.0",
+          "lab_quaternion_order": "xyzw",
+          "dataset_quaternion_order": "wxyz"
+        },
+        "schema_version": "dynamicbench.eef10.eval.v2",
+        "test": "policy_evaluation",
+        "reference_commit": "b66cb6b6c3a4b52932cb96ca6ee66ab5fe5c51f4",
+        "success": false,
+        "failure_reason": "timeout",
+        "seed": 42,
+        "belt_speed": 0.03,
+        "control_actions": 64,
+        "recorded_transitions": 80,
+        "physics_steps": 790,
+        "sim_time": 2.6333333333333333,
+        "sync_latency_physics_steps": 150,
+        "underflow_steps": 0,
+        "executed_queue_actions": 64,
+        "latency_mode": "sync_hold",
+        "latency_source": "fixed",
+        "latency_requested_seconds": 0.25,
+        "action_horizon": 32,
+        "prefetch_threshold": 16,
+        "requests": [
+          {
+            "chunk_id": 0,
+            "request_tick": 0,
+            "t_observe": 0.0,
+            "t_request": 0.0,
+            "executed_at_submit": 0,
+            "latency_sim_seconds": 0.25,
+            "rtc_conditioning_requested": false,
+            "rtc_conditioning_used": false,
+            "leftover_count": 0,
+            "status": "released",
+            "worker_wait_wall_seconds": 1.4192977687343955e-05,
+            "inference_wall_seconds": 0.00037230702582746744,
+            "available_tick": 0,
+            "release_tick": 0,
+            "queue_delay_steps": 0,
+            "dropped_prefix": 0,
+            "overlap": 0,
+            "enqueued": 32,
+            "sync_physics_steps": 75,
+            "sync_applied_seconds": 0.25,
+            "t_response_available": 0.25
+          },
+          {
+            "chunk_id": 1,
+            "request_tick": 32,
+            "t_observe": 1.3166666666666667,
+            "t_request": 1.3166666666666667,
+            "executed_at_submit": 32,
+            "latency_sim_seconds": 0.25,
+            "rtc_conditioning_requested": false,
+            "rtc_conditioning_used": false,
+            "leftover_count": 0,
+            "status": "released",
+            "worker_wait_wall_seconds": 0.0056798000005073845,
+            "inference_wall_seconds": 0.00031505600782111287,
+            "available_tick": 32,
+            "release_tick": 32,
+            "queue_delay_steps": 0,
+            "dropped_prefix": 0,
+            "overlap": 0,
+            "enqueued": 32,
+            "sync_physics_steps": 75,
+            "sync_applied_seconds": 0.25,
+            "t_response_available": 1.5666666666666667
+          }
+        ],
+        "hold_semantics": "finite_joint_drive_previous_target_no_state_writes",
+        "real_model_tested": false,
+        "policy": {
+          "kind": "mock"
+        },
+        "object_displacement": [
+          0.0785171240568161,
+          -0.00010090135037899017,
+          -4.172325134277344e-07
+        ],
+        "cube_displacement": [
+          0.0785171240568161,
+          -0.00010090135037899017,
+          -4.172325134277344e-07
+        ],
+        "task": "pick_cube_from_conveyor",
+        "source_commit": "3c82e804aa436547c4008619c264c47bf217a60c",
+        "settings": {
+          "task": "pick_cube_from_conveyor",
+          "physics_hz": 300,
+          "control_hz": 30,
+          "scene": {
+            "source": "robodojo",
+            "config": "env_cfg/scene/conveyor.yml",
+            "light_intensity_scale": 1.0,
+            "official_ground": {
+              "geometry": "cube",
+              "thickness": 0.1,
+              "axis": "Z",
+              "default_pos": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "materials": {
+                "type": "mdl",
+                "default": "material_0564",
+                "random": false
+              },
+              "physics_material": {
+                "static_friction": 1.0,
+                "dynamic_friction": 1.0,
+                "restitution": 0.0,
+                "friction_combine_mode": "multiply",
+                "restitution_combine_mode": "multiply",
+                "compliant_contact_stiffness": 0.0,
+                "compliant_contact_damping": 0.0
+              },
+              "mdl_path": "/home/ubuntu/Workspace/dynamicbench-object-config-20261108/Assets/Material/material_0564/Wood_Tiles_Fineline.mdl",
+              "mdl_sha256": "60ca84bd62482b1f444f5fefab4ae74a2fa4e6b3304a08142accc50575d6be31"
+            },
+            "room": {
+              "random": false,
+              "default": "Simple_Room",
+              "default_pos": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "default_ori": [
+                1.0,
+                0.0,
+                0.0,
+                0.0
+              ],
+              "scale": [
+                0.5,
+                0.5,
+                0.5
+              ],
+              "usd_path": "/home/ubuntu/Workspace/dynamicbench-object-config-20261108/Assets/Room/Simple_Room/base0.usd"
+            },
+            "background": {
+              "intensity": 1000,
+              "default": "brown_photostudio_02_4k.hdr",
+              "texture_path": "/home/ubuntu/Workspace/dynamicbench-object-config-20261108/Assets/Background/brown_photostudio_02_4k.hdr"
+            },
+            "camera_stand": {
+              "usd_path": "/home/ubuntu/Workspace/dynamicbench-object-config-20261108/Assets/Object/RoboDojo/Geometry/camera_stand/00000/object.usd",
+              "position": [
+                0.0,
+                -0.47,
+                0.765
+              ],
+              "quaternion_wxyz": [
+                0.707,
+                -0.707,
+                0.0,
+                0.0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "collision": false,
+              "source": "conveyor.yml Geometry/camera_stand; official GeometryObject default",
+              "ground_reference_height": 0.05
+            },
+            "source_sha256": "c1dfd27faf978f90dfc4825cd83bd203823547c46793f4f9201ce9f4b43beee7"
+          },
+          "layout": {
+            "profile": "official",
+            "reference_layout": "Assets/Eval_Layout/RoboDojo/arx_x5/0/pick_from_conveyor_by_image_0.json",
+            "robot_config": "env_cfg/robot/dual_x5.yml",
+            "robot_index": 0,
+            "camera_config": "env_cfg/camera/camera_config.yml",
+            "head_camera": "cam_head",
+            "source_sha256": {
+              "env_cfg/robot/dual_x5.yml": "4eefaccc75c5f83443b7bb85ef1de68ee7a3772e27af2b04a5e8d8769ab9baa1",
+              "env_cfg/camera/camera_config.yml": "c1752170da855e735beba27fddbf78dad16f2395e4ef8b24e9827a768e616a62",
+              "env_cfg/camera/template.py": "68287ed1daec3b8ed7f053bf97a4d48bbddeb8b5757b53e438ac3c4240a9e61b",
+              "Assets/Robots/x5/robot_config.yml": "9de4f63b84c0f730623c09af7a2d530d84973981397280b6e4b626b50ba6f1c9",
+              "Assets/Robots/x5/X5A.urdf": "7aaa308a1a5b6a213d914db86ba09ddd6252f25cb498ac9a148bfa6c7166a423",
+              "env/robot_manager/robot_config/x5.py": "13d35630f833d1b0a1e3df0bea05f843e88aae1248b59af8aadfefa9cad29bbb",
+              "Assets/Eval_Layout/RoboDojo/arx_x5/0/pick_from_conveyor_by_image_0.json": "b35518107e88e78d3e001572a0662fe81c0f43e7cf9a19ef858055b1e5cf88d5",
+              "Assets/Object/RoboDojo/Dynamic/conveyor/00001/metadata.json": "cd12712dd7f58cd0137913ada13803c804e0b40b9679931c941629cf012188be"
+            },
+            "passive_robots": [
+              {
+                "robot_type": "arm",
+                "robot_name": "x5",
+                "coupled": false,
+                "default_root_pos": [
+                  0.3,
+                  -0.45,
+                  0.765
+                ],
+                "default_root_rot": [
+                  0.707,
+                  0,
+                  0,
+                  0.707
+                ],
+                "grasp_perfect_direction": "top_down_little_left"
+              }
+            ]
+          },
+          "robot": {
+            "initial_q": [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "max_joint_velocity": 2.0,
+            "gripper_effort": 15.0,
+            "base_position": [
+              -0.3,
+              -0.45,
+              0.765
+            ],
+            "base_quaternion_wxyz": [
+              0.7071067811865476,
+              0.0,
+              0.0,
+              0.7071067811865476
+            ],
+            "asset_config_path": "/home/ubuntu/Workspace/dynamicbench-object-config-20261108/Assets/Robots/x5/robot_config.yml",
+            "urdf_path": "/home/ubuntu/Workspace/dynamicbench-object-config-20261108/Assets/Robots/x5/X5A.urdf",
+            "eef_link": "link6",
+            "arm_joint_names": [
+              "joint1",
+              "joint2",
+              "joint3",
+              "joint4",
+              "joint5",
+              "joint6"
+            ],
+            "gripper_joint_names": [
+              "joint7",
+              "joint8"
+            ],
+            "finger_links": [
+              "link7",
+              "link8"
+            ],
+            "tcp_offset_link6": [
+              0.145,
+              0.0,
+              0.0
+            ],
+            "gripper_range": [
+              0.0,
+              0.044
+            ],
+            "official_gripper_command_scale": [
+              -0.01,
+              0.044
+            ],
+            "official_delta_matrix": [
+              [
+                1,
+                0,
+                0
+              ],
+              [
+                0,
+                1,
+                0
+              ],
+              [
+                0,
+                0,
+                1
+              ]
+            ],
+            "embodiment": "x5",
+            "usd_path": "/home/ubuntu/Workspace/dynamicbench-object-config-20261108/Assets/Robots/x5/ARX.usd",
+            "gripper_actuator": "gripper",
+            "initial_pose_source": "/home/ubuntu/Workspace/dynamicbench-object-config-20261108/env/robot_manager/robot_config/x5.py"
+          },
+          "belt": {
+            "source": "robodojo",
+            "center": [
+              -0.11439495861736215,
+              0.17500154722175618,
+              0.7544045107141139
+            ],
+            "size": [
+              3.9272968769073486,
+              0.8999993801116948,
+              0.015614868141710758
+            ],
+            "direction": [
+              1,
+              0,
+              0
+            ],
+            "speed": 0.03,
+            "friction": 1.0,
+            "asset_index": "00001",
+            "root_transform": {
+              "position": [
+                -2.08,
+                0.175,
+                0.05
+              ],
+              "quaternion_wxyz": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "scale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            "source_layout": "/home/ubuntu/Workspace/dynamicbench-object-config-20261108/Assets/Eval_Layout/RoboDojo/arx_x5/0/pick_from_conveyor_by_image_0.json",
+            "support_height_metadata": 0.768,
+            "measured_surface_height": 0.7622119447849692
+          },
+          "object": {
+            "id": "cylinder_35x40mm",
+            "source": "primitive",
+            "shape": "cylinder",
+            "radius": 0.0175,
+            "height": 0.04,
+            "mass": 0.05,
+            "friction": 1.5,
+            "color": [
+              0.15,
+              0.5,
+              0.9
+            ],
+            "initial_xy": [
+              -0.25,
+              -0.02
+            ],
+            "initial_jitter": 0.005,
+            "grasp": {
+              "position": [
+                0.0,
+                0.0,
+                0.002
+              ],
+              "opening": 1.0
+            },
+            "spawn_clearance": 0.002,
+            "initial_quaternion_wxyz": [
+              1.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "geometry": {
+              "kind": "cylinder",
+              "radius": 0.0175,
+              "height": 0.04
+            },
+            "config_source_sha256": {
+              "/home/ubuntu/Workspace/dynamicbench-object-config-20261108/dynamicbench/configs/objects/cylinder.yaml": "8b6c94a4745c2d62dfb5fcafef1352aabb9bab7284aeea0b43d5a3332613ecc0"
+            },
+            "schema_version": "dynamicbench.object.v1"
+          },
+          "expert": {
+            "lift_xy_mode": "contact_anchor",
+            "lift_tcp_frame": "actual_pinch",
+            "contact_force_threshold": 1.0,
+            "stable_contact_ticks": 3,
+            "contact_timeout_ticks": 30,
+            "max_contact_eef_xy_excursion": 0.01,
+            "max_contact_cube_xy_excursion": 0.02,
+            "approach_height": 0.12,
+            "lift_height": 0.13,
+            "max_tcp_speed": 0.25,
+            "descend_speed": 0.08,
+            "intercept_seconds": 0.1,
+            "observe_ticks": 10,
+            "close_ticks": 18,
+            "timeout_ticks": 600,
+            "success_height": 0.05,
+            "success_hold_ticks": 15
+          },
+          "camera": {
+            "head_position": [
+              0.0,
+              -0.41,
+              1.308
+            ],
+            "head_quaternion_wxyz": [
+              0.9659258262890683,
+              0.25881904510252074,
+              0.0,
+              0.0
+            ],
+            "width": 640,
+            "height": 480,
+            "head_lens": {
+              "resolution": [
+                640,
+                480
+              ],
+              "focal_length": 10.0,
+              "horizontal_aperture": 22.212,
+              "vertical_aperture": 14.266,
+              "clipping_range": [
+                0.005,
+                10.0
+              ]
+            },
+            "wrist": {
+              "name": "cam_wrist",
+              "mount_link": "camera",
+              "position": [
+                0,
+                0,
+                0.001
+              ],
+              "quaternion_wxyz": [
+                0.5416752204197018,
+                0.4545194776720436,
+                -0.45451947767204365,
+                -0.5416752204197018
+              ],
+              "euler_convention": "intrinsic XYZ, matching CameraManager/euler_angles_to_quat",
+              "lens": {
+                "resolution": [
+                  640,
+                  480
+                ],
+                "focal_length": 13.0,
+                "horizontal_aperture": 20.955,
+                "vertical_aperture": 15.71625,
+                "clipping_range": [
+                  0.0001,
+                  10.0
+                ]
+              },
+              "type": "d435",
+              "source": "/home/ubuntu/Workspace/dynamicbench-object-config-20261108/Assets/Robots/x5/robot_config.yml"
+            }
+          },
+          "render": {
+            "defaults": {
+              "enable_translucency": true,
+              "enable_reflections": true,
+              "enable_global_illumination": true,
+              "antialiasing_mode": "DLAA",
+              "enable_dlssg": null,
+              "enable_dl_denoiser": null,
+              "dlss_mode": 2,
+              "enable_direct_lighting": null,
+              "samples_per_pixel": null,
+              "enable_shadows": null,
+              "enable_ambient_occlusion": null,
+              "rendering_mode": "quality",
+              "carb_settings": null
+            },
+            "quality_settings": {
+              "/rtx/translucency/enabled": true,
+              "/rtx/reflections/enabled": true,
+              "/rtx/reflections/denoiser/enabled": true,
+              "/rtx/directLighting/sampledLighting/enabled": true,
+              "/rtx/sceneDb/ambientLightIntensity": 1.0,
+              "/rtx/shadows/enabled": true,
+              "/rtx/indirectDiffuse/enabled": true,
+              "/rtx/indirectDiffuse/denoiser/enabled": true,
+              "/rtx/ambientOcclusion/enabled": true,
+              "/rtx/ambientOcclusion/denoiserMode": 0,
+              "/rtx/raytracing/subpixel/mode": 1,
+              "/rtx/raytracing/cached/enabled": true,
+              "/rtx/post/dlss/execMode": 2,
+              "/rtx/pathtracing/maxSamplesPerLaunch": 1000000,
+              "/rtx/viewTile/limit": 1000000,
+              "/rtx-transient/dlssg/enabled": false,
+              "/rtx-transient/dldenoiser/enabled": true
+            },
+            "sources": {
+              "env/environment/base_env.py": "ade58ebc19c79bdbf720def30786a0c397b1c7d2141fb6a1bfd63c80f8a3db8e",
+              "dynamicbench/configs/robodojo_quality.kit": "76acd47070496ff6c3b13971d0e87ee1d1f718a3405634da46ea1fff98e304ac"
+            }
+          }
+        },
+        "belt_top": 0.7622119447849692,
+        "object": {
+          "id": "cylinder_35x40mm",
+          "source": "primitive",
+          "shape": "cylinder",
+          "radius": 0.0175,
+          "height": 0.04,
+          "mass": 0.05,
+          "friction": 1.5,
+          "color": [
+            0.15,
+            0.5,
+            0.9
+          ],
+          "initial_xy": [
+            -0.25,
+            -0.02
+          ],
+          "initial_jitter": 0.005,
+          "grasp": {
+            "position": [
+              0.0,
+              0.0,
+              0.002
+            ],
+            "opening": 1.0
+          },
+          "spawn_clearance": 0.002,
+          "initial_quaternion_wxyz": [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "geometry": {
+            "kind": "cylinder",
+            "radius": 0.0175,
+            "height": 0.04
+          },
+          "config_source_sha256": {
+            "/home/ubuntu/Workspace/dynamicbench-object-config-20261108/dynamicbench/configs/objects/cylinder.yaml": "8b6c94a4745c2d62dfb5fcafef1352aabb9bab7284aeea0b43d5a3332613ecc0"
+          },
+          "schema_version": "dynamicbench.object.v1"
+        },
+        "success_height": 0.05,
+        "success_hold_ticks": 15,
+        "gripper_convention": "-1 closed +1 open; measured joint7/8",
+        "frame": "right_handed_world_link6",
+        "embodiment": "x5",
+        "rotation_6d": "first_two_columns_concatenated",
+        "wrist_status": "available",
+        "control_hz": 30,
+        "physics_hz": 300
+      }
+    },
+    {
+      "mode": "async_queue",
+      "reader": {
+        "actions": 64,
+        "observations": 65,
+        "head_shape": [
+          65,
+          480,
+          640,
+          3
+        ],
+        "duration": 2.1333333333333333,
+        "success": false
+      },
+      "video_frames": 65,
+      "metrics": {
+        "runtime": {
+          "isaacsim": "6.1.0.0",
+          "physics_backend": "PhysX",
+          "physics_device": "cpu",
+          "isaaclab": "17.0.2",
+          "isaaclab-physx": "6.0.0",
+          "torch": "2.11.0+cu128",
+          "warp-lang": "1.16.0",
+          "lab_quaternion_order": "xyzw",
+          "dataset_quaternion_order": "wxyz"
+        },
+        "schema_version": "dynamicbench.eef10.eval.v2",
+        "test": "policy_evaluation",
+        "reference_commit": "b66cb6b6c3a4b52932cb96ca6ee66ab5fe5c51f4",
+        "success": false,
+        "failure_reason": "timeout",
+        "seed": 42,
+        "belt_speed": 0.03,
+        "control_actions": 64,
+        "recorded_transitions": 64,
+        "physics_steps": 640,
+        "sim_time": 2.1333333333333333,
+        "sync_latency_physics_steps": 0,
+        "underflow_steps": 8,
+        "executed_queue_actions": 56,
+        "latency_mode": "async_queue",
+        "latency_source": "fixed",
+        "latency_requested_seconds": 0.25,
+        "action_horizon": 32,
+        "prefetch_threshold": 16,
+        "requests": [
+          {
+            "chunk_id": 0,
+            "request_tick": 0,
+            "t_observe": 0.0,
+            "t_request": 0.0,
+            "executed_at_submit": 0,
+            "latency_sim_seconds": 0.25,
+            "rtc_conditioning_requested": false,
+            "rtc_conditioning_used": false,
+            "leftover_count": 0,
+            "status": "released",
+            "worker_wait_wall_seconds": 1.3120006769895554e-05,
+            "inference_wall_seconds": 0.00032613700022920966,
+            "available_tick": 8,
+            "release_tick": 8,
+            "queue_delay_steps": 8,
+            "dropped_prefix": 0,
+            "overlap": 0,
+            "enqueued": 32
+          },
+          {
+            "chunk_id": 1,
+            "request_tick": 24,
+            "t_observe": 0.8,
+            "t_request": 0.8,
+            "executed_at_submit": 16,
+            "latency_sim_seconds": 0.25,
+            "rtc_conditioning_requested": false,
+            "rtc_conditioning_used": false,
+            "leftover_count": 16,
+            "status": "released",
+            "worker_wait_wall_seconds": 1.4411984011530876e-05,
+            "inference_wall_seconds": 0.00025744299637153745,
+            "available_tick": 32,
+            "release_tick": 32,
+            "queue_delay_steps": 8,
+            "dropped_prefix": 8,
+            "overlap": 8,
+            "enqueued": 24
+          },
+          {
+            "chunk_id": 2,
+            "request_tick": 40,
+            "t_observe": 1.3333333333333333,
+            "t_request": 1.3333333333333333,
+            "executed_at_submit": 32,
+            "latency_sim_seconds": 0.25,
+            "rtc_conditioning_requested": false,
+            "rtc_conditioning_used": false,
+            "leftover_count": 16,
+            "status": "released",
+            "worker_wait_wall_seconds": 1.0093004675582051e-05,
+            "inference_wall_seconds": 0.00020151800708845258,
+            "available_tick": 48,
+            "release_tick": 48,
+            "queue_delay_steps": 8,
+            "dropped_prefix": 8,
+            "overlap": 8,
+            "enqueued": 24
+          },
+          {
+            "chunk_id": 3,
+            "request_tick": 56,
+            "t_observe": 1.8666666666666667,
+            "t_request": 1.8666666666666667,
+            "executed_at_submit": 48,
+            "latency_sim_seconds": 0.25,
+            "rtc_conditioning_requested": false,
+            "rtc_conditioning_used": false,
+            "leftover_count": 16,
+            "status": "not_applied_episode_ended",
+            "worker_wait_wall_seconds": 1.3945013051852584e-05,
+            "inference_wall_seconds": 0.00027456198586151004
+          }
+        ],
+        "hold_semantics": "finite_joint_drive_previous_target_no_state_writes",
+        "real_model_tested": false,
+        "policy": {
+          "kind": "mock"
+        },
+        "object_displacement": [
+          0.0635836273431778,
+          -8.022971451282501e-05,
+          -4.172325134277344e-07
+        ],
+        "cube_displacement": [
+          0.0635836273431778,
+          -8.022971451282501e-05,
+          -4.172325134277344e-07
+        ],
+        "task": "pick_cube_from_conveyor",
+        "source_commit": "3c82e804aa436547c4008619c264c47bf217a60c",
+        "settings": {
+          "task": "pick_cube_from_conveyor",
+          "physics_hz": 300,
+          "control_hz": 30,
+          "scene": {
+            "source": "robodojo",
+            "config": "env_cfg/scene/conveyor.yml",
+            "light_intensity_scale": 1.0,
+            "official_ground": {
+              "geometry": "cube",
+              "thickness": 0.1,
+              "axis": "Z",
+              "default_pos": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "materials": {
+                "type": "mdl",
+                "default": "material_0564",
+                "random": false
+              },
+              "physics_material": {
+                "static_friction": 1.0,
+                "dynamic_friction": 1.0,
+                "restitution": 0.0,
+                "friction_combine_mode": "multiply",
+                "restitution_combine_mode": "multiply",
+                "compliant_contact_stiffness": 0.0,
+                "compliant_contact_damping": 0.0
+              },
+              "mdl_path": "/home/ubuntu/Workspace/dynamicbench-object-config-20261108/Assets/Material/material_0564/Wood_Tiles_Fineline.mdl",
+              "mdl_sha256": "60ca84bd62482b1f444f5fefab4ae74a2fa4e6b3304a08142accc50575d6be31"
+            },
+            "room": {
+              "random": false,
+              "default": "Simple_Room",
+              "default_pos": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "default_ori": [
+                1.0,
+                0.0,
+                0.0,
+                0.0
+              ],
+              "scale": [
+                0.5,
+                0.5,
+                0.5
+              ],
+              "usd_path": "/home/ubuntu/Workspace/dynamicbench-object-config-20261108/Assets/Room/Simple_Room/base0.usd"
+            },
+            "background": {
+              "intensity": 1000,
+              "default": "brown_photostudio_02_4k.hdr",
+              "texture_path": "/home/ubuntu/Workspace/dynamicbench-object-config-20261108/Assets/Background/brown_photostudio_02_4k.hdr"
+            },
+            "camera_stand": {
+              "usd_path": "/home/ubuntu/Workspace/dynamicbench-object-config-20261108/Assets/Object/RoboDojo/Geometry/camera_stand/00000/object.usd",
+              "position": [
+                0.0,
+                -0.47,
+                0.765
+              ],
+              "quaternion_wxyz": [
+                0.707,
+                -0.707,
+                0.0,
+                0.0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "collision": false,
+              "source": "conveyor.yml Geometry/camera_stand; official GeometryObject default",
+              "ground_reference_height": 0.05
+            },
+            "source_sha256": "c1dfd27faf978f90dfc4825cd83bd203823547c46793f4f9201ce9f4b43beee7"
+          },
+          "layout": {
+            "profile": "official",
+            "reference_layout": "Assets/Eval_Layout/RoboDojo/arx_x5/0/pick_from_conveyor_by_image_0.json",
+            "robot_config": "env_cfg/robot/dual_x5.yml",
+            "robot_index": 0,
+            "camera_config": "env_cfg/camera/camera_config.yml",
+            "head_camera": "cam_head",
+            "source_sha256": {
+              "env_cfg/robot/dual_x5.yml": "4eefaccc75c5f83443b7bb85ef1de68ee7a3772e27af2b04a5e8d8769ab9baa1",
+              "env_cfg/camera/camera_config.yml": "c1752170da855e735beba27fddbf78dad16f2395e4ef8b24e9827a768e616a62",
+              "env_cfg/camera/template.py": "68287ed1daec3b8ed7f053bf97a4d48bbddeb8b5757b53e438ac3c4240a9e61b",
+              "Assets/Robots/x5/robot_config.yml": "9de4f63b84c0f730623c09af7a2d530d84973981397280b6e4b626b50ba6f1c9",
+              "Assets/Robots/x5/X5A.urdf": "7aaa308a1a5b6a213d914db86ba09ddd6252f25cb498ac9a148bfa6c7166a423",
+              "env/robot_manager/robot_config/x5.py": "13d35630f833d1b0a1e3df0bea05f843e88aae1248b59af8aadfefa9cad29bbb",
+              "Assets/Eval_Layout/RoboDojo/arx_x5/0/pick_from_conveyor_by_image_0.json": "b35518107e88e78d3e001572a0662fe81c0f43e7cf9a19ef858055b1e5cf88d5",
+              "Assets/Object/RoboDojo/Dynamic/conveyor/00001/metadata.json": "cd12712dd7f58cd0137913ada13803c804e0b40b9679931c941629cf012188be"
+            },
+            "passive_robots": [
+              {
+                "robot_type": "arm",
+                "robot_name": "x5",
+                "coupled": false,
+                "default_root_pos": [
+                  0.3,
+                  -0.45,
+                  0.765
+                ],
+                "default_root_rot": [
+                  0.707,
+                  0,
+                  0,
+                  0.707
+                ],
+                "grasp_perfect_direction": "top_down_little_left"
+              }
+            ]
+          },
+          "robot": {
+            "initial_q": [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "max_joint_velocity": 2.0,
+            "gripper_effort": 15.0,
+            "base_position": [
+              -0.3,
+              -0.45,
+              0.765
+            ],
+            "base_quaternion_wxyz": [
+              0.7071067811865476,
+              0.0,
+              0.0,
+              0.7071067811865476
+            ],
+            "asset_config_path": "/home/ubuntu/Workspace/dynamicbench-object-config-20261108/Assets/Robots/x5/robot_config.yml",
+            "urdf_path": "/home/ubuntu/Workspace/dynamicbench-object-config-20261108/Assets/Robots/x5/X5A.urdf",
+            "eef_link": "link6",
+            "arm_joint_names": [
+              "joint1",
+              "joint2",
+              "joint3",
+              "joint4",
+              "joint5",
+              "joint6"
+            ],
+            "gripper_joint_names": [
+              "joint7",
+              "joint8"
+            ],
+            "finger_links": [
+              "link7",
+              "link8"
+            ],
+            "tcp_offset_link6": [
+              0.145,
+              0.0,
+              0.0
+            ],
+            "gripper_range": [
+              0.0,
+              0.044
+            ],
+            "official_gripper_command_scale": [
+              -0.01,
+              0.044
+            ],
+            "official_delta_matrix": [
+              [
+                1,
+                0,
+                0
+              ],
+              [
+                0,
+                1,
+                0
+              ],
+              [
+                0,
+                0,
+                1
+              ]
+            ],
+            "embodiment": "x5",
+            "usd_path": "/home/ubuntu/Workspace/dynamicbench-object-config-20261108/Assets/Robots/x5/ARX.usd",
+            "gripper_actuator": "gripper",
+            "initial_pose_source": "/home/ubuntu/Workspace/dynamicbench-object-config-20261108/env/robot_manager/robot_config/x5.py"
+          },
+          "belt": {
+            "source": "robodojo",
+            "center": [
+              -0.11439495861736215,
+              0.17500154722175618,
+              0.7544045107141139
+            ],
+            "size": [
+              3.9272968769073486,
+              0.8999993801116948,
+              0.015614868141710758
+            ],
+            "direction": [
+              1,
+              0,
+              0
+            ],
+            "speed": 0.03,
+            "friction": 1.0,
+            "asset_index": "00001",
+            "root_transform": {
+              "position": [
+                -2.08,
+                0.175,
+                0.05
+              ],
+              "quaternion_wxyz": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "scale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            "source_layout": "/home/ubuntu/Workspace/dynamicbench-object-config-20261108/Assets/Eval_Layout/RoboDojo/arx_x5/0/pick_from_conveyor_by_image_0.json",
+            "support_height_metadata": 0.768,
+            "measured_surface_height": 0.7622119447849692
+          },
+          "object": {
+            "id": "cylinder_35x40mm",
+            "source": "primitive",
+            "shape": "cylinder",
+            "radius": 0.0175,
+            "height": 0.04,
+            "mass": 0.05,
+            "friction": 1.5,
+            "color": [
+              0.15,
+              0.5,
+              0.9
+            ],
+            "initial_xy": [
+              -0.25,
+              -0.02
+            ],
+            "initial_jitter": 0.005,
+            "grasp": {
+              "position": [
+                0.0,
+                0.0,
+                0.002
+              ],
+              "opening": 1.0
+            },
+            "spawn_clearance": 0.002,
+            "initial_quaternion_wxyz": [
+              1.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "geometry": {
+              "kind": "cylinder",
+              "radius": 0.0175,
+              "height": 0.04
+            },
+            "config_source_sha256": {
+              "/home/ubuntu/Workspace/dynamicbench-object-config-20261108/dynamicbench/configs/objects/cylinder.yaml": "8b6c94a4745c2d62dfb5fcafef1352aabb9bab7284aeea0b43d5a3332613ecc0"
+            },
+            "schema_version": "dynamicbench.object.v1"
+          },
+          "expert": {
+            "lift_xy_mode": "contact_anchor",
+            "lift_tcp_frame": "actual_pinch",
+            "contact_force_threshold": 1.0,
+            "stable_contact_ticks": 3,
+            "contact_timeout_ticks": 30,
+            "max_contact_eef_xy_excursion": 0.01,
+            "max_contact_cube_xy_excursion": 0.02,
+            "approach_height": 0.12,
+            "lift_height": 0.13,
+            "max_tcp_speed": 0.25,
+            "descend_speed": 0.08,
+            "intercept_seconds": 0.1,
+            "observe_ticks": 10,
+            "close_ticks": 18,
+            "timeout_ticks": 600,
+            "success_height": 0.05,
+            "success_hold_ticks": 15
+          },
+          "camera": {
+            "head_position": [
+              0.0,
+              -0.41,
+              1.308
+            ],
+            "head_quaternion_wxyz": [
+              0.9659258262890683,
+              0.25881904510252074,
+              0.0,
+              0.0
+            ],
+            "width": 640,
+            "height": 480,
+            "head_lens": {
+              "resolution": [
+                640,
+                480
+              ],
+              "focal_length": 10.0,
+              "horizontal_aperture": 22.212,
+              "vertical_aperture": 14.266,
+              "clipping_range": [
+                0.005,
+                10.0
+              ]
+            },
+            "wrist": {
+              "name": "cam_wrist",
+              "mount_link": "camera",
+              "position": [
+                0,
+                0,
+                0.001
+              ],
+              "quaternion_wxyz": [
+                0.5416752204197018,
+                0.4545194776720436,
+                -0.45451947767204365,
+                -0.5416752204197018
+              ],
+              "euler_convention": "intrinsic XYZ, matching CameraManager/euler_angles_to_quat",
+              "lens": {
+                "resolution": [
+                  640,
+                  480
+                ],
+                "focal_length": 13.0,
+                "horizontal_aperture": 20.955,
+                "vertical_aperture": 15.71625,
+                "clipping_range": [
+                  0.0001,
+                  10.0
+                ]
+              },
+              "type": "d435",
+              "source": "/home/ubuntu/Workspace/dynamicbench-object-config-20261108/Assets/Robots/x5/robot_config.yml"
+            }
+          },
+          "render": {
+            "defaults": {
+              "enable_translucency": true,
+              "enable_reflections": true,
+              "enable_global_illumination": true,
+              "antialiasing_mode": "DLAA",
+              "enable_dlssg": null,
+              "enable_dl_denoiser": null,
+              "dlss_mode": 2,
+              "enable_direct_lighting": null,
+              "samples_per_pixel": null,
+              "enable_shadows": null,
+              "enable_ambient_occlusion": null,
+              "rendering_mode": "quality",
+              "carb_settings": null
+            },
+            "quality_settings": {
+              "/rtx/translucency/enabled": true,
+              "/rtx/reflections/enabled": true,
+              "/rtx/reflections/denoiser/enabled": true,
+              "/rtx/directLighting/sampledLighting/enabled": true,
+              "/rtx/sceneDb/ambientLightIntensity": 1.0,
+              "/rtx/shadows/enabled": true,
+              "/rtx/indirectDiffuse/enabled": true,
+              "/rtx/indirectDiffuse/denoiser/enabled": true,
+              "/rtx/ambientOcclusion/enabled": true,
+              "/rtx/ambientOcclusion/denoiserMode": 0,
+              "/rtx/raytracing/subpixel/mode": 1,
+              "/rtx/raytracing/cached/enabled": true,
+              "/rtx/post/dlss/execMode": 2,
+              "/rtx/pathtracing/maxSamplesPerLaunch": 1000000,
+              "/rtx/viewTile/limit": 1000000,
+              "/rtx-transient/dlssg/enabled": false,
+              "/rtx-transient/dldenoiser/enabled": true
+            },
+            "sources": {
+              "env/environment/base_env.py": "ade58ebc19c79bdbf720def30786a0c397b1c7d2141fb6a1bfd63c80f8a3db8e",
+              "dynamicbench/configs/robodojo_quality.kit": "76acd47070496ff6c3b13971d0e87ee1d1f718a3405634da46ea1fff98e304ac"
+            }
+          }
+        },
+        "belt_top": 0.7622119447849692,
+        "object": {
+          "id": "cylinder_35x40mm",
+          "source": "primitive",
+          "shape": "cylinder",
+          "radius": 0.0175,
+          "height": 0.04,
+          "mass": 0.05,
+          "friction": 1.5,
+          "color": [
+            0.15,
+            0.5,
+            0.9
+          ],
+          "initial_xy": [
+            -0.25,
+            -0.02
+          ],
+          "initial_jitter": 0.005,
+          "grasp": {
+            "position": [
+              0.0,
+              0.0,
+              0.002
+            ],
+            "opening": 1.0
+          },
+          "spawn_clearance": 0.002,
+          "initial_quaternion_wxyz": [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "geometry": {
+            "kind": "cylinder",
+            "radius": 0.0175,
+            "height": 0.04
+          },
+          "config_source_sha256": {
+            "/home/ubuntu/Workspace/dynamicbench-object-config-20261108/dynamicbench/configs/objects/cylinder.yaml": "8b6c94a4745c2d62dfb5fcafef1352aabb9bab7284aeea0b43d5a3332613ecc0"
+          },
+          "schema_version": "dynamicbench.object.v1"
+        },
+        "success_height": 0.05,
+        "success_hold_ticks": 15,
+        "gripper_convention": "-1 closed +1 open; measured joint7/8",
+        "frame": "right_handed_world_link6",
+        "embodiment": "x5",
+        "rotation_6d": "first_two_columns_concatenated",
+        "wrist_status": "available",
+        "control_hz": 30,
+        "physics_hz": 300
+      }
+    },
+    {
+      "mode": "rtc",
+      "reader": {
+        "actions": 64,
+        "observations": 65,
+        "head_shape": [
+          65,
+          480,
+          640,
+          3
+        ],
+        "duration": 2.1333333333333333,
+        "success": false
+      },
+      "video_frames": 65,
+      "metrics": {
+        "runtime": {
+          "isaacsim": "6.1.0.0",
+          "physics_backend": "PhysX",
+          "physics_device": "cpu",
+          "isaaclab": "17.0.2",
+          "isaaclab-physx": "6.0.0",
+          "torch": "2.11.0+cu128",
+          "warp-lang": "1.16.0",
+          "lab_quaternion_order": "xyzw",
+          "dataset_quaternion_order": "wxyz"
+        },
+        "schema_version": "dynamicbench.eef10.eval.v2",
+        "test": "policy_evaluation",
+        "reference_commit": "b66cb6b6c3a4b52932cb96ca6ee66ab5fe5c51f4",
+        "success": false,
+        "failure_reason": "timeout",
+        "seed": 42,
+        "belt_speed": 0.03,
+        "control_actions": 64,
+        "recorded_transitions": 64,
+        "physics_steps": 640,
+        "sim_time": 2.1333333333333333,
+        "sync_latency_physics_steps": 0,
+        "underflow_steps": 8,
+        "executed_queue_actions": 56,
+        "latency_mode": "rtc",
+        "latency_source": "fixed",
+        "latency_requested_seconds": 0.25,
+        "action_horizon": 32,
+        "prefetch_threshold": 16,
+        "requests": [
+          {
+            "chunk_id": 0,
+            "request_tick": 0,
+            "t_observe": 0.0,
+            "t_request": 0.0,
+            "executed_at_submit": 0,
+            "latency_sim_seconds": 0.25,
+            "rtc_conditioning_requested": true,
+            "rtc_conditioning_used": false,
+            "leftover_count": 0,
+            "status": "released",
+            "worker_wait_wall_seconds": 1.4870980521664023e-05,
+            "inference_wall_seconds": 0.00027768799918703735,
+            "available_tick": 8,
+            "release_tick": 8,
+            "queue_delay_steps": 8,
+            "dropped_prefix": 8,
+            "overlap": 0,
+            "enqueued": 24
+          },
+          {
+            "chunk_id": 1,
+            "request_tick": 16,
+            "t_observe": 0.5333333333333333,
+            "t_request": 0.5333333333333333,
+            "executed_at_submit": 8,
+            "latency_sim_seconds": 0.25,
+            "rtc_conditioning_requested": true,
+            "rtc_conditioning_used": false,
+            "leftover_count": 16,
+            "status": "released",
+            "worker_wait_wall_seconds": 1.7178012058138847e-05,
+            "inference_wall_seconds": 0.00013522300287149847,
+            "available_tick": 24,
+            "release_tick": 24,
+            "queue_delay_steps": 8,
+            "dropped_prefix": 8,
+            "overlap": 0,
+            "enqueued": 24
+          },
+          {
+            "chunk_id": 2,
+            "request_tick": 32,
+            "t_observe": 1.0666666666666667,
+            "t_request": 1.0666666666666667,
+            "executed_at_submit": 24,
+            "latency_sim_seconds": 0.25,
+            "rtc_conditioning_requested": true,
+            "rtc_conditioning_used": false,
+            "leftover_count": 16,
+            "status": "released",
+            "worker_wait_wall_seconds": 1.7615006072446704e-05,
+            "inference_wall_seconds": 0.00011350298882462084,
+            "available_tick": 40,
+            "release_tick": 40,
+            "queue_delay_steps": 8,
+            "dropped_prefix": 8,
+            "overlap": 0,
+            "enqueued": 24
+          },
+          {
+            "chunk_id": 3,
+            "request_tick": 48,
+            "t_observe": 1.6,
+            "t_request": 1.6,
+            "executed_at_submit": 40,
+            "latency_sim_seconds": 0.25,
+            "rtc_conditioning_requested": true,
+            "rtc_conditioning_used": false,
+            "leftover_count": 16,
+            "status": "released",
+            "worker_wait_wall_seconds": 1.679797424003482e-05,
+            "inference_wall_seconds": 0.00021618499886244535,
+            "available_tick": 56,
+            "release_tick": 56,
+            "queue_delay_steps": 8,
+            "dropped_prefix": 8,
+            "overlap": 0,
+            "enqueued": 24
+          }
+        ],
+        "hold_semantics": "finite_joint_drive_previous_target_no_state_writes",
+        "real_model_tested": false,
+        "policy": {
+          "kind": "mock"
+        },
+        "object_displacement": [
+          0.0635836273431778,
+          -8.022971451282501e-05,
+          -4.172325134277344e-07
+        ],
+        "cube_displacement": [
+          0.0635836273431778,
+          -8.022971451282501e-05,
+          -4.172325134277344e-07
+        ],
+        "task": "pick_cube_from_conveyor",
+        "source_commit": "3c82e804aa436547c4008619c264c47bf217a60c",
+        "settings": {
+          "task": "pick_cube_from_conveyor",
+          "physics_hz": 300,
+          "control_hz": 30,
+          "scene": {
+            "source": "robodojo",
+            "config": "env_cfg/scene/conveyor.yml",
+            "light_intensity_scale": 1.0,
+            "official_ground": {
+              "geometry": "cube",
+              "thickness": 0.1,
+              "axis": "Z",
+              "default_pos": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "materials": {
+                "type": "mdl",
+                "default": "material_0564",
+                "random": false
+              },
+              "physics_material": {
+                "static_friction": 1.0,
+                "dynamic_friction": 1.0,
+                "restitution": 0.0,
+                "friction_combine_mode": "multiply",
+                "restitution_combine_mode": "multiply",
+                "compliant_contact_stiffness": 0.0,
+                "compliant_contact_damping": 0.0
+              },
+              "mdl_path": "/home/ubuntu/Workspace/dynamicbench-object-config-20261108/Assets/Material/material_0564/Wood_Tiles_Fineline.mdl",
+              "mdl_sha256": "60ca84bd62482b1f444f5fefab4ae74a2fa4e6b3304a08142accc50575d6be31"
+            },
+            "room": {
+              "random": false,
+              "default": "Simple_Room",
+              "default_pos": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "default_ori": [
+                1.0,
+                0.0,
+                0.0,
+                0.0
+              ],
+              "scale": [
+                0.5,
+                0.5,
+                0.5
+              ],
+              "usd_path": "/home/ubuntu/Workspace/dynamicbench-object-config-20261108/Assets/Room/Simple_Room/base0.usd"
+            },
+            "background": {
+              "intensity": 1000,
+              "default": "brown_photostudio_02_4k.hdr",
+              "texture_path": "/home/ubuntu/Workspace/dynamicbench-object-config-20261108/Assets/Background/brown_photostudio_02_4k.hdr"
+            },
+            "camera_stand": {
+              "usd_path": "/home/ubuntu/Workspace/dynamicbench-object-config-20261108/Assets/Object/RoboDojo/Geometry/camera_stand/00000/object.usd",
+              "position": [
+                0.0,
+                -0.47,
+                0.765
+              ],
+              "quaternion_wxyz": [
+                0.707,
+                -0.707,
+                0.0,
+                0.0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "collision": false,
+              "source": "conveyor.yml Geometry/camera_stand; official GeometryObject default",
+              "ground_reference_height": 0.05
+            },
+            "source_sha256": "c1dfd27faf978f90dfc4825cd83bd203823547c46793f4f9201ce9f4b43beee7"
+          },
+          "layout": {
+            "profile": "official",
+            "reference_layout": "Assets/Eval_Layout/RoboDojo/arx_x5/0/pick_from_conveyor_by_image_0.json",
+            "robot_config": "env_cfg/robot/dual_x5.yml",
+            "robot_index": 0,
+            "camera_config": "env_cfg/camera/camera_config.yml",
+            "head_camera": "cam_head",
+            "source_sha256": {
+              "env_cfg/robot/dual_x5.yml": "4eefaccc75c5f83443b7bb85ef1de68ee7a3772e27af2b04a5e8d8769ab9baa1",
+              "env_cfg/camera/camera_config.yml": "c1752170da855e735beba27fddbf78dad16f2395e4ef8b24e9827a768e616a62",
+              "env_cfg/camera/template.py": "68287ed1daec3b8ed7f053bf97a4d48bbddeb8b5757b53e438ac3c4240a9e61b",
+              "Assets/Robots/x5/robot_config.yml": "9de4f63b84c0f730623c09af7a2d530d84973981397280b6e4b626b50ba6f1c9",
+              "Assets/Robots/x5/X5A.urdf": "7aaa308a1a5b6a213d914db86ba09ddd6252f25cb498ac9a148bfa6c7166a423",
+              "env/robot_manager/robot_config/x5.py": "13d35630f833d1b0a1e3df0bea05f843e88aae1248b59af8aadfefa9cad29bbb",
+              "Assets/Eval_Layout/RoboDojo/arx_x5/0/pick_from_conveyor_by_image_0.json": "b35518107e88e78d3e001572a0662fe81c0f43e7cf9a19ef858055b1e5cf88d5",
+              "Assets/Object/RoboDojo/Dynamic/conveyor/00001/metadata.json": "cd12712dd7f58cd0137913ada13803c804e0b40b9679931c941629cf012188be"
+            },
+            "passive_robots": [
+              {
+                "robot_type": "arm",
+                "robot_name": "x5",
+                "coupled": false,
+                "default_root_pos": [
+                  0.3,
+                  -0.45,
+                  0.765
+                ],
+                "default_root_rot": [
+                  0.707,
+                  0,
+                  0,
+                  0.707
+                ],
+                "grasp_perfect_direction": "top_down_little_left"
+              }
+            ]
+          },
+          "robot": {
+            "initial_q": [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "max_joint_velocity": 2.0,
+            "gripper_effort": 15.0,
+            "base_position": [
+              -0.3,
+              -0.45,
+              0.765
+            ],
+            "base_quaternion_wxyz": [
+              0.7071067811865476,
+              0.0,
+              0.0,
+              0.7071067811865476
+            ],
+            "asset_config_path": "/home/ubuntu/Workspace/dynamicbench-object-config-20261108/Assets/Robots/x5/robot_config.yml",
+            "urdf_path": "/home/ubuntu/Workspace/dynamicbench-object-config-20261108/Assets/Robots/x5/X5A.urdf",
+            "eef_link": "link6",
+            "arm_joint_names": [
+              "joint1",
+              "joint2",
+              "joint3",
+              "joint4",
+              "joint5",
+              "joint6"
+            ],
+            "gripper_joint_names": [
+              "joint7",
+              "joint8"
+            ],
+            "finger_links": [
+              "link7",
+              "link8"
+            ],
+            "tcp_offset_link6": [
+              0.145,
+              0.0,
+              0.0
+            ],
+            "gripper_range": [
+              0.0,
+              0.044
+            ],
+            "official_gripper_command_scale": [
+              -0.01,
+              0.044
+            ],
+            "official_delta_matrix": [
+              [
+                1,
+                0,
+                0
+              ],
+              [
+                0,
+                1,
+                0
+              ],
+              [
+                0,
+                0,
+                1
+              ]
+            ],
+            "embodiment": "x5",
+            "usd_path": "/home/ubuntu/Workspace/dynamicbench-object-config-20261108/Assets/Robots/x5/ARX.usd",
+            "gripper_actuator": "gripper",
+            "initial_pose_source": "/home/ubuntu/Workspace/dynamicbench-object-config-20261108/env/robot_manager/robot_config/x5.py"
+          },
+          "belt": {
+            "source": "robodojo",
+            "center": [
+              -0.11439495861736215,
+              0.17500154722175618,
+              0.7544045107141139
+            ],
+            "size": [
+              3.9272968769073486,
+              0.8999993801116948,
+              0.015614868141710758
+            ],
+            "direction": [
+              1,
+              0,
+              0
+            ],
+            "speed": 0.03,
+            "friction": 1.0,
+            "asset_index": "00001",
+            "root_transform": {
+              "position": [
+                -2.08,
+                0.175,
+                0.05
+              ],
+              "quaternion_wxyz": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "scale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            "source_layout": "/home/ubuntu/Workspace/dynamicbench-object-config-20261108/Assets/Eval_Layout/RoboDojo/arx_x5/0/pick_from_conveyor_by_image_0.json",
+            "support_height_metadata": 0.768,
+            "measured_surface_height": 0.7622119447849692
+          },
+          "object": {
+            "id": "cylinder_35x40mm",
+            "source": "primitive",
+            "shape": "cylinder",
+            "radius": 0.0175,
+            "height": 0.04,
+            "mass": 0.05,
+            "friction": 1.5,
+            "color": [
+              0.15,
+              0.5,
+              0.9
+            ],
+            "initial_xy": [
+              -0.25,
+              -0.02
+            ],
+            "initial_jitter": 0.005,
+            "grasp": {
+              "position": [
+                0.0,
+                0.0,
+                0.002
+              ],
+              "opening": 1.0
+            },
+            "spawn_clearance": 0.002,
+            "initial_quaternion_wxyz": [
+              1.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "geometry": {
+              "kind": "cylinder",
+              "radius": 0.0175,
+              "height": 0.04
+            },
+            "config_source_sha256": {
+              "/home/ubuntu/Workspace/dynamicbench-object-config-20261108/dynamicbench/configs/objects/cylinder.yaml": "8b6c94a4745c2d62dfb5fcafef1352aabb9bab7284aeea0b43d5a3332613ecc0"
+            },
+            "schema_version": "dynamicbench.object.v1"
+          },
+          "expert": {
+            "lift_xy_mode": "contact_anchor",
+            "lift_tcp_frame": "actual_pinch",
+            "contact_force_threshold": 1.0,
+            "stable_contact_ticks": 3,
+            "contact_timeout_ticks": 30,
+            "max_contact_eef_xy_excursion": 0.01,
+            "max_contact_cube_xy_excursion": 0.02,
+            "approach_height": 0.12,
+            "lift_height": 0.13,
+            "max_tcp_speed": 0.25,
+            "descend_speed": 0.08,
+            "intercept_seconds": 0.1,
+            "observe_ticks": 10,
+            "close_ticks": 18,
+            "timeout_ticks": 600,
+            "success_height": 0.05,
+            "success_hold_ticks": 15
+          },
+          "camera": {
+            "head_position": [
+              0.0,
+              -0.41,
+              1.308
+            ],
+            "head_quaternion_wxyz": [
+              0.9659258262890683,
+              0.25881904510252074,
+              0.0,
+              0.0
+            ],
+            "width": 640,
+            "height": 480,
+            "head_lens": {
+              "resolution": [
+                640,
+                480
+              ],
+              "focal_length": 10.0,
+              "horizontal_aperture": 22.212,
+              "vertical_aperture": 14.266,
+              "clipping_range": [
+                0.005,
+                10.0
+              ]
+            },
+            "wrist": {
+              "name": "cam_wrist",
+              "mount_link": "camera",
+              "position": [
+                0,
+                0,
+                0.001
+              ],
+              "quaternion_wxyz": [
+                0.5416752204197018,
+                0.4545194776720436,
+                -0.45451947767204365,
+                -0.5416752204197018
+              ],
+              "euler_convention": "intrinsic XYZ, matching CameraManager/euler_angles_to_quat",
+              "lens": {
+                "resolution": [
+                  640,
+                  480
+                ],
+                "focal_length": 13.0,
+                "horizontal_aperture": 20.955,
+                "vertical_aperture": 15.71625,
+                "clipping_range": [
+                  0.0001,
+                  10.0
+                ]
+              },
+              "type": "d435",
+              "source": "/home/ubuntu/Workspace/dynamicbench-object-config-20261108/Assets/Robots/x5/robot_config.yml"
+            }
+          },
+          "render": {
+            "defaults": {
+              "enable_translucency": true,
+              "enable_reflections": true,
+              "enable_global_illumination": true,
+              "antialiasing_mode": "DLAA",
+              "enable_dlssg": null,
+              "enable_dl_denoiser": null,
+              "dlss_mode": 2,
+              "enable_direct_lighting": null,
+              "samples_per_pixel": null,
+              "enable_shadows": null,
+              "enable_ambient_occlusion": null,
+              "rendering_mode": "quality",
+              "carb_settings": null
+            },
+            "quality_settings": {
+              "/rtx/translucency/enabled": true,
+              "/rtx/reflections/enabled": true,
+              "/rtx/reflections/denoiser/enabled": true,
+              "/rtx/directLighting/sampledLighting/enabled": true,
+              "/rtx/sceneDb/ambientLightIntensity": 1.0,
+              "/rtx/shadows/enabled": true,
+              "/rtx/indirectDiffuse/enabled": true,
+              "/rtx/indirectDiffuse/denoiser/enabled": true,
+              "/rtx/ambientOcclusion/enabled": true,
+              "/rtx/ambientOcclusion/denoiserMode": 0,
+              "/rtx/raytracing/subpixel/mode": 1,
+              "/rtx/raytracing/cached/enabled": true,
+              "/rtx/post/dlss/execMode": 2,
+              "/rtx/pathtracing/maxSamplesPerLaunch": 1000000,
+              "/rtx/viewTile/limit": 1000000,
+              "/rtx-transient/dlssg/enabled": false,
+              "/rtx-transient/dldenoiser/enabled": true
+            },
+            "sources": {
+              "env/environment/base_env.py": "ade58ebc19c79bdbf720def30786a0c397b1c7d2141fb6a1bfd63c80f8a3db8e",
+              "dynamicbench/configs/robodojo_quality.kit": "76acd47070496ff6c3b13971d0e87ee1d1f718a3405634da46ea1fff98e304ac"
+            }
+          }
+        },
+        "belt_top": 0.7622119447849692,
+        "object": {
+          "id": "cylinder_35x40mm",
+          "source": "primitive",
+          "shape": "cylinder",
+          "radius": 0.0175,
+          "height": 0.04,
+          "mass": 0.05,
+          "friction": 1.5,
+          "color": [
+            0.15,
+            0.5,
+            0.9
+          ],
+          "initial_xy": [
+            -0.25,
+            -0.02
+          ],
+          "initial_jitter": 0.005,
+          "grasp": {
+            "position": [
+              0.0,
+              0.0,
+              0.002
+            ],
+            "opening": 1.0
+          },
+          "spawn_clearance": 0.002,
+          "initial_quaternion_wxyz": [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "geometry": {
+            "kind": "cylinder",
+            "radius": 0.0175,
+            "height": 0.04
+          },
+          "config_source_sha256": {
+            "/home/ubuntu/Workspace/dynamicbench-object-config-20261108/dynamicbench/configs/objects/cylinder.yaml": "8b6c94a4745c2d62dfb5fcafef1352aabb9bab7284aeea0b43d5a3332613ecc0"
+          },
+          "schema_version": "dynamicbench.object.v1"
+        },
+        "success_height": 0.05,
+        "success_hold_ticks": 15,
+        "gripper_convention": "-1 closed +1 open; measured joint7/8",
+        "frame": "right_handed_world_link6",
+        "embodiment": "x5",
+        "rotation_6d": "first_two_columns_concatenated",
+        "wrist_status": "available",
+        "control_hz": 30,
+        "physics_hz": 300
+      }
+    }
+  ],
+  "files": [
+    {
+      "path": "default_object/asset_audit.json",
+      "sha256": "d776f7d362a2bf9673c817f9246553582a49d0b575a7ac233e2e74fd1f416049",
+      "bytes": 35635
+    },
+    {
+      "path": "default_object/episode_seed42/head.mp4",
+      "sha256": "6881c730189369fa6d8bfdc0c23204394efc8ddf340b7d463f85c4e7eb861598",
+      "bytes": 179050
+    },
+    {
+      "path": "default_object/episode_seed42/metadata.json",
+      "sha256": "5c98af2dc6f18319b96c6b744fcf9955df90b54483ed2658364032214e697117",
+      "bytes": 15062
+    },
+    {
+      "path": "default_object/episode_seed42/trace.jsonl",
+      "sha256": "17ed0b584e019b64cf7006f04f564384a55d108e8d2fabc1520ad22916253a9c",
+      "bytes": 147951
+    },
+    {
+      "path": "default_object/episode_seed42/trajectory.npz",
+      "sha256": "3ce53710d6876657293805ad2a427052fb953b0a203f6647debf573cbcf5b4c5",
+      "bytes": 69615812
+    },
+    {
+      "path": "default_object/exit_status.json",
+      "sha256": "124fd50cb6d223cdd18fedc166d00af7254199b6e6dedf9be82f71db87af6d01",
+      "bytes": 16
+    },
+    {
+      "path": "default_object/manifest.jsonl",
+      "sha256": "2e95840d7cb9869c2ced776738236cef75e7c4d13e1a75a4e9c2a2b0d3af911c",
+      "bytes": 300
+    },
+    {
+      "path": "default_object/metrics.json",
+      "sha256": "d5bd5da7bbc6c58e575bf32f0f201194643c5f1047dc458ba3326cfc3cf2512e",
+      "bytes": 2299
+    },
+    {
+      "path": "cylinder/asset_audit.json",
+      "sha256": "d1a501e431bf82c905bb0fda84159225e0609009e3f92acaf01f1420bbe34527",
+      "bytes": 35786
+    },
+    {
+      "path": "cylinder/episode_seed42/head.mp4",
+      "sha256": "a375e300e8749736218df02d3f5910cfa9283332e598e081b78589b57acac9e7",
+      "bytes": 185677
+    },
+    {
+      "path": "cylinder/episode_seed42/metadata.json",
+      "sha256": "a8739e82217bcf37522092a9d2d52e58b571d15477f9d5853b4511d250dc1c91",
+      "bytes": 15286
+    },
+    {
+      "path": "cylinder/episode_seed42/trace.jsonl",
+      "sha256": "7e4022df46780d4952a3fafdee3a7fe6028508294e412c8ab17807a51191bee7",
+      "bytes": 155812
+    },
+    {
+      "path": "cylinder/episode_seed42/trajectory.npz",
+      "sha256": "541734e6ba0153a74fbf0eddf9260e88798643858f103227250c63e3df0b9859",
+      "bytes": 72652127
+    },
+    {
+      "path": "cylinder/exit_status.json",
+      "sha256": "124fd50cb6d223cdd18fedc166d00af7254199b6e6dedf9be82f71db87af6d01",
+      "bytes": 16
+    },
+    {
+      "path": "cylinder/manifest.jsonl",
+      "sha256": "ff746b457e76bf35af1576960d7b3bc4b989f497332dcab331d4b854fe32b2ca",
+      "bytes": 285
+    },
+    {
+      "path": "cylinder/metrics.json",
+      "sha256": "e3c74b98ed9f23bb58d2deee0fb6f2c5d4be7fc1cab2454770891f8066cd742a",
+      "bytes": 2251
+    },
+    {
+      "path": "robodojo_block/asset_audit.json",
+      "sha256": "1c53f54d2cff64ed30c6fb745e05b6783dd049b2f2fd5eca22e6b8ba35d021ee",
+      "bytes": 36524
+    },
+    {
+      "path": "robodojo_block/episode_seed42/head.mp4",
+      "sha256": "48e5b8009a80d3a0035e529cc81fb8cad438c7247435b9ff52ac062a547a62d1",
+      "bytes": 178241
+    },
+    {
+      "path": "robodojo_block/episode_seed42/metadata.json",
+      "sha256": "51d35f3d6d2cd9df137a1a6a31c7fdac0135455eb1160c43c18bc596fb97c7b3",
+      "bytes": 16843
+    },
+    {
+      "path": "robodojo_block/episode_seed42/trace.jsonl",
+      "sha256": "1298c9f593047caa2015fe44985fd43a348b4b8e6da1d8f3ae4b3958a6cb12f6",
+      "bytes": 149227
+    },
+    {
+      "path": "robodojo_block/episode_seed42/trajectory.npz",
+      "sha256": "955cdcf4d669dfbd5554b4d7b50c1925d0c0f7bcb9f0ebfad5c4b57bdc9dfe50",
+      "bytes": 72437168
+    },
+    {
+      "path": "robodojo_block/exit_status.json",
+      "sha256": "124fd50cb6d223cdd18fedc166d00af7254199b6e6dedf9be82f71db87af6d01",
+      "bytes": 16
+    },
+    {
+      "path": "robodojo_block/manifest.jsonl",
+      "sha256": "a3aa8f99c3e239458f0272124f9b73942cdbc92c1e91ac2df75c6573f5fdd2aa",
+      "bytes": 304
+    },
+    {
+      "path": "robodojo_block/metrics.json",
+      "sha256": "02fdf4f5bf016c1bc44e7a1eb3f6fa8dcdfc214017cf0715c50028cacd5b38c7",
+      "bytes": 2310
+    },
+    {
+      "path": "sphere/asset_audit.json",
+      "sha256": "a2668693567ad7fb3eacb18d893f78edd4852e309c543b283fe7d2be815e7e46",
+      "bytes": 35733
+    },
+    {
+      "path": "sphere/episode_seed42/head.mp4",
+      "sha256": "2d6e0c86f2db4a9bb35c82579325615fdbd61d7d8ae67547ca8a279528925d31",
+      "bytes": 169040
+    },
+    {
+      "path": "sphere/episode_seed42/metadata.json",
+      "sha256": "01bc64fba08b2984a3ec8455770df6408aef4886eebb58474eb9d7645c591e57",
+      "bytes": 15231
+    },
+    {
+      "path": "sphere/episode_seed42/trace.jsonl",
+      "sha256": "cd5759b83eb73b1a08754cc1c06c72bf25ffbd71fd0ef1fa3e7cfb00ae7fa61a",
+      "bytes": 141889
+    },
+    {
+      "path": "sphere/episode_seed42/trajectory.npz",
+      "sha256": "981a106094c578723a8382281a5bc07ec9e90f237cf9d75636bacc88bf1cc570",
+      "bytes": 68433054
+    },
+    {
+      "path": "sphere/exit_status.json",
+      "sha256": "124fd50cb6d223cdd18fedc166d00af7254199b6e6dedf9be82f71db87af6d01",
+      "bytes": 16
+    },
+    {
+      "path": "sphere/manifest.jsonl",
+      "sha256": "37114124df61a6f5a18b437f7046d8fa291c2ec79ff817234c32589691ac65d4",
+      "bytes": 295
+    },
+    {
+      "path": "sphere/metrics.json",
+      "sha256": "b357d65a305444640a08fca130ca809fa7f6f1a8fc1ba02de4b491ece8fac9a0",
+      "bytes": 2306
+    },
+    {
+      "path": "cylinder_scheduling/acceptance.json",
+      "sha256": "62da3cb03e74bb2614071855bce936e07bc91e0d717997e78dccab8cf6d973fd",
+      "bytes": 104
+    },
+    {
+      "path": "cylinder_scheduling/asset_audit.json",
+      "sha256": "d1a501e431bf82c905bb0fda84159225e0609009e3f92acaf01f1420bbe34527",
+      "bytes": 35786
+    },
+    {
+      "path": "cylinder_scheduling/async_queue_seed42/head.mp4",
+      "sha256": "2090018611c00fbb111bea6037b2d28cc2278800ae9d05b4829868e9d8685367",
+      "bytes": 60719
+    },
+    {
+      "path": "cylinder_scheduling/async_queue_seed42/metadata.json",
+      "sha256": "d1220d16586a94dfba4ce47cc4b2a33572b877437c5c0995c8ab43ca5334ac68",
+      "bytes": 16186
+    },
+    {
+      "path": "cylinder_scheduling/async_queue_seed42/trace.jsonl",
+      "sha256": "0b06fc3d084c7a9b9460909e1c17303474909de74e96775d23cb00d830c99ea0",
+      "bytes": 48712
+    },
+    {
+      "path": "cylinder_scheduling/async_queue_seed42/trajectory.npz",
+      "sha256": "e0250db62e547c02a5c60fc30a371f8c3e09c74a341ff3d63c7b09329379fd97",
+      "bytes": 47966068
+    },
+    {
+      "path": "cylinder_scheduling/exit_status.json",
+      "sha256": "124fd50cb6d223cdd18fedc166d00af7254199b6e6dedf9be82f71db87af6d01",
+      "bytes": 16
+    },
+    {
+      "path": "cylinder_scheduling/manifest.jsonl",
+      "sha256": "65aeea75ff46fcb53cfce09c76304c232372ea2325898ad04d8a569c2c40a297",
+      "bytes": 1217
+    },
+    {
+      "path": "cylinder_scheduling/metrics.json",
+      "sha256": "5fea0fead374a2e8a9f89c2e4cfdc36becf56da5871c9df76e64cfb3ccc58e3a",
+      "bytes": 11846
+    },
+    {
+      "path": "cylinder_scheduling/no_latency_seed42/head.mp4",
+      "sha256": "d18be9bd844333b55661effa46c4e63c4f4845bd4e5e548a27a9265e7b6a025c",
+      "bytes": 74482
+    },
+    {
+      "path": "cylinder_scheduling/no_latency_seed42/metadata.json",
+      "sha256": "f5149d844f0906ddd72b1e7275aa24ed9b6d0686b8e3460e02d8bb89fc0eff0f",
+      "bytes": 15128
+    },
+    {
+      "path": "cylinder_scheduling/no_latency_seed42/trace.jsonl",
+      "sha256": "d09d1a8c4b53a0412328cbbfbb25195a88312709272dadfa5e09e12a3fa86b52",
+      "bytes": 49401
+    },
+    {
+      "path": "cylinder_scheduling/no_latency_seed42/trajectory.npz",
+      "sha256": "45a171bcbd36b5e4ec3fa6eac36806e2ed23a7ea334bc6fb42a0e714f7e89cbd",
+      "bytes": 45333141
+    },
+    {
+      "path": "cylinder_scheduling/rtc_seed42/head.mp4",
+      "sha256": "0918d9e7ed40509828e6d27250c59992e655103fff7298ab2e6afdd4addfa0f1",
+      "bytes": 60721
+    },
+    {
+      "path": "cylinder_scheduling/rtc_seed42/metadata.json",
+      "sha256": "03586a3d88615237bad9c2048828c86386f2e1cc7674eecf4d97e8cf95824414",
+      "bytes": 16308
+    },
+    {
+      "path": "cylinder_scheduling/rtc_seed42/trace.jsonl",
+      "sha256": "0f1ec390b3476491e0abc40e827424b539015104e228f861e8275509f48a9a62",
+      "bytes": 48681
+    },
+    {
+      "path": "cylinder_scheduling/rtc_seed42/trajectory.npz",
+      "sha256": "0eed8f718261463cd3dcf93f8e68320d3b0e012bccdb48a544c2b693b1db2782",
+      "bytes": 48148175
+    },
+    {
+      "path": "cylinder_scheduling/sync_hold_seed42/head.mp4",
+      "sha256": "7365e38e25a380b18c3f65eb5f492c07ea0466aee49876aa2fd219c927651dc1",
+      "bytes": 71184
+    },
+    {
+      "path": "cylinder_scheduling/sync_hold_seed42/metadata.json",
+      "sha256": "cf72fd215487e9c0a54602a0ebb49401d9ad05c22335bb0f10fd8595c67ed1f5",
+      "bytes": 15358
+    },
+    {
+      "path": "cylinder_scheduling/sync_hold_seed42/trace.jsonl",
+      "sha256": "780eba6c93017e61b1f33eae67ee080d55ed57ae9ecbedc152001bacb0f4c490",
+      "bytes": 60970
+    },
+    {
+      "path": "cylinder_scheduling/sync_hold_seed42/trajectory.npz",
+      "sha256": "54e4462716ec56b13528856519211e0b0e38ea65f74033f3be1cbe90336f6f9a",
+      "bytes": 59268773
+    }
+  ]
+}

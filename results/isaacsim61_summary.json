@@ -1,0 +1,62 @@
+{
+  "status": "PASS",
+  "task": "pick_cube_from_conveyor",
+  "runtime_source_commit": "b238ca5aabcbfaff08aa3f1cbc4ff7add37a71be",
+  "isaacsim": "6.1.0.0",
+  "isaaclab_release": "v3.0.0-EA",
+  "isaaclab_source_commit": "ae37b028ea415c91ea2bc32609efcd759ed2b974",
+  "python": "3.12.15",
+  "physics_backend": "CPU PhysX",
+  "physics_hz": 300,
+  "control_hz": 30,
+  "render_gpu": 1,
+  "original_usd_cases_passed": 10,
+  "moving_attempts": 3,
+  "moving_successes": 3,
+  "moving_seeds": [
+    42,
+    43,
+    44
+  ],
+  "moving_ticks": [
+    82,
+    81,
+    81
+  ],
+  "moving_eef_contact_xy_peak_mm": [
+    0.3421207358775028,
+    0.3528935104148385,
+    0.3486284622291657
+  ],
+  "moving_cube_contact_xy_peak_mm": [
+    7.731722667813301,
+    7.695754058659077,
+    7.881350815296173
+  ],
+  "command_contact_xy_peak_m": 0,
+  "reset_head_image_audit_passed": 10,
+  "reset_audit_scope": "cross-episode stale-frame detection at the unoccluded reset pose, not sub-tick freshness",
+  "reset_image_centroid_error_range_px": [
+    1.9568842574905714,
+    5.276653604695727
+  ],
+  "strict_readback_passed": 10,
+  "head_video_frame_counts_passed": 10,
+  "accepted_dataset_export_episodes": 3,
+  "dataset_export_origin": "moving episodes from the same acceptance suite; no extra collection attempts",
+  "dataset_zip_crc": "PASS",
+  "primitive_grasp_ticks": 82,
+  "rollback51_grasp_ticks": 82,
+  "rollback51_render_gpu": 2,
+  "local_and_server_unit_tests": 40,
+  "driver_unchanged": "580.95.05",
+  "server_acceptance_path": "/home/ubuntu/Workspace/dynamicbench/outputs/isaacsim61_acceptance02",
+  "limitations": [
+    "three deterministic seeds only",
+    "mock latency policy, no real model inference",
+    "no physical robot",
+    "no 0.06 m/s grasp",
+    "upstream tasks outside the conveyor adapter untested",
+    "one early native PhysX initialization crash did not recur; root cause unproven"
+  ]
+}
