@@ -14,7 +14,8 @@ layout:
   head_camera: cam_head
 # Original X5 asset; world frame, +x on link6 points towards finger tips.
 robot:
-  # URDF IK seed places the pinch TCP near [-.25,-.12,.95], facing down.
+  # Compact profile only: URDF IK seed near [-.25,-.12,.95], facing down.
+  # The official profile reads X5 joint defaults from its upstream asset config.
   initial_q: [-0.1488804, 1.8515, 1.9196, -1.6389, 0, -0.1488715]
   max_joint_velocity: 2.0
   gripper_effort: 15.0

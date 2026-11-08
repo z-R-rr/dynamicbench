@@ -5,6 +5,9 @@ and `belt.source: robodojo`. `run_mvp`, `collect_expert`, and `evaluate_policy`
 all use the same resolver. The render-only audit is no longer the sole path
 that restores the original conveyor placement.
 
+The independent X5 grasp and four-mode scheduling acceptance is recorded in
+[production_layout_validation_20261108.md](production_layout_validation_20261108.md).
+
 The resolver reads the original saved layout
 `Assets/Eval_Layout/RoboDojo/arx_x5/0/pick_from_conveyor_by_image_0.json`.
 It uses that asset index, scale, position and orientation without fitting the

@@ -1,5 +1,9 @@
 # 图1与 RoboDojo 官方传送带画面的差异排查（2026-10-28）
 
+本文保留 2026-10-28 的历史诊断。官方布局现已接入生产入口；实现说明见
+[production_layout.md](production_layout.md)，新场景的独立验证见
+[production_layout_validation_20261108.md](production_layout_validation_20261108.md)。
+
 结论：**机械臂底座和主相机配置复用了官方配置；传送带布局和机械臂关节姿态没有保持一致。**
 此前“复用 RoboDojo 位置”的说法范围过宽：复用资产文件、底座与相机配置，不等于复现整个官方场景。
 当前 `_spawn_original_belt()` 会缩小并重新放置原装 USD，这是画面差异的主要原因。
