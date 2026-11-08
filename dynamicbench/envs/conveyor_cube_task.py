@@ -252,6 +252,17 @@ class ConveyorCubeTask(BaseEnv):
         self.asset_audit["render"] = audit_render_settings(settings["render"])
         if not self.asset_audit["render"]["passed"]:
             raise RuntimeError("Official_render_quality_settings_mismatch")
+        self.asset_audit["layout"] = dict(
+            profile=settings.get("layout", {}).get("profile", "compact"),
+            active_robot_count=1,
+            passive_robot_count=len(self.passive_robots),
+            robot_base=rc["base_position"],
+            configured_arm_q=rc["initial_q"],
+            measured_initial_arm_q=tensor(self.robot.data.joint_pos)[0, self.arm_ids].numpy().tolist(),
+            head_position=settings["camera"]["head_position"],
+            head_quaternion_wxyz=settings["camera"]["head_quaternion_wxyz"],
+            ground_visibility=UsdGeom.Imageable(self.stage.GetPrimAtPath("/World/Ground")).ComputeVisibility(),
+        )
 
     @property
     def physics_step(self):
@@ -371,6 +382,9 @@ class ConveyorCubeTask(BaseEnv):
             belt_bounds_min=list(box.GetMin()),
             belt_bounds_max=list(box.GetMax()),
             success_reference_height=self.belt_top,
+            root_world_transform=[
+                list(row) for row in UsdGeom.Xformable(root).ComputeLocalToWorldTransform(Usd.TimeCode.Default())
+            ],
             authored_surface_z=surface_z,
             motion="per-physics-step PhysxSurfaceVelocityAPI; source graph disabled",
         )
