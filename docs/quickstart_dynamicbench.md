@@ -1,5 +1,8 @@
 # DynamicBench first-stage reproduction
 
+For the current code baseline, file responsibilities and interfaces, see the
+[current version index](current_version.md).
+
 For the new evaluation protocol use [LIBERO scheduling](libero_scheduling.md).
 For `--embodiment piper|franka`, see [embodiment adapters](embodiments.md).
 The commands below preserve the original MVP and expert-collection behavior.
