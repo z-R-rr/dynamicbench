@@ -143,6 +143,16 @@ def articulation_config(rc, root):
         )
     )
     rc["usd_path"] = converted.usd_path
+    from pxr import Usd, UsdPhysics
+
+    stage = Usd.Stage.Open(converted.usd_path)
+    root_path = stage.GetDefaultPrim().GetPath()
+    rc["body_prim_paths"] = {}
+    for link in [rc["eef_link"], *rc["finger_links"]]:
+        matches = [p for p in stage.Traverse() if p.GetName() == link and p.HasAPI(UsdPhysics.RigidBodyAPI)]
+        if len(matches) != 1:
+            raise ValueError(f"Piper USD must contain exactly one rigid body for {link}")
+        rc["body_prim_paths"][link] = str(matches[0].GetPath().MakeRelativePath(root_path))
     return ArticulationCfg(
         spawn=sim_utils.UsdFileCfg(
             usd_path=converted.usd_path,
@@ -152,7 +162,9 @@ def articulation_config(rc, root):
                 enabled_self_collisions=True,
                 solver_position_iteration_count=8,
                 solver_velocity_iteration_count=0,
-                fix_root_link=True,
+                # Native URDF importer already authored a world fixed joint.
+                # Re-fixing relocates a referenced Newton root in Lab 3 and fails.
+                fix_root_link=None,
             ),
         ),
         init_state=ArticulationCfg.InitialStateCfg(

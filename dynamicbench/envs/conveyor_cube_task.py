@@ -174,13 +174,15 @@ class ConveyorCubeTask(BaseEnv):
             ),
         )
         scene.finger_left = ContactSensorCfg(
-            prim_path="{ENV_REGEX_NS}/robot0/" + rc["finger_links"][0],
+            prim_path="{ENV_REGEX_NS}/robot0/"
+            + rc.get("body_prim_paths", {}).get(rc["finger_links"][0], rc["finger_links"][0]),
             update_period=0,
             history_length=1,
             filter_prim_paths_expr=[CUBE_PRIM_PATH],
         )
         scene.finger_right = ContactSensorCfg(
-            prim_path="{ENV_REGEX_NS}/robot0/" + rc["finger_links"][1],
+            prim_path="{ENV_REGEX_NS}/robot0/"
+            + rc.get("body_prim_paths", {}).get(rc["finger_links"][1], rc["finger_links"][1]),
             update_period=0,
             history_length=1,
             filter_prim_paths_expr=[CUBE_PRIM_PATH],
@@ -188,7 +190,9 @@ class ConveyorCubeTask(BaseEnv):
         wrist = cam["wrist"]
         wrist_lens = wrist["lens"]
         scene.wrist = CameraCfg(
-            prim_path="{ENV_REGEX_NS}/robot0/" + wrist["mount_link"] + "/DynamicBenchWrist",
+            prim_path="{ENV_REGEX_NS}/robot0/"
+            + rc.get("body_prim_paths", {}).get(wrist["mount_link"], wrist["mount_link"])
+            + "/DynamicBenchWrist",
             update_period=0,
             height=wrist_lens["resolution"][1],
             width=wrist_lens["resolution"][0],
