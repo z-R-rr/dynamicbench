@@ -1,5 +1,9 @@
 # Conveyor scheduling and embodiment validation — 2026-11-08
 
+Historical layout: the Piper/Franka runs in this report used the earlier
+side/end placement. The front installation and its separate physical validation
+are documented in [front_layout_20261108.md](front_layout_20261108.md).
+
 The independent evaluator now follows pinned LIBERO-Dynamic queue/time
 semantics on the existing physical conveyor task. Piper and Franka adapters
 were added alongside the original X5. No upstream RoboDojo environment,

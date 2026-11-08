@@ -31,7 +31,9 @@ the source config. This reuses the X5 installation slot; it is not an official
 Piper/Franka conveyor configuration.
 
 Pregrasp joints are solved deterministically from each URDF using the inherited
-root rotation. The grasp orientation also rotates with that mounting frame.
+root rotation, after the selected production conveyor geometry is resolved.
+Changing compact-only dimensions cannot alter the official-profile pregrasp.
+The grasp orientation also rotates with that mounting frame.
 Franka approaches vertically. Piper retains its 30-degree inclined approach
 because of its joint5 limit; the jaw yaw avoids the joint6 wrap seam.
 

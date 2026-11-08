@@ -33,9 +33,11 @@ Room collision properties remain source-authored.
 This remains the single-cube grasp task. The original image-identification
 task's basket, photo board and extra target objects are not introduced. During
 execution robot joints naturally differ from any arbitrary official video frame.
-Piper/Franka retain their task-specific base and pregrasp adaptation; the
-conveyor and scene resolver is shared, but X5 home/second-arm restoration applies
+Piper/Franka inherit the same front base pose as the active X5. Their pregrasp
+IK uses their own URDF and is prepared after production geometry is resolved.
+The conveyor and scene resolver is shared; X5 home/second-arm restoration applies
 only to X5. Their earlier compact-layout success is not official-layout evidence.
+See [front installation validation](../results/front_layout_20261108.md).
 
 Historical compact experiments remain reproducible through an explicit flag:
 
