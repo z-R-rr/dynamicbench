@@ -21,6 +21,10 @@ def parser(collect=False, compare_lift=False, evaluation=False):
         "--render-gpu", type=int, default=None, help="physical Vulkan GPU index when CUDA indices are remapped"
     )
     p.add_argument("--seed", type=int, default=42)
+    p.add_argument("--embodiment", choices=["x5", "piper", "franka"], default="x5")
+    p.add_argument(
+        "--piper-asset-root", type=Path, help="RoboTwin Piper directory containing config.yml and piper.urdf"
+    )
     p.add_argument("--ticks", type=int, default=600)
     p.add_argument("--output", type=Path, default=ROOT / ("datasets/conveyor_cube_v0" if collect else "outputs/mvp"))
     p.add_argument("--config", type=Path, default=ROOT / "dynamicbench/configs/pick_cube_from_conveyor.yaml")
@@ -118,9 +122,9 @@ def load_settings(args):
         from dynamicbench.layout import resolve_robodojo_layout
 
         settings = resolve_robodojo_layout(settings, ROOT)
-        from dynamicbench.robot_sources import resolve_robot_asset_config
+        from dynamicbench.embodiments import resolve_embodiment
 
-        settings = resolve_robot_asset_config(settings, ROOT)
+        settings = resolve_embodiment(settings, ROOT, args.embodiment, args.piper_asset_root)
     from dynamicbench.rendering import resolve_render_settings
 
     settings["render"] = resolve_render_settings(ROOT)

@@ -12,24 +12,46 @@ from scipy.spatial.transform import Rotation
 
 
 class URDFArmIK:
-    def __init__(self, path, base_position, base_rotation, joint_names):
+    def __init__(self, path, base_position, base_rotation, joint_names, end_link=None):
         root = ET.parse(path).getroot()
         self.base = np.eye(4)
         self.base[:3, :3] = base_rotation
         self.base[:3, 3] = base_position
         self.joints = []
         self.lower, self.upper = [], []
-        for name in joint_names:
-            j = root.find(f"joint[@name='{name}']")
-            if j is None or j.attrib["type"] != "revolute":
+        self.chain = []
+        if end_link is None:
+            chain = [root.find(f"joint[@name='{name}']") for name in joint_names]
+        else:
+            parents = {j.find("child").attrib["link"]: j for j in root.findall("joint")}
+            chain, link, seen = [], end_link, set()
+            while link in parents:
+                if link in seen:
+                    raise ValueError("cyclic URDF chain")
+                seen.add(link)
+                joint = parents[link]
+                chain.insert(0, joint)
+                link = joint.find("parent").attrib["link"]
+            moving = [j.attrib["name"] for j in chain if j.attrib["type"] != "fixed"]
+            if moving != list(joint_names):
+                raise ValueError(f"URDF chain does not match configured arm joints: {moving}")
+        for j in chain:
+            if j is None:
+                raise ValueError("missing URDF joint")
+            name = j.attrib["name"]
+            if j.attrib["type"] not in {"revolute", "fixed"}:
                 raise ValueError(f"unsupported/missing joint: {name}")
             origin = j.find("origin")
             m = np.eye(4)
-            m[:3, 3] = np.fromstring(origin.attrib.get("xyz", "0 0 0"), sep=" ")
-            m[:3, :3] = Rotation.from_euler(
-                "xyz", np.fromstring(origin.attrib.get("rpy", "0 0 0"), sep=" ")
-            ).as_matrix()
+            attrs = {} if origin is None else origin.attrib
+            m[:3, 3] = np.fromstring(attrs.get("xyz", "0 0 0"), sep=" ")
+            m[:3, :3] = Rotation.from_euler("xyz", np.fromstring(attrs.get("rpy", "0 0 0"), sep=" ")).as_matrix()
+            if j.attrib["type"] == "fixed":
+                self.chain.append((m, None, None))
+                continue
             axis = np.fromstring(j.find("axis").attrib["xyz"], sep=" ")
+            axis = axis / np.linalg.norm(axis)
+            self.chain.append((m, axis, len(self.joints)))
             self.joints.append((m, axis))
             self.lower.append(float(j.find("limit").attrib["lower"]))
             self.upper.append(float(j.find("limit").attrib["upper"]))
@@ -37,9 +59,12 @@ class URDFArmIK:
 
     def fk(self, q):
         m = self.base.copy()
-        for (origin, axis), angle in zip(self.joints, q, strict=True):
+        if len(q) != len(self.joints):
+            raise ValueError("IK joint dimension mismatch")
+        for origin, axis, index in self.chain:
             rot = np.eye(4)
-            rot[:3, :3] = Rotation.from_rotvec(axis * angle).as_matrix()
+            if index is not None:
+                rot[:3, :3] = Rotation.from_rotvec(axis * q[index]).as_matrix()
             m = m @ origin @ rot
         return m
 

@@ -104,7 +104,8 @@ def export_video(arrays, path, camera="head"):
     with imageio.get_writer(str(path), fps=30, codec="libx264", macro_block_size=1) as writer:
         # Resample explicit physical timestamps; sync waits are not extra actions.
         times = arrays["timestamp.sim"]
-        indices = np.searchsorted(times, np.arange(int(np.ceil(times[-1] * 30)) + 1) / 30, side="right") - 1
+        sample_times = np.arange(int(np.ceil(times[-1] * 30 - 1e-10)) + 1) / 30
+        indices = np.searchsorted(times, sample_times + 1e-12, side="right") - 1
         indices = np.clip(indices, 0, len(times) - 1)
         for i in indices:
             writer.append_data(arrays[f"observation.images.{camera}"][i])

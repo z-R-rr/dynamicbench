@@ -141,6 +141,7 @@ def metadata(env, metrics, commit):
         success_height=cfg["success_height"],
         success_hold_ticks=cfg["success_hold_ticks"],
         gripper_convention="-1 closed +1 open; measured joint7/8",
-        frame="right_handed_world_link6",
+        frame="right_handed_world_" + env.settings["robot"]["eef_link"],
+        embodiment=env.settings["robot"].get("embodiment", "x5"),
         rotation_6d="first_two_columns_concatenated",
     )

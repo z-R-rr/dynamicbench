@@ -12,8 +12,8 @@ from omegaconf import OmegaConf
 from pxr import Gf, PhysxSchema, Usd, UsdGeom, UsdPhysics
 import torch
 
+from dynamicbench.embodiments import articulation_config
 from env.camera_manager.capture.render_sync import wait_for_latest_cameras
-from env.robot_manager.robot_config.x5 import get_robot_config
 
 from .kinematics import URDFArmIK
 from .physics_clock import integral_ratio
@@ -38,9 +38,13 @@ else:
 ROOT = Path(__file__).resolve().parents[2]
 
 
-def audit_assets(asset_root):
+def audit_assets(asset_root, robot=None):
     root = Path(asset_root)
-    required = [root / "Robots/x5/ARX.usd", root / "Robots/x5/X5A.urdf"]
+    required = (
+        [Path(robot["urdf_path"])] + ([Path(robot["usd_path"])] if robot.get("usd_path") else [])
+        if robot
+        else [root / "Robots/x5/ARX.usd", root / "Robots/x5/X5A.urdf"]
+    )
     for path in required:
         if not path.is_file():
             raise FileNotFoundError(f"asset_missing:{path}; run bash scripts/init_assets.sh")
@@ -76,7 +80,7 @@ class ConveyorCubeTask(BaseEnv):
         if self.speed not in (0.0, 0.03, 0.06):
             raise ValueError("MVP only accepts nonnegative speed 0, .03, .06; see report for validated values")
         integral_ratio(1 / settings["physics_hz"], settings["control_hz"])
-        self.asset_audit = audit_assets(ROOT / "Assets")
+        self.asset_audit = audit_assets(ROOT / "Assets", settings["robot"])
         cfg = OmegaConf.create(
             dict(
                 dt=1 / 300,
@@ -92,9 +96,9 @@ class ConveyorCubeTask(BaseEnv):
         )
         scene = InteractiveSceneCfg(num_envs=1, env_spacing=7, replicate_physics=False)
         rc = settings["robot"]
-        robot_cfg = get_robot_config()
+        robot_cfg = articulation_config(rc, ROOT)
         robot_cfg.spawn.activate_contact_sensors = True
-        robot_cfg.actuators["gripper"].effort_limit_sim = rc["gripper_effort"]
+        robot_cfg.actuators[rc.get("gripper_actuator", "gripper")].effort_limit_sim = rc["gripper_effort"]
         robot_cfg.init_state.pos = tuple(rc["base_position"])
         robot_cfg.init_state.rot = lab_quaternion(rc["base_quaternion_wxyz"])
         for name, q in zip(rc["arm_joint_names"], rc["initial_q"], strict=True):
@@ -165,13 +169,13 @@ class ConveyorCubeTask(BaseEnv):
             ),
         )
         scene.finger_left = ContactSensorCfg(
-            prim_path="{ENV_REGEX_NS}/robot0/link7",
+            prim_path="{ENV_REGEX_NS}/robot0/" + rc["finger_links"][0],
             update_period=0,
             history_length=1,
             filter_prim_paths_expr=[CUBE_PRIM_PATH],
         )
         scene.finger_right = ContactSensorCfg(
-            prim_path="{ENV_REGEX_NS}/robot0/link8",
+            prim_path="{ENV_REGEX_NS}/robot0/" + rc["finger_links"][1],
             update_period=0,
             history_length=1,
             filter_prim_paths_expr=[CUBE_PRIM_PATH],
@@ -219,6 +223,7 @@ class ConveyorCubeTask(BaseEnv):
             rc["base_position"],
             quat_wxyz_matrix(rc["base_quaternion_wxyz"]),
             self.arm_names,
+            end_link=rc["eef_link"],
         )
         self.target = tensor(self.robot.data.default_joint_pos)[0].numpy().copy()
         self.contact_sensors = [self.sim.scene["finger_left"], self.sim.scene["finger_right"]]

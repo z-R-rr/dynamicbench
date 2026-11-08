@@ -12,7 +12,9 @@ class ConveyorCubeExpert:
         self.belt_top = belt_top
         self.phase = "observe_motion"
         self.phase_tick = 0
-        self.rotation = np.column_stack([[0, 0, -1], [-1, 0, 0], [0, 1, 0]])
+        self.rotation = np.asarray(
+            settings["robot"].get("grasp_rotation_world", np.column_stack([[0, 0, -1], [-1, 0, 0], [0, 1, 0]]))
+        )
         self.offset = np.asarray(settings["robot"]["tcp_offset_link6"])
         self.grasp_xy = None
         self.lift_xy_mode = self.cfg.get("lift_xy_mode", "track_cube")
@@ -45,9 +47,7 @@ class ConveyorCubeExpert:
             if self.bilateral_ticks >= self.cfg.get("stable_contact_ticks", 3):
                 cube = dbg["cube_pose"][:3]
                 self.grasp_xy = cube[:2].copy()
-                self.lift_goal_z = self.contact_anchor[2] + max(
-                    0.0, self.belt_top + self.cfg["lift_height"] - cube[2]
-                )
+                self.lift_goal_z = self.contact_anchor[2] + max(0.0, self.belt_top + self.cfg["lift_height"] - cube[2])
                 self.change("lift")
             elif self.phase_tick >= self.cfg.get("contact_timeout_ticks", 30):
                 self.failure = "no_stable_bilateral_grasp"
@@ -55,9 +55,7 @@ class ConveyorCubeExpert:
             self.contact_loss_ticks = 0 if bilateral else self.contact_loss_ticks + 1
             if self.contact_loss_ticks >= self.cfg.get("stable_contact_ticks", 3):
                 self.failure = "lost_bilateral_grasp"
-            self.contact_command_z = min(
-                self.lift_goal_z, self.contact_command_z + self.cfg["max_tcp_speed"] / 30
-            )
+            self.contact_command_z = min(self.lift_goal_z, self.contact_command_z + self.cfg["max_tcp_speed"] / 30)
         command = self.contact_anchor.copy()
         command[2] = self.contact_command_z
         return encode_eef10(command, self.contact_rotation, -1.0)
