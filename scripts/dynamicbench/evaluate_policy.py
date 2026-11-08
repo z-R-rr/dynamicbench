@@ -32,9 +32,10 @@ def main():
             from dynamicbench.runtime.policy_contract import CheckedPolicy
 
             config = json.loads(args.policy_config.read_text())
+            CheckedPolicy.validate_config(config, embodiment=args.embodiment)
             module, name = args.policy_factory.split(":")
             factory = getattr(importlib.import_module(module), name)
-            policy = CheckedPolicy(factory(config), config)
+            policy = CheckedPolicy(factory(config), config, embodiment=args.embodiment)
         else:
             policy = MockChunkPolicy()
         samples = json.loads(args.latency_samples.read_text()) if args.latency_samples else None

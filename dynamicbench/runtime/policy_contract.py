@@ -8,10 +8,30 @@ import numpy as np
 
 
 class CheckedPolicy:
-    def __init__(self, policy, config):
+    def __init__(self, policy, config, *, embodiment="x5"):
+        self.validate_config(config, embodiment=embodiment)
+        if not callable(getattr(policy, "predict", None)):
+            raise ValueError("policy must expose predict(observation, request_tick, horizon)")
+        self.policy, self.provenance = policy, dict(config)
+        self.supports_rtc_conditioning = bool(getattr(policy, "supports_rtc_conditioning", False))
+        if self.supports_rtc_conditioning and not callable(getattr(policy, "predict_rtc", None)):
+            raise ValueError("RTC capability requires predict_rtc")
+        # This flag describes a declared model adapter, not validated task success.
+        self.is_real_model = True
+
+    @staticmethod
+    def validate_config(config, *, embodiment="x5"):
+        names = {
+            "x5": ("arx_x5", "world_link6"),
+            "piper": ("piper", "world_link6"),
+            "franka": ("franka_panda", "world_panda_hand"),
+        }
+        if embodiment not in names:
+            raise ValueError("unknown policy embodiment")
+        robot, frame = names[embodiment]
         required = dict(
-            robot="arx_x5",
-            action_frame="world_link6",
+            robot=robot,
+            action_frame=frame,
             action_representation="absolute_eef10",
             rotation_6d="first_two_columns_concatenated",
             gripper="minus1_closed_plus1_open",
@@ -26,14 +46,6 @@ class CheckedPolicy:
         digest = config["checkpoint_sha256"]
         if len(digest) != 64 or any(c not in "0123456789abcdef" for c in digest):
             raise ValueError("checkpoint_sha256 must be a full lowercase SHA-256")
-        if not callable(getattr(policy, "predict", None)):
-            raise ValueError("policy must expose predict(observation, request_tick, horizon)")
-        self.policy, self.provenance = policy, dict(config)
-        self.supports_rtc_conditioning = bool(getattr(policy, "supports_rtc_conditioning", False))
-        if self.supports_rtc_conditioning and not callable(getattr(policy, "predict_rtc", None)):
-            raise ValueError("RTC capability requires predict_rtc")
-        # This flag describes a declared model adapter, not validated task success.
-        self.is_real_model = True
 
     def predict(self, observation, request_tick, horizon):
         return np.asarray(self.policy.predict(observation, request_tick, horizon))
