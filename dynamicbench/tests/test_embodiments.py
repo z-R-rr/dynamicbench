@@ -4,6 +4,64 @@ import pytest
 from dynamicbench.envs.kinematics import URDFArmIK
 
 
+@pytest.mark.parametrize("name", ["franka", "piper"])
+def test_new_embodiments_inherit_installation_without_moving_scene(tmp_path, monkeypatch, name):
+    import copy
+
+    import yaml
+
+    from dynamicbench.embodiments import resolve_embodiment
+    from dynamicbench.envs.poses import quat_wxyz_matrix
+
+    directory = tmp_path / ("Assets/Robots/franka" if name == "franka" else "piper")
+    directory.mkdir(parents=True)
+    source = dict(
+        urdf_path="robot.urdf", gripper_bias=0.12, gripper_scale=[-0.01, 0.04], delta_matrix=np.eye(3).tolist()
+    )
+    if name == "franka":
+        source.update(arm_joints_name=["a"], gripper_joints_name=["g1", "g2"], ee_link="tool")
+    else:
+        source.update(
+            arm_joints_name=[["a"]], gripper_name=[dict(base="g1", mimic=[["g2", 1.0, 0.0]])], move_group=["tool"]
+        )
+    (directory / ("robot_config.yml" if name == "franka" else "config.yml")).write_text(yaml.safe_dump(source))
+    (directory / "robot.urdf").write_text("""<robot name="fixture">
+      <joint name="g1" type="prismatic"><child link="f1"/><limit lower="0" upper="0.04"/></joint>
+      <joint name="g2" type="prismatic"><child link="f2"/><limit lower="0" upper="0.04"/></joint></robot>""")
+    settings = dict(
+        robot=dict(
+            base_position=[-0.3, -0.45, 0.765], base_quaternion_wxyz=[2**-0.5, 0, 0, 2**-0.5], gripper_effort=15
+        ),
+        layout=dict(robot_config="official_front.yml", source_sha256={}),
+        belt=dict(center=[-0.12, -0.02, 0.725], size=[0.7, 0.28, 0.08]),
+        cube=dict(initial_xy=[-0.25, -0.02]),
+        camera=dict(head_position=[1, 2, 3], head_lens={"f": 13}),
+    )
+    before = copy.deepcopy(settings)
+    seen = {}
+
+    class IK:
+        lower, upper = np.array([-1.0]), np.array([1.0])
+
+        def __init__(self, path, position, rotation, joints, end_link):
+            seen.update(position=position, rotation=rotation)
+
+        def solve(self, position, rotation, seed):
+            return np.zeros(1)
+
+    monkeypatch.setattr("dynamicbench.embodiments.URDFArmIK", IK)
+    result = resolve_embodiment(settings, tmp_path, name, directory)
+    assert settings == before
+    assert result["robot"]["base_position"] == before["robot"]["base_position"] == seen["position"]
+    assert result["robot"]["base_quaternion_wxyz"] == before["robot"]["base_quaternion_wxyz"]
+    np.testing.assert_allclose(seen["rotation"], quat_wxyz_matrix(before["robot"]["base_quaternion_wxyz"]))
+    assert result["belt"] == before["belt"] and result["cube"] == before["cube"]
+    for key, value in before["camera"].items():
+        assert result["camera"][key] == value
+    assert result["camera"]["wrist"]["position"] == [0.05, 0, 0.025]
+    assert result["camera"]["wrist"]["quaternion_wxyz"] == [0, 1, 0, 0]
+
+
 def test_fixed_tool_chain_is_included_in_fk_and_ik(tmp_path):
     path = tmp_path / "arm.urdf"
     path.write_text("""<robot name="test"><link name="base"/><link name="arm"/><link name="tool"/>

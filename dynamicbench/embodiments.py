@@ -10,6 +10,7 @@ from scipy.spatial.transform import Rotation
 import yaml
 
 from dynamicbench.envs.kinematics import URDFArmIK
+from dynamicbench.envs.poses import quat_wxyz_matrix
 from dynamicbench.robot_sources import resolve_robot_asset_config
 
 
@@ -25,6 +26,9 @@ def resolve_embodiment(settings, root, name="x5", piper_asset_root=None):
     from env_cfg.camera.template import D435
 
     result = copy.deepcopy(settings)
+    # The layout resolver owns the installation pose for all embodiments.
+    # Keep the same front mounting slot instead of moving new robots to the end.
+    base_rotation = quat_wxyz_matrix(result["robot"]["base_quaternion_wxyz"])
     directory = (
         root / "Assets/Robots/franka"
         if name == "franka"
@@ -60,6 +64,7 @@ def resolve_embodiment(settings, root, name="x5", piper_asset_root=None):
         # The source Piper wrist has a +/-1.22 rad joint5 limit. An angled
         # approach stays inside it; the symmetric jaw yaw avoids the joint6 seam.
         rotation = Rotation.from_euler("y", -30, degrees=True).as_matrix() @ rotation @ np.diag([-1.0, -1.0, 1.0])
+    rotation = base_rotation @ rotation
     offset = [0.0, 0.0, float(source["gripper_bias"])]
     rc = result["robot"]
     rc.update(
@@ -76,8 +81,7 @@ def resolve_embodiment(settings, root, name="x5", piper_asset_root=None):
         gripper_range=[lo, hi],
         official_gripper_command_scale=source["gripper_scale"],
         official_delta_matrix=source["delta_matrix"],
-        base_position=[-0.65, -0.02, 0.765],
-        base_quaternion_wxyz=[1.0, 0.0, 0.0, 0.0],
+        installation_pose_source=result["layout"]["robot_config"],
         gripper_actuator="panda_hand" if name == "franka" else "gripper",
         grasp_rotation_world=rotation.tolist(),
         initial_pose_source="task pregrasp URDF IK",
@@ -86,9 +90,9 @@ def resolve_embodiment(settings, root, name="x5", piper_asset_root=None):
         asset_source="RoboDojo Franka" if name == "franka" else "RoboTwin Piper",
         gripper_effort=min(rc["gripper_effort"], 10.0) if name == "piper" else rc["gripper_effort"],
     )
-    # Preserve the task's belt/cube and head camera. Each adapter gets a reachable
-    # pregrasp pose, not the X5's joint values or base pose.
-    ik = URDFArmIK(urdf, rc["base_position"], np.eye(3), arm, end_link=eef)
+    # Preserve the belt/cube, head camera and shared base pose. Re-solve only
+    # embodiment-specific joints and the grasp orientation in the mounting frame.
+    ik = URDFArmIK(urdf, rc["base_position"], base_rotation, arm, end_link=eef)
     tcp = np.array(
         [result["cube"]["initial_xy"][0], -0.12, result["belt"]["center"][2] + result["belt"]["size"][2] / 2 + 0.185]
     )
