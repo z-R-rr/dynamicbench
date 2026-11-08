@@ -7,7 +7,7 @@ import subprocess
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def parser(collect=False, compare_lift=False):
+def parser(collect=False, compare_lift=False, evaluation=False):
     p = argparse.ArgumentParser()
     p.add_argument("--task", default="pick_cube_from_conveyor", choices=["pick_cube_from_conveyor"])
     p.add_argument("--belt-speed", type=float, default=0.03)
@@ -27,6 +27,17 @@ def parser(collect=False, compare_lift=False):
     p.add_argument("--latency-mode", choices=["no_latency", "sync_hold", "rtc_async"], default="no_latency")
     p.add_argument("--latency", type=float, default=0.25)
     p.add_argument("--no-video", action="store_true")
+    if evaluation:
+        p.add_argument("--validate-scheduling", action="store_true", help="run four mock modes on identical resets")
+        p.add_argument(
+            "--execution-mode", choices=["no_latency", "sync_hold", "async_queue", "rtc"], default="async_queue"
+        )
+        p.add_argument("--horizon", type=int, default=32)
+        p.add_argument("--prefetch-threshold", type=int, default=16)
+        p.add_argument("--latency-source", choices=["fixed", "empirical", "measured_wallclock"], default="fixed")
+        p.add_argument("--latency-samples", type=Path)
+        p.add_argument("--policy-factory", help="importable module:function taking the policy JSON config")
+        p.add_argument("--policy-config", type=Path)
     if collect:
         p.add_argument("--num-success", type=int, default=3)
         p.add_argument("--max-attempts", type=int, default=10)

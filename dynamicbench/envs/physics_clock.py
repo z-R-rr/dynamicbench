@@ -37,3 +37,14 @@ class PhysicsClock:
 
     def stamp(self):
         return dict(sim_time=self.sim_time, physics_step=self.physics_step, control_tick=self.control_tick)
+
+
+@dataclass
+class EvaluationClock(PhysicsClock):
+    """Transition index is independent of physical time during synchronous waits."""
+
+    transition_index: int = 0
+
+    @property
+    def control_tick(self):
+        return self.transition_index

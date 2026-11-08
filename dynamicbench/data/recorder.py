@@ -74,7 +74,7 @@ class EpisodeRecorder:
         metadata = jsonable(
             {
                 **metadata,
-                "schema_version": "dynamicbench.eef10.columns.v1",
+                "schema_version": metadata.get("schema_version", "dynamicbench.eef10.columns.v1"),
                 "wrist_status": "available" if "observation.images.wrist" in arrays else "not_available",
                 "control_hz": 30,
                 "physics_hz": 300,

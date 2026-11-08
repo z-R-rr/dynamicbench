@@ -49,9 +49,20 @@ def validate(arrays, metadata):
             raise ValueError(f"invalid RGB:{name}")
     if not np.array_equal(arrays["control_tick"], np.arange(n + 1)):
         raise ValueError("nonsequential ticks")
-    if not np.array_equal(arrays["physics_step"], np.arange(n + 1) * 10):
-        raise ValueError("physical step alignment mismatch")
-    if not np.allclose(arrays["timestamp.sim"], np.arange(n + 1) / 30, rtol=0, atol=1e-12):
+    schema = metadata.get("schema_version", "dynamicbench.eef10.columns.v1")
+    if schema == "dynamicbench.eef10.eval.v2":
+        steps = arrays["physics_step"]
+        deltas = np.diff(steps)
+        if steps.dtype.kind not in "iu" or steps[0] != 0 or not np.all((deltas >= 1) & (deltas <= 10)):
+            raise ValueError("invalid evaluation physical intervals")
+        expected_time = steps / 300
+    elif schema == "dynamicbench.eef10.columns.v1":
+        if not np.array_equal(arrays["physics_step"], np.arange(n + 1) * 10):
+            raise ValueError("physical step alignment mismatch")
+        expected_time = np.arange(n + 1) / 30
+    else:
+        raise ValueError("unknown schema version")
+    if not np.allclose(arrays["timestamp.sim"], expected_time, rtol=0, atol=1e-12):
         raise ValueError("simulation timestamp mismatch")
     done = arrays["done"]
     if not (done[-1] and not done[:-1].any()):
@@ -74,7 +85,7 @@ def validate(arrays, metadata):
         actions=n,
         observations=n + 1,
         head_shape=list(arrays["observation.images.head"].shape),
-        duration=n / 30,
+        duration=float(arrays["timestamp.sim"][-1]),
         success=metadata["success"],
     )
 
@@ -91,5 +102,9 @@ def export_video(arrays, path, camera="head"):
     import imageio.v2 as imageio
 
     with imageio.get_writer(str(path), fps=30, codec="libx264", macro_block_size=1) as writer:
-        for image in arrays[f"observation.images.{camera}"]:
-            writer.append_data(image)
+        # Resample explicit physical timestamps; sync waits are not extra actions.
+        times = arrays["timestamp.sim"]
+        indices = np.searchsorted(times, np.arange(int(np.ceil(times[-1] * 30)) + 1) / 30, side="right") - 1
+        indices = np.clip(indices, 0, len(times) - 1)
+        for i in indices:
+            writer.append_data(arrays[f"observation.images.{camera}"][i])

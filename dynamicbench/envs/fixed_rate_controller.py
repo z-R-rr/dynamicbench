@@ -2,7 +2,7 @@
 
 import numpy as np
 
-from .physics_clock import PhysicsClock
+from .physics_clock import EvaluationClock, PhysicsClock
 from .poses import validate_eef10
 
 
@@ -13,9 +13,9 @@ class ControlFailure(RuntimeError):
 
 
 class FixedRateController:
-    def __init__(self, backend, max_ik_failures=5):
+    def __init__(self, backend, max_ik_failures=5, *, evaluation_timing=False):
         self.backend = backend
-        self.clock = PhysicsClock()
+        self.clock = EvaluationClock() if evaluation_timing else PhysicsClock()
         self.generation = backend.generation
         self.origin_step = backend.physics_step
         self.previous_q = np.asarray(backend.actual_joint_target()).copy()
@@ -47,8 +47,12 @@ class FixedRateController:
         if self.backend.physics_step != self.origin_step + self.clock.physics_step:
             raise RuntimeError("physics_clock_owner_violation")
 
-    def step(self, action, *, hold=False):
+    def step(self, action, *, hold=False, physics_steps=10):
         self._check()
+        if not isinstance(physics_steps, int) or not 1 <= physics_steps <= 10:
+            raise ValueError("invalid transition physics steps")
+        if physics_steps != 10 and (not hold or not isinstance(self.clock, EvaluationClock)):
+            raise ValueError("partial intervals require evaluation timing and joint hold")
         action = validate_eef10(action)
         before = self.observe()
         error = None
@@ -66,7 +70,7 @@ class FixedRateController:
                 self.failures = 0
         self.previous_action, self.previous_q = action.copy(), q.copy()
         try:
-            for _ in range(10):
+            for _ in range(physics_steps):
                 self.backend.set_joint_target(q)
                 self.backend.before_physics_step()
                 self.backend.sim_step()
@@ -75,6 +79,8 @@ class FixedRateController:
         except Exception:
             self.poisoned = True
             raise
+        if isinstance(self.clock, EvaluationClock):
+            self.clock.transition_index += 1
         self._observation = None
         after = self.observe()
         transition = dict(

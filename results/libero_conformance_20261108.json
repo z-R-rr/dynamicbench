@@ -1,0 +1,60 @@
+{
+  "reference_commit": "b66cb6b6c3a4b52932cb96ca6ee66ab5fe5c51f4",
+  "cases": [
+    {
+      "mode": "sync_hold",
+      "latency": 0,
+      "ticks": 120,
+      "passed": true
+    },
+    {
+      "mode": "sync_hold",
+      "latency": 0.25,
+      "ticks": 120,
+      "passed": true
+    },
+    {
+      "mode": "sync_hold",
+      "latency": 1.2,
+      "ticks": 120,
+      "passed": true
+    },
+    {
+      "mode": "async_queue",
+      "latency": 0,
+      "ticks": 120,
+      "passed": true
+    },
+    {
+      "mode": "async_queue",
+      "latency": 0.25,
+      "ticks": 120,
+      "passed": true
+    },
+    {
+      "mode": "async_queue",
+      "latency": 1.2,
+      "ticks": 120,
+      "passed": true
+    },
+    {
+      "mode": "rtc",
+      "latency": 0,
+      "ticks": 120,
+      "passed": true
+    },
+    {
+      "mode": "rtc",
+      "latency": 0.25,
+      "ticks": 120,
+      "passed": true
+    },
+    {
+      "mode": "rtc",
+      "latency": 1.2,
+      "ticks": 120,
+      "passed": true
+    }
+  ],
+  "passed": true
+}
