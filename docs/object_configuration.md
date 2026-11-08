@@ -157,8 +157,8 @@ checks, strict trajectory readback and video frame-count checks:
 The cylinder's four mock scheduler modes also passed: 64 actions; 640 physics
 steps and 0.063584 m displacement for no-latency/async/RTC; 790 steps and
 0.078517 m for sync, including two 75-step waits. This is not learned-policy
-or RTC-conditioned model validation. Other embodiments and arbitrary assets
-need their own grasp validation.
+or RTC-conditioned model validation. New object profiles on other embodiments
+and arbitrary assets need their own grasp validation.
 
 Local checks: 76 unit tests, Ruff and diff checks passed. Three old official
 layout cube episodes were read back unchanged. Full metrics and SHA-256s for
@@ -166,3 +166,12 @@ layout cube episodes were read back unchanged. Full metrics and SHA-256s for
 Server artifacts: `/home/ubuntu/Workspace/dynamicbench-object-config-20261108/outputs`.
 Local artifacts: `/Users/riri/Documents/Codex/2026-10-23/files-mentioned-by-the-user-dynamicbench/outputs/object_config_20261108`.
 The local `objects_grasped.png` shows final wrist frames for all four profiles.
+
+After merging into the front-layout branch (`3fe2c64`), the default 35 mm box
+was additionally verified on front-mounted Franka and Piper, seed 42: 102 and
+106 control ticks respectively, including the rotated-bottom 15-tick success
+hold. Both strict readback and canonical object-field checks passed; their
+cameras and conveyor remained unchanged. The merged reader also accepted all
+14 previous front-layout expert/scheduling records. With two added object
+contact/tilt regressions, 78 tests passed. See
+[the integration evidence](../results/front_object_integration_20261108.json).

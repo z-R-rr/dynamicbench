@@ -1,0 +1,119 @@
+{
+  "date": "2026-11-08",
+  "passed": true,
+  "source_commit": "3fe2c649a6ff63597ef973674e2e373fcaa78831",
+  "tests_commit": "961d2ba",
+  "local_test_count": 78,
+  "real_model_tested": false,
+  "scope": "One default-box seed per front adapter after object integration; earlier three-seed validation remains pinned to f47141d.",
+  "cases": [
+    {
+      "embodiment": "franka",
+      "seed": 42,
+      "source_commit": "3fe2c649a6ff63597ef973674e2e373fcaa78831",
+      "object_id": "yellow_cube_35mm",
+      "passed": true,
+      "control_ticks": 102,
+      "strict_readback": {
+        "actions": 102,
+        "observations": 103,
+        "head_shape": [
+          103,
+          480,
+          640,
+          3
+        ],
+        "duration": 3.4,
+        "success": true
+      },
+      "video_frames": 103,
+      "scene_camera_belt_robot_invariants": true,
+      "canonical_object_fields_verified": true,
+      "minimum_bottom_clearance_margin_m": 0.007318566851555228,
+      "minimum_bilateral_contact_n": 15.645264625549316,
+      "contact_motion": {
+        "first_contact_tick": 79,
+        "lift_start_tick": 81,
+        "contact_to_lift_seconds": 0.06666666666666667,
+        "cube_pre_lift_delta_m": [
+          0.004723861813545227,
+          -0.0004040040075778961,
+          0.00039505958557128906
+        ],
+        "eef_pre_lift_delta_m": [
+          0.0026039034128189087,
+          -0.00047990866005420685,
+          0.0003936886787414551
+        ],
+        "cube_contact_xy_peak_m": 0.0047411066479980946,
+        "eef_contact_xy_peak_m": 0.0032513024924512753,
+        "command_contact_xy_peak_m": 0.0,
+        "cube_contact_world_delta_m": [
+          -0.002239540219306946,
+          0.00023574382066726685,
+          0.11217796802520752
+        ],
+        "eef_contact_world_delta_m": [
+          6.251037120819092e-05,
+          0.00016611069440841675,
+          0.11217910051345825
+        ]
+      },
+      "trajectory_sha256": "6a85c477ba059d1b9b1aa35104abb9a762929eb0b3b3e51f4eddc3db175da49f"
+    },
+    {
+      "embodiment": "piper",
+      "seed": 42,
+      "source_commit": "3fe2c649a6ff63597ef973674e2e373fcaa78831",
+      "object_id": "yellow_cube_35mm",
+      "passed": true,
+      "control_ticks": 106,
+      "strict_readback": {
+        "actions": 106,
+        "observations": 107,
+        "head_shape": [
+          107,
+          480,
+          640,
+          3
+        ],
+        "duration": 3.533333333333333,
+        "success": true
+      },
+      "video_frames": 107,
+      "scene_camera_belt_robot_invariants": true,
+      "canonical_object_fields_verified": true,
+      "minimum_bottom_clearance_margin_m": 0.007604638202877087,
+      "minimum_bilateral_contact_n": 8.96444320678711,
+      "contact_motion": {
+        "first_contact_tick": 82,
+        "lift_start_tick": 85,
+        "contact_to_lift_seconds": 0.1,
+        "cube_pre_lift_delta_m": [
+          0.0034940391778945923,
+          -0.00027460977435112,
+          4.035234451293945e-05
+        ],
+        "eef_pre_lift_delta_m": [
+          0.0011462420225143433,
+          -0.0003301352262496948,
+          1.6868114471435547e-05
+        ],
+        "cube_contact_xy_peak_m": 0.006048579700291157,
+        "eef_contact_xy_peak_m": 0.0021071900075981557,
+        "command_contact_xy_peak_m": 0.0,
+        "cube_contact_world_delta_m": [
+          0.0054127126932144165,
+          8.51210206747055e-05,
+          0.11178469657897949
+        ],
+        "eef_contact_world_delta_m": [
+          -0.00018198788166046143,
+          3.685802221298218e-05,
+          0.1117621660232544
+        ]
+      },
+      "trajectory_sha256": "416d30b81ebbd9d96d546334c0276b10e8c4c21a48bae3fab8772e78b4e29499"
+    }
+  ]
+}

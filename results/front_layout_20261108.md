@@ -97,3 +97,33 @@ was stopped during shader compilation before physical testing; it is not a
 grasp failure or training demonstration. The first Franka scheduling launch on
 GPU 3 was also stopped during driver shader compilation and rerun on the newly
 free GPU 2, without changing code or evaluation parameters.
+
+## Subsequent object-configuration integration
+
+The authorized object-configuration branch was merged at
+`3fe2c649a6ff63597ef973674e2e373fcaa78831`. It changes descent to use the
+live local grasp point and success to use the rotated object's true bottom.
+The six earlier episodes above remain evidence for `f47141d`; they are not
+relabeled as acceptance of this stricter geometry check.
+
+Fresh default-box regressions on the merged code passed, seed 42:
+
+| Robot | Control ticks | Minimum bottom margin above success threshold during the final 15 ticks | Outcome |
+|---|---:|---:|---|
+| Franka | 102 | 7.319 mm | PASS |
+| Piper | 106 | 7.605 mm | PASS |
+
+Both preserve the camera, scene, conveyor, base pose and initial joints from
+the front-layout run. New object pose/bottom/top/grasp/velocity fields and
+legacy aliases, manifest object IDs, strict readback and video counts passed.
+The merged reader also read all 14 earlier front expert/scheduling episodes.
+Two added regression tests cover contact anchoring under object motion and
+rejecting a tilted box with only 14 valid hold ticks. All 78 tests and Ruff
+passed; Python 3.11/3.12 CI passed on `961d2ba`:
+[GitHub Actions](https://github.com/z-R-rr/dynamicbench/actions/runs/42460049950).
+
+Evidence: [front_object_integration_20261108.json](front_object_integration_20261108.json).
+Local data/previews: chat workspace `outputs/front_object_integration_20261108`.
+Remote data: `outputs/{franka,piper}_object_default` in the same isolated server
+worktree. These are one-seed default-box integration checks; other objects on
+Piper/Franka still need their own acceptance.
