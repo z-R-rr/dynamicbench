@@ -14,6 +14,7 @@ def main():
     from dynamicbench.cli import exception_details, finish, launch, load_settings, parser
 
     p = parser()
+    p.set_defaults(layout_profile="compact")
     p.add_argument("--visual-variant", choices=["current", "official_belt", "official_belt_home"], default="current")
     p.add_argument("--reference-layout", type=Path)
     args, launcher, commit = launch(p)

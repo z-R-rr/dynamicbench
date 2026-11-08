@@ -86,7 +86,48 @@ def resolve_scene(settings, root):
         camera_stand=resolve_camera_stand(original, root),
         source_sha256=hashlib.sha256(path.read_bytes()).hexdigest(),
     )
+    if "official_ground" in cfg:
+        ground = cfg["official_ground"]
+        if ground["geometry"] != "cube" or ground["axis"] != "Z":
+            raise ValueError("Official conveyor ground must be a Z cube mesh")
+        files = sorted((root / "Assets/Material" / ground["materials"]["default"]).glob("**/*.mdl"))
+        if len(files) != 1:
+            raise FileNotFoundError("Expected one official ground MDL")
+        ground["mdl_path"] = str(files[0])
+        ground["mdl_sha256"] = hashlib.sha256(files[0].read_bytes()).hexdigest()
     return result
+
+
+def spawn_official_ground(cfg, stage):
+    """Mirror RoboDojo Ground's mesh, UVs, op order and material on Sim 6.1."""
+    import isaaclab.sim as sim_utils
+    from pxr import Gf, Sdf, UsdGeom, UsdPhysics
+
+    path = "/World/Ground"
+    mesh = UsdGeom.Mesh.Define(stage, path)
+    mesh.CreatePointsAttr([Gf.Vec3f(x, y, z) for z in (-1, 1) for y in (-1, 1) for x in (-1, 1)])
+    mesh.CreateFaceVertexCountsAttr([4] * 6)
+    mesh.CreateFaceVertexIndicesAttr([4, 5, 7, 6, 1, 0, 2, 3, 2, 6, 7, 3, 0, 1, 5, 4, 5, 1, 3, 7, 0, 4, 6, 2])
+    mesh.CreateNormalsAttr(
+        [Gf.Vec3f(*n) for n in [(0, 0, 1), (0, 0, -1), (0, 1, 0), (0, -1, 0), (1, 0, 0), (-1, 0, 0)]]
+    )
+    mesh.SetNormalsInterpolation(UsdGeom.Tokens.uniform)
+    UsdGeom.PrimvarsAPI(mesh).CreatePrimvar("st", Sdf.ValueTypeNames.TexCoord2fArray, UsdGeom.Tokens.faceVarying).Set(
+        [(0, 0), (1, 0), (1, 1), (0, 1)] * 6
+    )
+    mesh.AddScaleOp().Set(Gf.Vec3f(3.5, 3.5, cfg["thickness"] / 2))
+    pos = list(cfg["default_pos"])
+    pos[2] -= cfg["thickness"] / 2
+    mesh.AddTranslateOp().Set(Gf.Vec3d(*pos))
+    UsdPhysics.CollisionAPI.Apply(mesh.GetPrim()).CreateCollisionEnabledAttr(True)
+    UsdPhysics.MeshCollisionAPI.Apply(mesh.GetPrim()).CreateApproximationAttr("none")
+    physics = sim_utils.RigidBodyMaterialCfg(**cfg["physics_material"])
+    physics.func(path + "/PhysicsMaterial", physics)
+    sim_utils.bind_physics_material(path, path + "/PhysicsMaterial")
+    material = sim_utils.MdlFileCfg(mdl_path=cfg["mdl_path"])
+    material.func(path + "/Looks/OfficialGround", material)
+    sim_utils.bind_visual_material(path, path + "/Looks/OfficialGround")
+    return dict(prim_path=path, visible=True, source="official Ground mesh/UV/op order and MDL", config=cfg)
 
 
 def spawn_scene(cfg, stage):

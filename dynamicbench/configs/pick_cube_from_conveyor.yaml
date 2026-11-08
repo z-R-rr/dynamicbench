@@ -6,6 +6,8 @@ scene:
   config: env_cfg/scene/conveyor.yml
   light_intensity_scale: 1.0
 layout:
+  profile: official
+  reference_layout: Assets/Eval_Layout/RoboDojo/arx_x5/0/pick_from_conveyor_by_image_0.json
   robot_config: env_cfg/robot/dual_x5.yml
   robot_index: 0
   camera_config: env_cfg/camera/camera_config.yml
@@ -17,6 +19,8 @@ robot:
   max_joint_velocity: 2.0
   gripper_effort: 15.0
 belt:
+  source: robodojo
+  # These dimensions are used only by the explicit compact diagnostic profile.
   center: [-0.12, -0.02, 0.725]
   size: [0.7, 0.28, 0.08]
   direction: [1, 0, 0]
